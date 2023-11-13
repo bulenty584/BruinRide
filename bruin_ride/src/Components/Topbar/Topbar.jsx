@@ -25,6 +25,7 @@ const TopBar = () => {
 
 
   return (
+    <header className='navHeader'>
     <nav>
       <div className='nav-bar'>
         <span className="logoo navLogo">
@@ -66,6 +67,7 @@ const TopBar = () => {
         </div>
       </div>
     </nav>
+    </header>
   );
 };
 

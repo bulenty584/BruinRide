@@ -47,9 +47,18 @@ body.dark nav{
     border: 1px solid #393838;
 
 }
+.navHeader{
+    display: block;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    height: 100%;
+    width: 100%;
+    padding-bottom: 1%;
+}
 
 nav .nav-bar{
-    position: relative;
+    position: static;
     height: 100%;
     width: 100%;
     background-color: var(--nav-color);
