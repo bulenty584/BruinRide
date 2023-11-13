@@ -7,9 +7,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <div className="App">
-      <div><TopBar /></div>
-      <br />
-      <div><ControlledCarousel /></div>
+      <TopBar />
+      <main className='main'>
+        <div><ControlledCarousel /></div>
+      </main>
     </div>
   );
 }
