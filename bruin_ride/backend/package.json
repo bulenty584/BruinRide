@@ -8,9 +8,14 @@
         "express": "^4.18.2",
         "firebase": "^10.6.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
         "firebaseui": "^6.1.0",
 =======
 >>>>>>> 7f717574ee430b519b84b08ca39364f74e8d3496
+=======
+        "firebase-admin": "^11.11.0",
+        "firebase-functions": "^4.5.0",
+>>>>>>> 6193c28c351ad06afe45cc24959d6a57ce1a3c22
         "mongoose": "^6.8.1",
         "openai": "^3.2.1"
     },
