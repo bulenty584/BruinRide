@@ -33,11 +33,7 @@ function LoadingButton() {
         mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
-<<<<<<< HEAD
-          "Access-Control-Allow-Origin": "*",
-=======
           'Allow-Control-Allow-Origin': '*',
->>>>>>> 6193c28c351ad06afe45cc24959d6a57ce1a3c22
         },
         body: JSON.stringify(userCredentials),
       });
