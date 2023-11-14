@@ -30,9 +30,10 @@ function LoadingButton() {
 
       const response = await fetch(cloudFunctionUrl, {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify(userCredentials),
       });
