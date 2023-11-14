@@ -17,6 +17,12 @@ function App() {
         >
           Learn React
         </a>
+
+        <div>
+        <h1>BruinRide</h1>
+        <p>This is a simple React app with a paragraph.</p>
+        </div>
+
       </header>
     </div>
   );
