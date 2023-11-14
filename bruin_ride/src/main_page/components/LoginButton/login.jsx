@@ -20,11 +20,11 @@ function LoadingButton() {
     setLoading(true);
     try {
       // Replace with your Firebase Cloud Function URL
-      const cloudFunctionUrl = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/login';
+      const cloudFunctionUrl = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/signup';
 
       // Replace with actual user credentials
       const userCredentials = {
-        email: 'user@example.com',
+        email: 'bulentil@g.ucla.edu',
         password: 'password123',
       };
 
@@ -32,7 +32,6 @@ function LoadingButton() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify(userCredentials),
       });
