@@ -1,29 +1,19 @@
-
 import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const BookRide = () => {
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [pickupLocation, setPickupLocation] = useState('');
+const DateInput = ({ selectedDate, handleDateChange }) => {
+  return (
+    <DatePicker
+      selected={selectedDate}
+      onChange={handleDateChange}
+      dateFormat="yyyy-MM-dd"
+      placeholderText="Select Date"
+    />
+  );
+};
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(`Date: ${date}, Time: ${time}, Pickup Location: ${pickupLocation}`);
-    //send information to the backend
-  };
-
-  const handleDateChange = (event) => {
-    setDate(event.target.value);
-  };
-
-  const handleTimeChange = (event) => {
-    setTime(event.target.value);
-  };
-
-  const handlePickupLocationChange = (event) => {
-    setPickupLocation(event.target.value);
-  };
-
+const TimeInput = ({ selectedTime, handleTimeChange }) => {
   const timeSlots = [];
   for (let hour = 0; hour < 24; hour++) {
     for (let minute = 0; minute < 60; minute += 30) {
@@ -33,33 +23,65 @@ const BookRide = () => {
   }
 
   return (
+    <select value={selectedTime} onChange={handleTimeChange}>
+      <option value="" disabled>
+        Select Time
+      </option>
+      {timeSlots.map((timeSlot) => (
+        <option key={timeSlot} value={timeSlot}>
+          {timeSlot}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+const PickupSpotInput = ({ selectedPickupSpot, handlePickupSpotChange }) => {
+  const pickupSpots = ['De Neve', 'Rieber Terrace', 'Carnesale Commons', 'Holly/Gayley'];
+
+  return (
+    <select value={selectedPickupSpot} onChange={handlePickupSpotChange}>
+      <option value="" disabled>
+        Select Pickup Spot
+      </option>
+      {pickupSpots.map((spot) => (
+        <option key={spot} value={spot}>
+          {spot}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+const BookRide = () => {
+  const [selectedDate, setDate] = useState(null);
+  const [selectedTime, setTime] = useState('');
+  const [selectedPickupLocation, setPickupLocation] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(`Date: ${selectedDate}, Time: ${selectedTime}, Pickup Location: ${selectedPickupLocation}`);
+    // TODO: send information to the backend
+  };
+
+  return (
     <form onSubmit={handleSubmit}>
       <label>
         Date:
-        <input type="date" value={date} onChange={handleDateChange} />
+        <DateInput selectedDate={selectedDate} handleDateChange={(date) => setDate(date)} />
       </label>
       <br />
       <label>
         Time:
-        <select value={time} onChange={handleTimeChange}>
-          <option value="">Select a time slot</option>
-          {timeSlots.map((timeSlot) => (
-            <option key={timeSlot} value={timeSlot}>
-              {timeSlot}
-            </option>
-          ))}
-        </select>
+        <TimeInput selectedTime={selectedTime} handleTimeChange={(e) => setTime(e.target.value)} />
       </label>
       <br />
       <label>
         Pickup Location:
-        <select value={pickupLocation} onChange={handlePickupLocationChange}>
-          <option value="">Select a pickup location</option>
-          <option value="De Neve">De Neve</option>
-          <option value="Rieber Terrace">Rieber Terrace</option>
-          <option value="Carnesale Commons">Carnesale Commons</option>
-          <option value="Holly/Gayley">Holly/Gayley</option>
-        </select>
+        <PickupSpotInput
+          selectedPickupSpot={selectedPickupLocation}
+          handlePickupSpotChange={(e) => setPickupLocation(e.target.value)}
+        />
       </label>
       <br />
       <button type="submit">Submit</button>
