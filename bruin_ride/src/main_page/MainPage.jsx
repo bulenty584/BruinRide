@@ -3,12 +3,13 @@ import TopBar from './components/Topbar/Topbar';
 import ControlledCarousel from './components/Carousel/Carousel';
 
 
-function MainPage() {
+function MainPage(props) {
+  //console.log(props['setLoginState']);
   return(
     <div className="App">
       <TopBar />
       <main className='main'>
-        <div><ControlledCarousel /></div>
+        <div><ControlledCarousel LoginState={props['LoginState']} setLoginState={props['setLoginState']} setMain={props['setMain']}/></div>
       </main>
     </div>
   );

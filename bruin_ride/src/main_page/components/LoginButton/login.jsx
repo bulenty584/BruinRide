@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
-
-function LoadingButton() {
+function LoadingButton(props) {
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,38 +18,38 @@ function LoadingButton() {
 
   const handleClick = async () => {
     setLoading(true);
-    try {
-      // Replace with your Firebase Cloud Function URL
-      const cloudFunctionUrl = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/signup';
+    props['setLoginState'](true);
+    props['setMain'](false);
+    // try {
+    //   // Replace with your Firebase Cloud Function URL
+    //   const cloudFunctionUrl = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/signup';
 
-      // Replace with actual user credentials
-      const userCredentials = {
-        email: 'bulentil@g.ucla.edu',
-        password: 'password123',
-      };
+    //   // Replace with actual user credentials
+    //   const userCredentials = {
+    //     email: 'bulentil@g.ucla.edu',
+    //     password: 'password123',
+    //   };
 
-      const response = await fetch(cloudFunctionUrl, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization",
-          "Access-Control-Expose-Headers": "Content-Length,Content-Range",
-        },
-        body: JSON.stringify(userCredentials),
-      });
+    //   const response = await fetch(cloudFunctionUrl, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Allow-Control-Allow-Origin': '*',
+    //     },
+    //     body: JSON.stringify(userCredentials),
+    //   });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Success:', data);
-      } else {
-        console.error('Error:', response.json());
-      }
-    } catch (error) {
-      console.error('Error during button click:', error);
-    }
-  };
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     console.log('Success:', data);
+    //   } else {
+    //     const errorData = await response.json();
+    //     console.error('Error:', errorData);
+    //   }
+    // } catch (error) {
+    //   console.error('Error during button click:', error);
+    // }
+     };
 
   return (
     <Button
