@@ -10,17 +10,13 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const express = require('express');
-const cors = require('cors');
-
+const cors = require('cors')({origin: true});
 
 admin.initializeApp();
 
 const app = express();
-app.use(cors({origin: process.env.FUNCTIONS_EMULATOR === "true"
-? /^(https?:\/\/localhost:\d+|undefined)$/
-: [`https://${PROJECT_ID}.firebaseapp.com`, `https://${PROJECT_ID}.web.app`],
-allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
+
 
 exports.login = functions.https.onRequest(async (request, response) => {
 
@@ -43,6 +39,7 @@ exports.login = functions.https.onRequest(async (request, response) => {
     }
   });
 });
+
 
 exports.signup = functions.https.onRequest(async (req, res) => {
   cors(async(req, res) => { 
