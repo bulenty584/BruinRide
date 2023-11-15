@@ -17,13 +17,13 @@ function CarouselImage(props) {
   );
 
 }
-function ControlledCarousel() {
+function ControlledCarousel(props) {
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
-
+  //console.log(props);
   return (
     <Carousel activeIndex={index} onSelect={handleSelect}>
       <Carousel.Item>
@@ -32,7 +32,7 @@ function ControlledCarousel() {
           <h3>Welcome to Bruin Ride</h3>
           <div> 
             <p>Sign up now!</p>        
-            <LoadingButton />
+            <LoadingButton LoginState={props['LoginState']} setLoginState={props['setLoginState']} setMain={props['setMain']}/>
           </div>       
           </Carousel.Caption>
       </Carousel.Item>
@@ -43,7 +43,7 @@ function ControlledCarousel() {
           <h3>Welcome to Bruin Ride</h3>
           <div> 
             <p>Sign up now!</p>        
-            <LoadingButton />
+            <LoadingButton LoginState={props['LoginState']} setLoginState={props['setLoginState']} setMain={props['setMain']}/>
           </div>       
         </Carousel.Caption>
       </Carousel.Item>
@@ -54,7 +54,7 @@ function ControlledCarousel() {
           <h3>Welcome to Bruin Ride</h3>
           <div> 
             <p>Sign up now!</p>        
-            <LoadingButton />
+            <LoadingButton LoginState={props['LoginState']} setLoginState={props['setLoginState']} setMain={props['setMain']}/>
           </div>       
         </Carousel.Caption>
       </Carousel.Item>
