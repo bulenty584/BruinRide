@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
+
 function LoadingButton() {
   const [isLoading, setLoading] = useState(false);
 
@@ -30,25 +31,26 @@ function LoadingButton() {
 
       const response = await fetch(cloudFunctionUrl, {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
-          'Allow-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT',
         },
         body: JSON.stringify(userCredentials),
       });
+
+      console.log (response.body)
 
       if (response.ok) {
         const data = await response.json();
         console.log('Success:', data);
       } else {
-        const errorData = await response.json();
-        console.error('Error:', errorData);
+        console.error('Error:', response.json());
       }
     } catch (error) {
       console.error('Error during button click:', error);
     }
-    };
+  };
 
   return (
     <Button
