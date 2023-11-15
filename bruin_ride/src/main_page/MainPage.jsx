@@ -4,7 +4,7 @@ import ControlledCarousel from './components/Carousel/Carousel';
 
 
 function MainPage(props) {
-  //console.log(props['setLoginState']);
+  console.log(props['setLoginState']);
   return(
     <div className="App">
       <TopBar />
