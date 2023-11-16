@@ -5,67 +5,65 @@
   justify-content: center;
   min-height: 100vh;
   padding: 50px;
-  background: #f5f7fa;
+  background: #f5f7fa; /* assuming a light grey background */
 }
 
 #event-details-container {
   width: 100%;
   max-width: 400px;
-  height: 10%;
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #ffffff; /* white background for the container */
+  padding: 20px;
+  border-radius: 8px; /* rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
   text-align: center;
-  margin-bottom: 20px; /* Separation between login buttons and auth container */
+  margin-bottom: 20px; /* separation between elements */
 }
 
 #event-details-container button {
-  width: 100%; /* Full width */
-  padding: 20px; /* Larger padding for bigger buttons */
+  width: 100%;
+  padding: 15px; /* adjusted padding */
   margin-top: 10px;
   border: none;
   border-radius: 4px;
   font-weight: bold;
-  font-size: 1rem; /* Larger font size for better readability */
-  color: white;
+  font-size: 1rem;
+  color: white; /* text color */
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Button shadow for depth */
-  transition: background-color 0.2s; /* Smooth transition for button background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s;
 }
 
 #startRsvp {
-  background-color: #5567ff; /* Bolt's primary button color */
-  /* Adding hover effect for interactivity */
+  background-color: #4e7ac7; /* blue color similar to the 'assigned' status */
   &:hover {
-    background-color: darken(#5567ff, 10%);
+    background-color: #4267b2; /* a darker blue on hover */
   }
 }
 
 button.google {
-  background-color: #db4437; /* Google button color */
+  background-color: #db4437; /* Google's color */
   &:hover {
-    background-color: darken(#db4437, 10%);
+    background-color: #c1351d; /* a darker red on hover */
   }
 }
 
 button.apple {
-  background-color: #000000; /* Apple button color */
+  background-color: #000000; /* Apple's color */
   &:hover {
-    background-color: darken(#000000, 10%);
+    background-color: #333333; /* a dark grey on hover */
   }
 }
 
-/* Ensure the unique IDs are used only once, change to class if multiple buttons */
+/* Since ID should be unique, if you have multiple RSVP buttons, change to class */
 button#startRsvp {
-  background-color: #1a73e8; /* Adjust the color to match Google's button if needed */
+  background-color: #486521; /* Adjusting to a Google blue, if that was the intention */
 }
 
 hr {
   width: 100%;
   max-width: 800px;
   border: 0;
-  border-top: 1px solid #e1e4e8;
+  border-top: 1px solid #e1e4e8; /* light grey line */
 }
 
 #firebaseui-auth-container {
@@ -73,4 +71,8 @@ hr {
   max-width: 800px;
 }
 
-/* Adjust the hr and firebaseui-auth-container styles to match the Bolt design */
+/* Adjust the hr and firebaseui-auth-container styles to have consistent padding and shadow */
+#firebaseui-auth-container, hr {
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
