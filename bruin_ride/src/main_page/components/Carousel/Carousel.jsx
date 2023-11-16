@@ -31,8 +31,8 @@ function ControlledCarousel(props) {
         <Carousel.Caption className='caption'>
           <h3>Welcome to Bruin Ride</h3>
           <div> 
-            <p>Sign up now!</p>        
-            <LoadingButton LoginState={props['LoginState']} setLoginState={props['setLoginState']} setMain={props['setMain']}/>
+            <p></p>        
+            <LoadingButton />
           </div>       
           </Carousel.Caption>
       </Carousel.Item>
@@ -42,8 +42,8 @@ function ControlledCarousel(props) {
         <Carousel.Caption className='caption'>
           <h3>Welcome to Bruin Ride</h3>
           <div> 
-            <p>Sign up now!</p>        
-            <LoadingButton LoginState={props['LoginState']} setLoginState={props['setLoginState']} setMain={props['setMain']}/>
+            <p></p>        
+            <LoadingButton />
           </div>       
         </Carousel.Caption>
       </Carousel.Item>
@@ -53,8 +53,8 @@ function ControlledCarousel(props) {
         <Carousel.Caption className='caption'>
           <h3>Welcome to Bruin Ride</h3>
           <div> 
-            <p>Sign up now!</p>        
-            <LoadingButton LoginState={props['LoginState']} setLoginState={props['setLoginState']} setMain={props['setMain']}/>
+            <p></p>        
+            <LoadingButton />
           </div>       
         </Carousel.Caption>
       </Carousel.Item>

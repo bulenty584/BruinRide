@@ -2,7 +2,7 @@ import './App.css';
 import MainPage from './main_page/MainPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
-import LoginPage from './login/Login';
+import SignInOut from './login/SignInOut';
 
 function App() {
   const [mainPage, SetMainPage] = useState(true);
@@ -14,7 +14,7 @@ function App() {
   }
   else if(Login){
     return (
-      <LoginPage/>
+      <SignInOut/>
     );
   }
   else{

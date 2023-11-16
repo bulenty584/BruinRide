@@ -84,14 +84,11 @@ nav .nav-bar .logoo a{
     text-decoration: none;
 }
 
-.menu .logo-toggle{
-    display: none;
-}
 
 .nav-bar .nav-links{
     display: flex;
+    justify-content: space-around;
     align-items: center;
-    justify-content: center;
     padding-top: 10px;
 }
 

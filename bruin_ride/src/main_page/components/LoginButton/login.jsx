@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-function LoadingButton(props) {
+function LoadingButton() {
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -18,8 +20,6 @@ function LoadingButton(props) {
 
   const handleClick = async () => {
     setLoading(true);
-    props['setLoginState'](true);
-    props['setMain'](false);
     // try {
     //   // Replace with your Firebase Cloud Function URL
     //   const cloudFunctionUrl = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/signup';
@@ -50,15 +50,19 @@ function LoadingButton(props) {
     //   console.error('Error during button click:', error);
     // }
      };
+      
+
 
   return (
+    <NavLink to='/signIn' >
     <Button
       variant="primary"
       disabled={isLoading}
       onClick={!isLoading ? handleClick : null}
     >
-      {isLoading ? 'Loading…' : 'Sign Up'}
+      {isLoading ? 'Loading…' : 'Sign Up Now!'}
     </Button>
+    </NavLink>
   );
 };
 

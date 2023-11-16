@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Topbar.css';
+import { NavLink } from 'react-router-dom';
 
 const TopBar = () => {
   const [isDarkMode, setDarkMode] = useState(localStorage.getItem('mode') === 'dark-mode');
@@ -35,11 +36,17 @@ const TopBar = () => {
         </span>
         <div className="menu">
           <ul className="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
+            <li className="nav-item">
+              <NavLink to='/mainPage' className="nav-link" activeClassName="active" exact>
+                Home
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to='/signIn' className="nav-link" activeClassName="active" exact>
+                Sign in
+              </NavLink>
+            </li>
+
           </ul>
         </div>
         <div className="darkLight-searchBox">
