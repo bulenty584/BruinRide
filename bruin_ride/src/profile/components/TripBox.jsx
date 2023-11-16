@@ -1,3 +1,5 @@
+import TopBar from "../../main_page/components/Topbar/Topbar";
+
 const TripBox = ({ pickupPoint, dateTime, status }) => {
   // Assuming dateTime is a string representation of a date and time (ISO 8601 formatted strings)
   const parsedDateTime = new Date(dateTime);
@@ -15,3 +17,5 @@ const TripBox = ({ pickupPoint, dateTime, status }) => {
     </div>
   );
 };
+
+export default TripBox;

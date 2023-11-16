@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 import MainPage from './main_page/MainPage';
+import Profile from './profile/Profile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,6 +18,7 @@ root.render(
       <Route path="/" element={<MainPage />} />
       <Route path="/signIn" element={<SignInOut />} />
       <Route path="/mainPage" element={<MainPage />} />
+      <Route path="/profile" element={<Profile />} />
 
     </Routes>
     </BrowserRouter>
