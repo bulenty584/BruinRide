@@ -1,11 +1,13 @@
 import React from 'react';
+import TripBox from './TripBox';
 
-const TripBox = ({ pickupPoint, dateTime, status }) => (
-  <div className="trip-box">
-    <h2>{pickupPoint} -> LAX</h2>
-    <p>Date & Time: {dateTime}</p>
-    <p>Status: {status}</p>
+const TripList = ({ title, trips }) => (
+  <div className="trip-list">
+    <h1>{title}</h1>
+    {trips.map((trip, index) => (
+      <TripBox key={index} {...trip} />
+    ))}
   </div>
 );
 
-export default TripBox;
+export default TripList;
