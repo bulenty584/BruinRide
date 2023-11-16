@@ -11,9 +11,13 @@ import {
   EmailAuthProvider,
   signInWithPopup,
   GoogleAuthProvider,
+  FacebookAuthProvider,
+  TwitterAuthProvider,
+  GithubAuthProvider,
   signInWithRedirect,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  signInOptions,
 } from 'firebase/auth';
 
 import {
@@ -29,7 +33,6 @@ import {
 } from 'firebase/firestore';
 
 import * as firebaseui from 'firebaseui';
-
 
 let db, auth;
     // Add Firebase project configuration object here
@@ -59,6 +62,10 @@ let db, auth;
         credentialHelper: firebaseui.auth.CredentialHelper.NONE,
         signInOptions: [
           // Email / Password Provider.
+          GoogleAuthProvider.PROVIDER_ID,
+          FacebookAuthProvider.PROVIDER_ID,
+          TwitterAuthProvider.PROVIDER_ID,
+          GithubAuthProvider.PROVIDER_ID,
           EmailAuthProvider.PROVIDER_ID
         ],
         callbacks: {
@@ -69,7 +76,7 @@ let db, auth;
           }
         }
       };
-      const ui = new firebaseui.auth.AuthUI(getAuth());
+      var ui = new firebaseui.auth.AuthUI(getAuth());
       const provider = new GoogleAuthProvider();
       provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
@@ -101,7 +108,7 @@ export default function SignInOut() {
           });
     };  
     const handleSignIn = () => {
-        ui.start('#firebaseui-auth-container', uiConfig);
+      ui.start('#firebaseui-auth-container', uiConfig);
     }
     
   return (
@@ -128,8 +135,14 @@ export default function SignInOut() {
   <div id="app">
     <section id="event-details-container">
         <TopBar/>
-      <button id="startRsvp" onClick={()=>handleLoginGoogle()}>Sign in with Google</button>
-      <button id="startRsvp" onClick={()=>handleSignIn()}>Sign in with Email</button>
+      <button id="startRsvp" onClick={()=>handleLoginGoogle()}>
+          <i class='bx bxl-google bx-sm bxicon'></i>
+          <div>Sign in with Google</div>
+      </button>
+      <button id="startRsvp" onClick={()=>handleSignIn()}>
+          <i class='bx bx-envelope bx-sm bxicon' ></i>
+          <div>Sign in with Email</div>
+      </button>
     </section>
 
     <hr />

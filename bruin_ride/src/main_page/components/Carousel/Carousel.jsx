@@ -37,7 +37,6 @@ function ControlledCarousel(props) {
           </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-      <LoadingButton />
         <CarouselImage text="Second slide" src={two}/>
         <Carousel.Caption className='caption'>
           <h3>Welcome to Bruin Ride</h3>
@@ -48,7 +47,6 @@ function ControlledCarousel(props) {
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <LoadingButton />
         <CarouselImage text="Third slide" src={three}/>
         <Carousel.Caption className='caption'>
           <h3>Welcome to Bruin Ride</h3>

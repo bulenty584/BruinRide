@@ -4,15 +4,13 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 50px;
-  background: #f5f7fa; /* assuming a light grey background */
+  padding: 0px;
 }
 
 #event-details-container {
   width: 100%;
   max-width: 400px;
-  background: #ffffff; /* white background for the container */
-  padding: 20px;
+  padding: 0px;
   border-radius: 8px; /* rounded corners */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
   text-align: center;
@@ -21,13 +19,12 @@
 
 #event-details-container button {
   width: 100%;
-  padding: 15px; /* adjusted padding */
+  padding: 0px; /* adjusted padding */
   margin-top: 10px;
   border: none;
   border-radius: 4px;
   font-weight: bold;
   font-size: 1rem;
-  color: white; /* text color */
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.2s;
@@ -56,14 +53,14 @@ button.apple {
 
 /* Since ID should be unique, if you have multiple RSVP buttons, change to class */
 button#startRsvp {
-  background-color: #486521; /* Adjusting to a Google blue, if that was the intention */
+  background-color: #b6b8b4; /* Adjusting to a Google blue, if that was the intention */
 }
 
 hr {
   width: 100%;
   max-width: 800px;
   border: 0;
-  border-top: 1px solid #e1e4e8; /* light grey line */
+  border-top: 1px solid #abadaf; /* light grey line */
 }
 
 #firebaseui-auth-container {
@@ -73,6 +70,13 @@ hr {
 
 /* Adjust the hr and firebaseui-auth-container styles to have consistent padding and shadow */
 #firebaseui-auth-container, hr {
-  padding: 20px;
+  padding: 0px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bxicon{
+  margin-left: 0;
+  margin-top: 20px; /* separation between elements */
+  align-self: left;
+  justify-self: left;
 }
