@@ -9,7 +9,7 @@ function App() {
   const [Login, SetLogin] = useState(false);
   if(mainPage){
     return ( 
-        <MainPage LoginState={Login} setLoginState={SetLogin} setMain={SetMainPage}/>
+        <MainPage/>
     );
   }
   else if(Login){
