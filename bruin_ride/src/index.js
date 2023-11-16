@@ -5,7 +5,7 @@ import './index.css';
 import App from './App';
 import SignInOut from './login/SignInOut';
 import { BrowserRouter } from 'react-router-dom';
-
+import BookRide from './book_ride/BookRide';
 import reportWebVitals from './reportWebVitals';
 import MainPage from './main_page/MainPage';
 import Profile from './profile/Profile';
@@ -19,6 +19,7 @@ root.render(
       <Route path="/signIn" element={<SignInOut />} />
       <Route path="/mainPage" element={<MainPage />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/bookride" element={<BookRide />} />
 
     </Routes>
     </BrowserRouter>

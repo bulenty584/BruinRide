@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import TopBar from '../main_page/components/Topbar/Topbar';
+import './bookride.css';
 
 const DateInput = ({ selectedDate, handleDateChange }) => {
   return (
@@ -65,6 +67,10 @@ const BookRide = () => {
   };
 
   return (
+    <body className='bookpage'>
+      <section className="booking-container">
+      <TopBar/>
+      <div className='book-form'>
     <form onSubmit={handleSubmit}>
       <label>
         Date:
@@ -86,6 +92,9 @@ const BookRide = () => {
       <br />
       <button type="submit">Submit</button>
     </form>
+    </div>
+    </section>
+    </body>
   );
 };
 

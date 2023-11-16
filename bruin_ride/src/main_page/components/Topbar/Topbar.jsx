@@ -30,20 +30,30 @@ const TopBar = () => {
     <nav>
       <div className='nav-bar'>
         <span className="logoo navLogo">
-          <a href="#" >
+          <NavLink to='/mainPage' >
             Bruin Ride
-          </a>
+          </NavLink>
         </span>
         <div className="menu">
           <ul className="nav-links">
             <li className="nav-item">
-              <NavLink to='/mainPage' className="nav-link" activeClassName="active" exact>
+              <NavLink to='/mainPage' className="nav-link">
                 Home
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to='/signIn' className="nav-link" activeClassName="active" exact>
+              <NavLink to='/signIn' className="nav-link">
                 Sign in
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to='/profile' className="nav-link">
+                Profile
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to='/bookride' className="nav-link">
+                Book Ride
               </NavLink>
             </li>
 
@@ -51,24 +61,25 @@ const TopBar = () => {
         </div>
         <div className="darkLight-searchBox">
           <div className="dropdown">
-            <button className="dropbtn"></button>
+            <i className='bx bx-user dropbtn bx-sm'></i>
             <div className="dropdown-content">
-              <a href="#">Configuracion</a>
-              <a href="#">Cerrar sesion</a>
+            <NavLink to='/profile' className="nav-link">Past Trips</NavLink>
+            <NavLink to='/profile' className="nav-link">Settings</NavLink>
+            <NavLink to='/signIn' className="nav-link">SignOut</NavLink>
             </div>
           </div>
           <div className={`dark-light ${isDarkMode ? 'active' : ''}`} onClick={toggleDarkMode}>
-            <i className="bx bx-moon moon"></i>
-            <i className="bx bx-sun sun"></i>
+            <i className="bx bx-moon bx-sm moon"></i>
+            <i className="bx bx-sun bx-sm sun"></i>
           </div>
           <div className="searchBox">
             <div className={`searchToggle ${isSearchActive ? 'active' : ''}`} onClick={toggleSearch}>
-              <i className="bx bx-x cancel"></i>
-              <i className="bx bx-search search"></i>
+              <i className="bx bx-x bx-sm cancel"></i>
+              <i className="bx bx-search bx-sm search"></i>
             </div>
             <div className={`search-field ${isSearchActive ? 'active' : ''}`}>
               <input type="text" placeholder="Search..." />
-              <i className="bx bx-search"></i>
+              <i className="bx bx-search bx-sm"></i>
             </div>
           </div>
         </div>
