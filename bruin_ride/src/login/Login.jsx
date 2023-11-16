@@ -52,11 +52,6 @@ let db, auth;
         auth = getAuth();
       } catch (e) {
         console.log('error:', e);
-        document.getElementById('app').innerHTML =
-          '<h1>Welcome to the Codelab! Add your Firebase config object to <pre>/index.js</pre> and refresh to get started</h1>';
-        throw new Error(
-          'Welcome to the Codelab! Add your Firebase config object from the Firebase Console to `/index.js` and refresh to get started'
-        );
       }
     
       // FirebaseUI config
@@ -110,7 +105,7 @@ export default function Login() {
     <>
     <>
   <meta charSet="utf-8" />
-  <title>Firebase Meetup</title>
+  <title>BruinRide Login</title>
   <link
     type="text/css"
     rel="stylesheet"
@@ -128,15 +123,7 @@ export default function Login() {
 </>
 
   <div id="app">
-    <img
-      src="https://firebasestorage.googleapis.com/v0/b/fir-images-a61c9.appspot.com/o/codelab.png?alt=media&token=f45f808c-ce40-4b34-944c-8d8fac00e13d"
-    />
-
     <section id="event-details-container">
-      <h1>Firebase Meetup</h1>
-
-      <p><i className="material-icons">calendar_today</i> October 30</p>
-      <p><i className="material-icons">location_city</i> San Francisco</p>
       <button id="startRsvp" onClick={()=>handleLoginGoogle()}>Sign in with Google</button>
       <button id="startRsvp" onClick={()=>handleLogin()}>Sign in with Email</button>
     </section>
@@ -145,12 +132,6 @@ export default function Login() {
 
     <section id="firebaseui-auth-container"></section>
 
-    <section id="description-container">
-      <h2>What we'll be doing</h2>
-      <p>Join us for a day full of Firebase Workshops and Pizza!</p>
-
-      <p id="number-attending"></p>
-    </section>
   </div>
   </>
   );
