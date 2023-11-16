@@ -2,6 +2,7 @@ import './style.css';
 // Import stylesheets
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import { initializeApp } from 'firebase/app';
+import { useState, useEffect } from 'react';
 
 // Add the Firebase products and methods that you want to use
 import {
@@ -9,6 +10,7 @@ import {
   EmailAuthProvider,
   signInWithPopup,
   GoogleAuthProvider,
+  signInWithRedirect,
   signOut,
   onAuthStateChanged
 } from 'firebase/auth';
@@ -76,13 +78,12 @@ let db, auth;
       const provider = new GoogleAuthProvider();
       provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-
+      
 export default function Login() {
     // Listen to RSVP button clicks
     const handleLoginGoogle = () => {
         // No user is signed in; allows user to sign in
-        auth = getAuth();
-        signInWithPopup(auth, provider)
+        signInWithRedirect(auth, provider)
           .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
