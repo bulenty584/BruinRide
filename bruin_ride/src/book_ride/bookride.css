@@ -1,0 +1,52 @@
+  /* Style the booking container */
+
+.bookpage{
+    padding: 169px;
+}
+
+  .booking-container {
+    justify-self: center;
+    max-width: 600px;
+    margin: 20px auto 50px; /* Adjusted margin to provide space below the booking container */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  /* Style the form container */
+  .book-form {
+    margin-top: 20px;
+  }
+  
+  /* Style form labels */
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  /* Style form inputs */
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+  }
+  
+  /* Style the submit button */
+  button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Style the submit button on hover */
+  button:hover {
+    background-color: #45a049;
+  }
+  

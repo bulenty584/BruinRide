@@ -17,13 +17,13 @@ function CarouselImage(props) {
   );
 
 }
-function ControlledCarousel() {
+function ControlledCarousel(props) {
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
-
+  //console.log(props);
   return (
     <Carousel activeIndex={index} onSelect={handleSelect}>
       <Carousel.Item>
@@ -31,29 +31,27 @@ function ControlledCarousel() {
         <Carousel.Caption className='caption'>
           <h3>Welcome to Bruin Ride</h3>
           <div> 
-            <p>Sign up now!</p>        
+            <p></p>        
             <LoadingButton />
           </div>       
           </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-      <LoadingButton />
         <CarouselImage text="Second slide" src={two}/>
         <Carousel.Caption className='caption'>
           <h3>Welcome to Bruin Ride</h3>
           <div> 
-            <p>Sign up now!</p>        
+            <p></p>        
             <LoadingButton />
           </div>       
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <LoadingButton />
         <CarouselImage text="Third slide" src={three}/>
         <Carousel.Caption className='caption'>
           <h3>Welcome to Bruin Ride</h3>
           <div> 
-            <p>Sign up now!</p>        
+            <p></p>        
             <LoadingButton />
           </div>       
         </Carousel.Caption>

@@ -84,14 +84,11 @@ nav .nav-bar .logoo a{
     text-decoration: none;
 }
 
-.menu .logo-toggle{
-    display: none;
-}
 
 .nav-bar .nav-links{
     display: flex;
+    justify-content: space-around;
     align-items: center;
-    justify-content: center;
     padding-top: 10px;
 }
 
@@ -310,7 +307,7 @@ body.dark .search-field i{
 /* Style The Dropdown Button */
 .dropbtn {
     background-color: transparent;
-    background-size:20px;
+    background-size:30px;
     background-position: center;
     background-repeat: no-repeat; 
     color: white;

@@ -93,4 +93,4 @@ function writeUserData(userId, name, email) {
 }
 writeUserData("Bulenty", "Bulent", "bulenty@ucla.edu")
 */
-
+export {auth, db, ui, uiConfig, firebaseConfig, firebaseui, signInWithCredential, signOut};
