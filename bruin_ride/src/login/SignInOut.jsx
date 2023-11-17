@@ -66,6 +66,18 @@ let db, auth;
           FacebookAuthProvider.PROVIDER_ID,
           TwitterAuthProvider.PROVIDER_ID,
           GithubAuthProvider.PROVIDER_ID,
+        ],
+        callbacks: {
+          signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            // Handle sign-in.
+            // Return false to avoid redirect.
+            return false;
+          }
+        }
+      };
+      const uiConfig2 = {
+        credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+        signInOptions: [
           EmailAuthProvider.PROVIDER_ID
         ],
         callbacks: {
@@ -84,31 +96,11 @@ let db, auth;
 export default function SignInOut() {
     const [userSign, setUserSign] = useState(false);
     // Listen to RSVP button clicks
-    const handleLoginGoogle = () => {
-        // No user is signed in; allows user to sign in
-        signInWithRedirect(auth, provider)
-          .then((result) => {
-            setUserSign(true);
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
-          }).catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
-          });
+    const handleLoginProvider = () => {
+      ui.start('#firebaseui-auth-container', uiConfig);        
     };  
-    const handleSignIn = () => {
-      ui.start('#firebaseui-auth-container', uiConfig);
+    const handleSignUp = () => {
+      ui.start('#firebaseui-auth-container', uiConfig2);
     }
     
   return (
@@ -135,13 +127,13 @@ export default function SignInOut() {
   <div id="app">
     <section id="event-details-container">
         <TopBar/>
-      <button id="startRsvp" onClick={()=>handleLoginGoogle()}>
-          <i class='bx bxl-google bx-sm bxicon'></i>
-          <div>Sign in with Google</div>
+      <button id="startRsvp" onClick={()=>handleLoginProvider()}>
+          <i className=''></i>
+          <div>Continue with a Provider</div>
       </button>
-      <button id="startRsvp" onClick={()=>handleSignIn()}>
-          <i class='bx bx-envelope bx-sm bxicon' ></i>
-          <div>Sign in with Email</div>
+      <button id="startRsvp" onClick={()=>handleSignUp()}>
+          <i className='bx bx-envelope bx-sm bxicon' ></i>
+          <div>Sign Up with Email</div>
       </button>
     </section>
 
