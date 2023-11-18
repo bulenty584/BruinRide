@@ -1,82 +1,87 @@
-#app {
+#signinout {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   padding: 0px;
+  background: linear-gradient(#648fe6, #484958);
 }
 
 #event-details-container {
   width: 100%;
-  max-width: 400px;
-  padding: 0px;
+  max-width: 800px;
+  max-height: 800px;
+  height: 100%;
+  padding-left: 30px;
+  margin-left: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
   border-radius: 8px; /* rounded corners */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
   text-align: center;
   margin-bottom: 20px; /* separation between elements */
+  background-color: #ffffff; /* white background */
 }
 
-#event-details-container button {
-  width: 100%;
-  padding: 0px; /* adjusted padding */
-  margin-top: 10px;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s;
-}
 
 #startRsvp {
-  background-color: #4e7ac7; /* blue color similar to the 'assigned' status */
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  background-color: #7f8795; /* blue color similar to the 'assigned' status */
   &:hover {
-    background-color: #4267b2; /* a darker blue on hover */
+    background-color: #526790; /* a darker blue on hover */
   }
 }
 
-button.google {
-  background-color: #db4437; /* Google's color */
+#startRsvp2 {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #7f8795; /* blue color similar to the 'assigned' status */
   &:hover {
-    background-color: #c1351d; /* a darker red on hover */
+    background-color: #526790; /* a darker blue on hover */
   }
 }
 
-button.apple {
-  background-color: #000000; /* Apple's color */
-  &:hover {
-    background-color: #333333; /* a dark grey on hover */
-  }
-}
-
-/* Since ID should be unique, if you have multiple RSVP buttons, change to class */
-button#startRsvp {
-  background-color: #b6b8b4; /* Adjusting to a Google blue, if that was the intention */
-}
-
-hr {
-  width: 100%;
-  max-width: 800px;
-  border: 0;
-  border-top: 1px solid #abadaf; /* light grey line */
+.buttons{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-left: 0;
+  margin-right: 30px;
 }
 
 #firebaseui-auth-container {
+  margin-right: 0;
+  margin-left: 20px;
   width: 100%;
-  max-width: 800px;
+  max-width: 350px;
+  padding: 0px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; /* rounded corners */
+  background-color: rgb(196, 194, 194);
 }
 
 /* Adjust the hr and firebaseui-auth-container styles to have consistent padding and shadow */
-#firebaseui-auth-container, hr {
-  padding: 0px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 .bxicon{
-  margin-left: 0;
-  margin-top: 20px; /* separation between elements */
-  align-self: left;
-  justify-self: left;
+  margin-left: 10px;
+  margin-right: 10px;
+  align-self: center;
+  justify-self: center;
 }
