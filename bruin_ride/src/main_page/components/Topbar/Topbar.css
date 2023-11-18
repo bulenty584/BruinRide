@@ -67,6 +67,7 @@ nav .nav-bar{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 4%;
 }
 
 nav .nav-bar .sidebarOpen{
