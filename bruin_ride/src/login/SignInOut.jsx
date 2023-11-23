@@ -92,14 +92,13 @@ let db, auth;
       const provider = new GoogleAuthProvider();
       provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-      
 export default function SignInOut() {
     const [userSign, setUserSign] = useState(false);
     // Listen to RSVP button clicks
-<<<<<<< HEAD
+
+    //ui.start('#firebaseui-auth-container', uiConfig)
     const handleLoginProvider = () => {
       ui.start('#firebaseui-auth-container', uiConfig);        
-=======
     const handleLoginGoogle = () => {
         // No user is signed in; allows user to sign in
         signInWithRedirect(auth, provider)
@@ -124,12 +123,11 @@ export default function SignInOut() {
             const credential = GoogleAuthProvider.credentialFromError(error);
             // ...
           });
->>>>>>> 8757726 (Styling for topBar and SignInOut page change)
+        }
     };  
     const handleSignUp = () => {
       ui.start('#firebaseui-auth-container', uiConfig2);
     }
-    
   return (
     <>
     <>
@@ -150,24 +148,20 @@ export default function SignInOut() {
   />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </>
-
-  <div id="app">
-    <section id="event-details-container">
-        <TopBar/>
-      <button id="startRsvp" onClick={()=>handleLoginProvider()}>
-          <i className=''></i>
-          <div>Continue with a Provider</div>
-      </button>
-      <button id="startRsvp" onClick={()=>handleSignUp()}>
-          <i className='bx bx-envelope bx-sm bxicon' ></i>
-          <div>Sign Up with Email</div>
-      </button>
-    </section>
-
-    <hr />
-
-    <section id="firebaseui-auth-container"></section>
-
+<TopBar/>
+  <div id="signinout">
+      <div id="event-details-container">
+        <div className='buttons'>
+          <button id="startRsvp2" onClick={()=>handleLoginProvider()}>
+            <div className='bxicon'>Continue with Provider</div>
+          </button>
+          <button id="startRsvp" onClick={()=>handleSignUp()}>
+              <div className='bx bx-envelope bx-sm bxicon' ></div>
+              <div className='bxicon'>Sign Up with Email</div>
+          </button>
+      </div>
+      <section id="firebaseui-auth-container"></section>
+    </div>
   </div>
   </>
   );
