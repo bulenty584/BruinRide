@@ -85,3 +85,7 @@
   align-self: center;
   justify-self: center;
 }
+
+.react-datepicker-wrapper{
+  transition: none;
+}

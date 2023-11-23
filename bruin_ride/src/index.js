@@ -9,6 +9,7 @@ import BookRide from './book_ride/BookRide';
 import reportWebVitals from './reportWebVitals';
 import MainPage from './main_page/MainPage';
 import Profile from './profile/Profile';
+import TripPage from './trip_page/TripPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,7 +21,7 @@ root.render(
       <Route path="/mainPage" element={<MainPage />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/bookride" element={<BookRide />} />
-
+      <Route path="/trip_page/:tripId" element={<TripPage />} />
     </Routes>
     </BrowserRouter>
   </React.StrictMode>
