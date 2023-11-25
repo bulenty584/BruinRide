@@ -14,10 +14,8 @@ import {
   FacebookAuthProvider,
   TwitterAuthProvider,
   GithubAuthProvider,
-  signInWithRedirect,
   signOut,
   onAuthStateChanged,
-  signInOptions,
 } from 'firebase/auth';
 
 import {
@@ -101,7 +99,7 @@ export default function SignInOut() {
       ui.start('#firebaseui-auth-container', uiConfig);        
     const handleLoginGoogle = () => {
         // No user is signed in; allows user to sign in
-        signInWithRedirect(auth, provider)
+        signInWithPopup(auth, provider)
           .then((result) => {
             setUserSign(true);
             // This gives you a Google Access Token. You can use it to access the Google API.

@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+
 function LoadingButton() {
   const [isLoading, setLoading] = useState(false);
 
@@ -20,41 +21,40 @@ function LoadingButton() {
 
   const handleClick = async () => {
     setLoading(true);
-    // try {
-    //   // Replace with your Firebase Cloud Function URL
-    //   const cloudFunctionUrl = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/signup';
+    try {
+      // Replace with your Firebase Cloud Function URL
+      const cloudFunctionUrl = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/signup/allow-cors';
 
-    //   // Replace with actual user credentials
-    //   const userCredentials = {
-    //     email: 'bulentil@g.ucla.edu',
-    //     password: 'password123',
-    //   };
+      // Replace with actual user credentials
+      const userCredentials = {
+        email: 'bulentil@g.ucla.edu',
+        password: 'password123',
+      };
 
-    //   const response = await fetch(cloudFunctionUrl, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Allow-Control-Allow-Origin': '*',
-    //     },
-    //     body: JSON.stringify(userCredentials),
-    //   });
+      const response = await fetch(cloudFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userCredentials),
+      });
 
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     console.log('Success:', data);
-    //   } else {
-    //     const errorData = await response.json();
-    //     console.error('Error:', errorData);
-    //   }
-    // } catch (error) {
-    //   console.error('Error during button click:', error);
-    // }
-     };
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Success:', data);
+      } else {
+        const errorData = await response.json();
+        console.error('Error:', errorData);
+      }
+    } catch (error) {
+      console.error('Error during button click:', error);
+    }
+  };
       
 
 
   return (
-    <NavLink to='/signIn' >
+    //<NavLink to='/signIn' >
     <Button
       variant="primary"
       disabled={isLoading}
@@ -62,7 +62,7 @@ function LoadingButton() {
     >
       {isLoading ? 'Loading…' : 'Sign Up Now!'}
     </Button>
-    </NavLink>
+    //</NavLink>
   );
 };
 

@@ -63,7 +63,13 @@ const BookRide = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`Date: ${selectedDate}, Time: ${selectedTime}, Pickup Location: ${selectedPickupLocation}`);
-    // TODO: send information to the backend
+    
+    // Add code to add ride to database here
+
+    setDate(null);
+    setTime('');
+    setPickupLocation('');
+
   };
 
   return (
@@ -90,7 +96,7 @@ const BookRide = () => {
         />
       </label>
       <br />
-      <button type="submit">Submit</button>
+      <button type="submit" onClick={(handleSubmit)}>Submit</button>
     </form>
     </div>
     </section>
