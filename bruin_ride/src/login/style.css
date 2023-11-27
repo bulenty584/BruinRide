@@ -27,28 +27,30 @@
 
 
 #startRsvp {
+  font-family: var(--bolt-font-family-regular, var(--bolt-font-family-system, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif));
   align-self: center;
   display: flex;
   flex-direction: row;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  background-color: #7f8795; /* blue color similar to the 'assigned' status */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #8ba1c6; /* blue color similar to the 'assigned' status */
   &:hover {
     background-color: #526790; /* a darker blue on hover */
   }
 }
 
 #startRsvp2 {
+  font-family: var(--bolt-font-family-regular, var(--bolt-font-family-system, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif));
   align-self: center;
   display: flex;
   flex-direction: row;
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 30px;
+  margin-bottom: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 15px;
   padding-right: 15px;
-  background-color: #7f8795; /* blue color similar to the 'assigned' status */
+  background-color: #8ba1c6; /* blue color similar to the 'assigned' status */
   &:hover {
     background-color: #526790; /* a darker blue on hover */
   }
@@ -59,15 +61,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  padding: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   margin-left: 0;
   margin-right: 30px;
+  font-family: var(--bolt-font-family-regular, var(--bolt-font-family-system, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif));
 }
 
 #firebaseui-auth-container {
-  margin-right: 0;
+  margin-right: 37px;
   margin-left: 20px;
   width: 100%;
   max-width: 350px;
@@ -88,4 +91,23 @@
 
 .react-datepicker-wrapper{
   transition: none;
+}
+
+.description{
+  margin-left: 20px;
+  align-self: center;
+  justify-self: center;
+  text-align: left;
+}
+
+.desc{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  align-self: left;
+  justify-self: left;
+  justify-content: left;
+  font-size: 17px;
+  font-weight: 500;
+  color: #000000;
+  font-family: var(--bolt-font-family-regular, var(--bolt-font-family-system, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif));
 }

@@ -69,6 +69,7 @@ let db, auth;
         ],
         callbacks: {
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            alert(authResult);
             // Handle sign-in.
             // Return false to avoid redirect.
             return false;
@@ -102,7 +103,6 @@ export default function SignInOut() {
     const handleSignUp = () => {
       ui.start('#firebaseui-auth-container', uiConfig2);
     }
-    let s = "       ";
   return (
     <>
     <>
@@ -127,6 +127,17 @@ export default function SignInOut() {
   <div id="signinout">
       <div id="event-details-container">
         <div className='buttons'>
+          <div className='description'>
+            <div className='desc'>
+                Choose your preferred location in the UCLA campus and we will help you find a ride!
+            </div>
+            <div className='desc'>
+                Save money and time by carpooling with other Bruins!
+            </div>
+            <div className='desc'>
+                Sign up now to start your journey!
+            </div>
+          </div>
           <button id="startRsvp2" onClick={()=>handleLoginProvider()}>
             <div className='bxicon'>Continue with Provider</div>
           </button>
