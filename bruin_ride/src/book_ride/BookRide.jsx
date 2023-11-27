@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
+import {db, auth} from "../login/SignInOut"
+import { ref, set } from "firebase/database";
 
 const DateInput = ({ selectedDate, handleDateChange }) => {
   return (
@@ -63,8 +65,20 @@ const BookRide = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`Date: ${selectedDate}, Time: ${selectedTime}, Pickup Location: ${selectedPickupLocation}`);
-    
-    // Add code to add ride to database here
+    const publishData = (userId) => {
+      try{
+        set(ref(db, 'users/' + userId), {
+          date: selectedDate,
+          time: selectedTime,
+          pickupLocation: selectedPickupLocation
+        });
+      } catch (error) {
+        console.error('Error during button click:', error);
+      }
+      
+    }
+
+    publishData(auth.currentUser.uid)
 
     setDate(null);
     setTime('');

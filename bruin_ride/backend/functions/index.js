@@ -6,18 +6,35 @@
  *
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
-
- const {onCall} = require("firebase-functions/v1/https");
- const {onDocumentWritten} = require("firebase-functions/v1/firestore");
+const {onCall} = require("firebase-functions/v1/https");
+const {onDocumentWritten} = require("firebase-functions/v1/firestore");
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const express = require('express');
 const cors = require('cors')({origin: true});
+var serviceAccount = require('./bruinride-41c8c-af7386b4c05d.json')
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://bruinride-41c8c-default-rtdb.firebaseio.com"
 
-admin.initializeApp();
+});
+
 
 const app = express();
 app.use(cors);
+
+
+exports.getUsers = functions.https.onRequest(async (request, response) => {
+  response.setHeader('Access-Control-Allow-Origin', '*');
+  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  response.setHeader('Access-Control-Allow-Credentials', true); // If needed
+  const uid = request.query.uid;
+  console.log(uid)
+  const userRecord = await admin.auth().getUser(uid);
+  response.send(userRecord.toJSON());
+  return;
+});
 
 
 

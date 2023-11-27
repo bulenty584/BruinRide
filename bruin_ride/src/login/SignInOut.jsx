@@ -164,3 +164,5 @@ export default function SignInOut() {
   </>
   );
 }
+
+export {db, auth}
