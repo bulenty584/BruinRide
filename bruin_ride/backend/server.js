@@ -74,23 +74,5 @@ let db, auth;
 
   const ui = new firebaseui.auth.AuthUI(getAuth());
 
-  // Listen to the current Auth state
-  /*onAuthStateChanged(auth, (user) => {
-    if (user) {
-
-    } else {
-
-    }
-  });*/
-
-
-/*
-function writeUserData(userId, name, email) {
-  set(ref(database, 'users/' + userId), {
-    username: name,
-    email: email,
-  });
-}
-writeUserData("Bulenty", "Bulent", "bulenty@ucla.edu")
-*/
+  
 export {auth, db, ui, uiConfig, firebaseConfig, firebaseui, signInWithCredential, signOut};
