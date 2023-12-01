@@ -61,30 +61,38 @@ const BookRide = () => {
   const [selectedDate, setDate] = useState(null);
   const [selectedTime, setTime] = useState('');
   const [selectedPickupLocation, setPickupLocation] = useState('');
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(`Date: ${selectedDate}, Time: ${selectedTime}, Pickup Location: ${selectedPickupLocation}`);
+  
+    if (!selectedDate || !selectedTime || !selectedPickupLocation) {
+      console.error('Please fill in all fields');
+      return;
+    }
+  
+    const combinedDateTime = new Date(selectedDate.toISOString().split('T')[0] + 'T' + selectedTime);
+
+    const iso8601String = combinedDateTime.toISOString();
+  
+    console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
+  
     const publishData = (userId) => {
-      try{
+      try {
         set(ref(db, 'users/' + userId), {
-          date: selectedDate,
-          time: selectedTime,
-          pickupLocation: selectedPickupLocation
+          dateTime: combinedDateTime,
+          pickupLocation: selectedPickupLocation,
         });
       } catch (error) {
         console.error('Error during button click:', error);
       }
-      
-    }
-
-    publishData(auth.currentUser.uid)
-
+    };
+  
+    publishData(auth.currentUser.uid);
+  
     setDate(null);
     setTime('');
     setPickupLocation('');
-
   };
+  
 
   return (
     <body className='bookpage'>
