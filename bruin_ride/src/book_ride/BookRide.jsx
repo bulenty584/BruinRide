@@ -3,8 +3,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
-import '../MainPage.css';
 import {db, auth} from "../login/SignInOut"
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import { getFirestore, addDoc, collection, query, orderBy, onSnapshot, doc, setDoc, where } from 'firebase/firestore';
 
@@ -63,40 +63,41 @@ const BookRide = () => {
   const [selectedDate, setDate] = useState(null);
   const [selectedTime, setTime] = useState('');
   const [selectedPickupLocation, setPickupLocation] = useState('');
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(`Date: ${selectedDate}, Time: ${selectedTime}, Pickup Location: ${selectedPickupLocation}`);
-    
-    const addUserConfig = async () => {
+  
+    if (!selectedDate || !selectedTime || !selectedPickupLocation) {
+      console.error('Please fill in all fields');
+      return;
+    }
+  
+    const combinedDateTime = new Date(selectedDate.toISOString().split('T')[0] + 'T' + selectedTime);
+
+    const iso8601String = combinedDateTime.toISOString();
+  
+    console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
+  
+    const publishData = (userId) => {
       try {
-        const docRef = await addDoc(collection(db, "trips"), {
-          date: selectedDate,
-          time: selectedTime,
+        set(ref(db, 'users/' + userId), {
+          dateTime: combinedDateTime,
           pickupLocation: selectedPickupLocation,
-          uid: auth.currentUser.uid,
-          email: auth.currentUser.email,
-          name: auth.currentUser.displayName,
-          id: auth.currentUser.uid,
         });
-        console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
     };
-
-    addUserConfig();
-
+  
+    publishData(auth.currentUser.uid);
+  
     setDate(null);
     setTime('');
     setPickupLocation('');
-
   };
+  
 
   return (
-    <body>
-    <div className='bookpage'>
-      <div className="background-circles"></div>
+    <body className='bookpage'>
       <section className="booking-container">
       <TopBar/>
       <div className='book-form'>
@@ -123,7 +124,6 @@ const BookRide = () => {
     </form>
     </div>
     </section>
-    </div>
     </body>
   );
 };
