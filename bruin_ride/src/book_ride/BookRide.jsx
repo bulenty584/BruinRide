@@ -5,9 +5,9 @@ import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
 import {db, auth} from "../login/SignInOut"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { set } from "firebase/database";
-import {ref as sRef} from "firebase/storage";
+import { ref, set } from "firebase/database";
 import { getFirestore, addDoc, collection, query, orderBy, onSnapshot, doc, setDoc, where } from 'firebase/firestore';
+
 
 const DateInput = ({ selectedDate, handleDateChange }) => {
   return (
@@ -78,19 +78,23 @@ const BookRide = () => {
   
     console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
   
-    const publishData = (userId) => {
+    const publishData = async () => {
       try {
-        set(sRef(db, 'users/' + userId), {
-          date: iso8601String,
-          time: "1000",
+        const docRef = await addDoc(collection(db, "trips"), {
+          userId : auth.currentUser.uid,
+          dateTime: iso8601String,
           pickupLocation: selectedPickupLocation,
+          groupSet: false,
+          groupSize: 1,
+          groupMembers: [],
+
         });
+        console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
     };
-    console.log(auth.currentUser.uid)
-    publishData(auth.currentUser.uid);
+    publishData();
   
     setDate(null);
     setTime('');

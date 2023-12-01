@@ -76,9 +76,9 @@ const TripPage = ({trips}) => {
             {/* List of phone numbers */}
             <div>
               <h4>Phone Numbers</h4>
-              {phoneNumbers.map((phoneNumber, index) => (
+              {/* {phoneNumbers.map((phoneNumber, index) => (
                 <p key={index}>{phoneNumber}</p>
-              ))}
+              ))} */}
             </div>
           </div>
         </div>
