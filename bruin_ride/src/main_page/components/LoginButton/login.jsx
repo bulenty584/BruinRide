@@ -45,48 +45,19 @@ function LoadingButton() {
     } catch (error) {
       console.error('Error during button click:', error);
     }
-    // try {
-    //   // Replace with your Firebase Cloud Function URL
-    //   const cloudFunctionUrl = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/signup/allow-cors';
-
-    //   // Replace with actual user credentials
-    //   const userCredentials = {
-    //     email: 'bulentil@y.ucla.edu',
-    //     password: 'password124',
-    //   };
-
-    //   const response = await fetch(cloudFunctionUrl, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(userCredentials),
-    //   });
-
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     console.log('Success:', data);
-    //   } else {
-    //     const errorData = await response.json();
-    //     console.error('Error:', errorData);
-    //   }
-    // } catch (error) {
-    //   console.error('Error during button click:', error);
-    // }
   };
-      
 
 
   return (
-    //<NavLink to='/signIn' >
-    <Button
-      variant="primary"
-      disabled={isLoading}
-      onClick={!isLoading ? handleClick : null}
-    >
-      {isLoading ? 'Loading…' : 'Sign Up Now!'}
-    </Button>
-    //</NavLink>
+    <NavLink to='/signIn' >
+      <Button
+        variant="primary"
+        disabled={isLoading}
+        onClick={!isLoading ? handleClick : null}
+      >
+        {isLoading ? 'Loading…' : 'Sign Up Now!'}
+      </Button>
+    </NavLink>
   );
 };
 

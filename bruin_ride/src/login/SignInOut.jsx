@@ -1,4 +1,5 @@
 import './style.css';
+import '../MainPage.css';
 // Import stylesheets
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import { initializeApp } from 'firebase/app';
@@ -47,9 +48,9 @@ let db, auth;
       // Make sure Firebase is initilized
       try {
         if (firebaseConfig && firebaseConfig.apiKey) {
-          initializeApp(firebaseConfig);
+          const app = initializeApp(firebaseConfig);
+          db = getFirestore(app);
         }
-        db = getFirestore();
         auth = getAuth();
       } catch (e) {
         console.log('error:', e);
@@ -67,6 +68,7 @@ let db, auth;
         ],
         callbacks: {
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            alert(authResult);
             // Handle sign-in.
             // Return false to avoid redirect.
             return false;
@@ -127,7 +129,7 @@ export default function SignInOut() {
       ui.start('#firebaseui-auth-container', uiConfig2);
     }
   return (
-    <>
+    <body>
     <>
   <meta charSet="utf-8" />
   <title>BruinRide Login</title>
@@ -146,10 +148,22 @@ export default function SignInOut() {
   />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </>
+<div className="background-circles"></div>
 <TopBar/>
   <div id="signinout">
       <div id="event-details-container">
         <div className='buttons'>
+          <div className='description'>
+            <div className='desc'>
+                Choose your preferred location in the UCLA campus and we will help you find a ride!
+            </div>
+            <div className='desc'>
+                Save money and time by carpooling with other Bruins!
+            </div>
+            <div className='desc'>
+                Sign up now to start your journey!
+            </div>
+          </div>
           <button id="startRsvp2" onClick={()=>handleLoginProvider()}>
             <div className='bxicon'>Continue with Provider</div>
           </button>
@@ -161,8 +175,8 @@ export default function SignInOut() {
       <section id="firebaseui-auth-container"></section>
     </div>
   </div>
-  </>
+  </body>
   );
 }
 
-export {db, auth}
+export {db, auth, uiConfig, uiConfig2, ui, provider}

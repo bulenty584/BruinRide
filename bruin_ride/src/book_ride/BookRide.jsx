@@ -4,7 +4,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
 import {db, auth} from "../login/SignInOut"
-import { ref, set } from "firebase/database";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { set } from "firebase/database";
+import {ref as sRef} from "firebase/storage";
+import { getFirestore, addDoc, collection, query, orderBy, onSnapshot, doc, setDoc, where } from 'firebase/firestore';
 
 const DateInput = ({ selectedDate, handleDateChange }) => {
   return (
@@ -61,30 +64,39 @@ const BookRide = () => {
   const [selectedDate, setDate] = useState(null);
   const [selectedTime, setTime] = useState('');
   const [selectedPickupLocation, setPickupLocation] = useState('');
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(`Date: ${selectedDate}, Time: ${selectedTime}, Pickup Location: ${selectedPickupLocation}`);
-    const publishData = (userId) => {
-      try{
-        set(ref(db, 'users/' + userId), {
-          date: selectedDate,
-          time: selectedTime,
-          pickupLocation: selectedPickupLocation
-        });
-      } catch (error) {
-        console.error('Error during button click:', error);
-      }
-      
+  
+    if (!selectedDate || !selectedTime || !selectedPickupLocation) {
+      console.error('Please fill in all fields');
+      return;
     }
+  
+    const combinedDateTime = new Date(selectedDate.toISOString().split('T')[0] + 'T' + selectedTime);
 
-    publishData(auth.currentUser.uid)
-
+    const iso8601String = combinedDateTime.toISOString();
+  
+    console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
+  
+    const publishData = (userId) => {
+      try {
+        set(sRef(db, 'users/' + userId), {
+          date: iso8601String,
+          time: "1000",
+          pickupLocation: selectedPickupLocation,
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    };
+    console.log(auth.currentUser.uid)
+    publishData(auth.currentUser.uid);
+  
     setDate(null);
     setTime('');
     setPickupLocation('');
-
   };
+  
 
   return (
     <body className='bookpage'>

@@ -1,36 +1,63 @@
 // TripPage.js
+import './TripPage.css'
+import '../MainPage.css';
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { db } from '../login/SignInOut';
+import { getFirestore, collection, query, orderBy, onSnapshot, doc, setDoc, where, getDocs } from 'firebase/firestore';
 import TopBar from '../main_page/components/Topbar/Topbar';
 
-const TripPage = ({ trips }) => {
-  const [testTrips, setTestTrips] = useState([
-    { id: 1, pickupPoint: 'Carnesale Commons', dateTime: '2023-11-15T10:00:00Z', status: 'Completed', groupSize: 3, nameToEmail: { 'Delia': '(310) 693 - 3479', 'Bulent': '(310) 693 - 3479', 'Eduardo': '(310) 693 - 3479'}},
-    { id: 2, pickupPoint: 'Rieber Hall', dateTime: '2023-11-16T12:00:00Z', status: 'Completed', groupSize: 3, nameToEmail: { 'Theo': '(310) 693 - 3479', 'Pratosh': '(310) 693 - 3479', 'Eduardo': '(310) 693 - 3479'}},
-  ]);
-  const { tripId } = useParams();
-  const selectedTrip = testTrips.find((trip) => trip.id === parseInt(tripId));
+const TripPage = ({trips}) => {
 
-  if (!selectedTrip) {
-    return <div>Trip not found</div>;
+  const allTrips = async () => {
+    const tripsRef = collection(db, 'trips');
+    const q = query(tripsRef);
+    const querySnapshot = await getDocs(q);
+    const trips = [];
+    querySnapshot.forEach((doc) => {
+      trips.push(doc.data());
+    });
+    return trips;
   }
 
+  const [selectedTrip, selectTrip] = useState(null)
+  const { tripId } = useParams();
+  console.log(tripId)
+
+  
+
+  useEffect(() => {
+    allTrips().then((result) => {
+      const currentTime = new Date();
+      const pastTrips = result;
+      console.log(pastTrips)
+      selectTrip(pastTrips); // Update state
+      console.log(tripId)
+    }).catch((error) => {
+      console.error(error);
+    });
+  }, []); 
+
+  console.log(selectedTrip)
+
   // Convert nameToEmail object into arrays of names and phone numbers
-  const nameToPhoneNumberEntries = Object.entries(selectedTrip.nameToEmail);
-  const names = nameToPhoneNumberEntries.map(([name]) => name);
-  const phoneNumbers = nameToPhoneNumberEntries.map(([, phoneNumber]) => phoneNumber);
+  const names = selectedTrip.map((trip) => trip.name);
+  //const phoneNumbers = nameToPhoneNumberEntries.map(([, phoneNumber]) => phoneNumber);
 
   return (
+    
     <div>
+      <div className="background-circles"></div>
+
       <header>
         <TopBar />
       </header>
 
       <div style={{ padding: '20px', marginTop: '50px' }}>
         <h2>Trip Details</h2>
-        <p>Pickup Point: {selectedTrip.pickupPoint}</p>
-        <p>Date and Time: {new Date(selectedTrip.dateTime).toLocaleString()}</p>
+        <p>Pickup Point: {selectedTrip.pickupLocation}</p>
+        <p>Date and Time: {new Date(selectedTrip.time).toLocaleString()}</p>
         <p>Status: {selectedTrip.status}</p>
         <p>Group Size: {selectedTrip.groupSize}</p>
 
