@@ -1,4 +1,4 @@
-import './Profile.css';
+//import './Profile.css';
 import '../MainPage.css';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';

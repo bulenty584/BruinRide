@@ -17,7 +17,7 @@ body {
   width: 100%;
   height: 100%;
   /* change the link to relative path */
-  background-image: url("C:\Users\delia\Desktop\comp sci\CS35L\BruinRide\bruin_ride\src\images\background_design.png");
+  background-image: url("/src/images/background_design.png");
   background-size: cover;
   z-index: -1; 
 }
