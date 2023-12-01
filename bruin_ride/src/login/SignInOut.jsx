@@ -14,10 +14,8 @@ import {
   FacebookAuthProvider,
   TwitterAuthProvider,
   GithubAuthProvider,
-  signInWithRedirect,
   signOut,
   onAuthStateChanged,
-  signInOptions,
 } from 'firebase/auth';
 
 import {
@@ -66,6 +64,19 @@ let db, auth;
           FacebookAuthProvider.PROVIDER_ID,
           TwitterAuthProvider.PROVIDER_ID,
           GithubAuthProvider.PROVIDER_ID,
+        ],
+        callbacks: {
+          signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            alert(authResult);
+            // Handle sign-in.
+            // Return false to avoid redirect.
+            return false;
+          }
+        }
+      };
+      const uiConfig2 = {
+        credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+        signInOptions: [
           EmailAuthProvider.PROVIDER_ID
         ],
         callbacks: {
@@ -80,21 +91,26 @@ let db, auth;
       const provider = new GoogleAuthProvider();
       provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-      
 export default function SignInOut() {
     const [userSign, setUserSign] = useState(false);
     // Listen to RSVP button clicks
+
+    //ui.start('#firebaseui-auth-container', uiConfig)
+    const handleLoginProvider = () => {
+      ui.start('#firebaseui-auth-container', uiConfig);        
     const handleLoginGoogle = () => {
         // No user is signed in; allows user to sign in
-        signInWithRedirect(auth, provider)
+        signInWithPopup(auth, provider)
           .then((result) => {
             setUserSign(true);
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
+
             const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
+            
             // ...
           }).catch((error) => {
             // Handle Errors here.
@@ -106,11 +122,11 @@ export default function SignInOut() {
             const credential = GoogleAuthProvider.credentialFromError(error);
             // ...
           });
+        }
     };  
-    const handleSignIn = () => {
-      ui.start('#firebaseui-auth-container', uiConfig);
+    const handleSignUp = () => {
+      ui.start('#firebaseui-auth-container', uiConfig2);
     }
-    
   return (
     <>
     <>
@@ -131,25 +147,34 @@ export default function SignInOut() {
   />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </>
-
-  <div id="app">
-    <section id="event-details-container">
-        <TopBar/>
-      <button id="startRsvp" onClick={()=>handleLoginGoogle()}>
-          <i class='bx bxl-google bx-sm bxicon'></i>
-          <div>Sign in with Google</div>
-      </button>
-      <button id="startRsvp" onClick={()=>handleSignIn()}>
-          <i class='bx bx-envelope bx-sm bxicon' ></i>
-          <div>Sign in with Email</div>
-      </button>
-    </section>
-
-    <hr />
-
-    <section id="firebaseui-auth-container"></section>
-
+<TopBar/>
+  <div id="signinout">
+      <div id="event-details-container">
+        <div className='buttons'>
+          <div className='description'>
+            <div className='desc'>
+                Choose your preferred location in the UCLA campus and we will help you find a ride!
+            </div>
+            <div className='desc'>
+                Save money and time by carpooling with other Bruins!
+            </div>
+            <div className='desc'>
+                Sign up now to start your journey!
+            </div>
+          </div>
+          <button id="startRsvp2" onClick={()=>handleLoginProvider()}>
+            <div className='bxicon'>Continue with Provider</div>
+          </button>
+          <button id="startRsvp" onClick={()=>handleSignUp()}>
+              <div className='bx bx-envelope bx-sm bxicon' ></div>
+              <div className='bxicon'>Sign Up with Email</div>
+          </button>
+      </div>
+      <section id="firebaseui-auth-container"></section>
+    </div>
   </div>
   </>
   );
 }
+
+export {db, auth}

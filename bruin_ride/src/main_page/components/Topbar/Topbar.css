@@ -6,7 +6,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto Mono', monospace;    
-    transition: all 0.4s ease;;
+    transition: none;
 }
 
 
@@ -67,6 +67,7 @@ nav .nav-bar{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 4%;
 }
 
 nav .nav-bar .sidebarOpen{
