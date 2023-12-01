@@ -78,7 +78,7 @@ const BookRide = () => {
     const publishData = (userId) => {
       try {
         set(ref(db, 'users/' + userId), {
-          dateTime: combinedDateTime,
+          dateTime: iso8601String,
           pickupLocation: selectedPickupLocation,
         });
       } catch (error) {
