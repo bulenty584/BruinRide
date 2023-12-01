@@ -4,7 +4,7 @@ import TripList from './components/TripList';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { db } from '../login/SignInOut';
 import { getFirestore, collection, query, orderBy, onSnapshot, doc, setDoc, where, getDocs } from 'firebase/firestore';
-
+import './profile.css';
 const Profile = () => {
   const allTrips = async () => {
     const tripsRef = collection(db, 'trips');
@@ -39,8 +39,8 @@ const Profile = () => {
       <header>
         <TopBar />
       </header>
-      <main>
-        <section>
+      <main className='backTrips'>
+        <div className='tripsPage'>
           <h2>Current Trips</h2>
           {Trips ? (
             Trips.map((trip) => (
@@ -57,7 +57,7 @@ const Profile = () => {
           ) : (
             <p>Loading trips...</p> // Show a loading message or spinner
           )}
-        </section>
+        </div>
       </main>
     </div>
   );

@@ -5,7 +5,8 @@
   justify-content: center;
   min-height: 100vh;
   padding: 0px;
-  background: linear-gradient(#648fe6, #484958);
+  background: rgb(73,124,162);
+  background: linear-gradient(90deg, rgba(73,124,162,1) 0%, rgba(2,36,56,1) 42%, rgba(84,129,166,1) 100%);
 }
 
 #event-details-container {
@@ -33,9 +34,9 @@
   flex-direction: row;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: #8ba1c6; /* blue color similar to the 'assigned' status */
+  background: rgb(73,124,162);
   &:hover {
-    background-color: #526790; /* a darker blue on hover */
+    background-color: rgb(55, 109, 167);; /* a darker blue on hover */
   }
 }
 
@@ -50,9 +51,9 @@
   padding-bottom: 10px;
   padding-left: 15px;
   padding-right: 15px;
-  background-color: #8ba1c6; /* blue color similar to the 'assigned' status */
+  background: rgb(73,124,162);
   &:hover {
-    background-color: #526790; /* a darker blue on hover */
+    background-color: rgb(55, 109, 167);; /* a darker blue on hover */
   }
 }
 
