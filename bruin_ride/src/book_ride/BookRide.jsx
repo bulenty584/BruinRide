@@ -4,7 +4,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
 import {db, auth} from "../login/SignInOut"
-import { ref, set } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
+import { getFirestore, addDoc, collection, query, orderBy, onSnapshot, doc, setDoc, where } from 'firebase/firestore';
 
 const DateInput = ({ selectedDate, handleDateChange }) => {
   return (
@@ -65,20 +66,25 @@ const BookRide = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`Date: ${selectedDate}, Time: ${selectedTime}, Pickup Location: ${selectedPickupLocation}`);
-    const publishData = (userId) => {
-      try{
-        set(ref(db, 'users/' + userId), {
+    
+    const addUserConfig = async () => {
+      try {
+        const docRef = await addDoc(collection(db, "trips"), {
           date: selectedDate,
           time: selectedTime,
-          pickupLocation: selectedPickupLocation
+          pickupLocation: selectedPickupLocation,
+          uid: auth.currentUser.uid,
+          email: auth.currentUser.email,
+          name: auth.currentUser.displayName,
+          id: auth.currentUser.uid,
         });
-      } catch (error) {
-        console.error('Error during button click:', error);
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
       }
-      
-    }
+    };
 
-    publishData(auth.currentUser.uid)
+    addUserConfig();
 
     setDate(null);
     setTime('');

@@ -47,9 +47,9 @@ let db, auth;
       // Make sure Firebase is initilized
       try {
         if (firebaseConfig && firebaseConfig.apiKey) {
-          initializeApp(firebaseConfig);
+          const app = initializeApp(firebaseConfig);
+          db = getFirestore(app);
         }
-        db = getFirestore();
         auth = getAuth();
       } catch (e) {
         console.log('error:', e);
@@ -177,4 +177,4 @@ export default function SignInOut() {
   );
 }
 
-export {db, auth}
+export {db, auth, uiConfig, uiConfig2, ui, provider}
