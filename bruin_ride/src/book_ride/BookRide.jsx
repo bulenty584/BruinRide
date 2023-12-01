@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
+import '../MainPage.css';
 import {db, auth} from "../login/SignInOut"
 import { ref, set } from "firebase/database";
 
@@ -87,7 +88,9 @@ const BookRide = () => {
   };
 
   return (
-    <body className='bookpage'>
+    <body>
+    <div className='bookpage'>
+      <div className="background-circles"></div>
       <section className="booking-container">
       <TopBar/>
       <div className='book-form'>
@@ -114,6 +117,7 @@ const BookRide = () => {
     </form>
     </div>
     </section>
+    </div>
     </body>
   );
 };

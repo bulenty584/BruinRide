@@ -1,4 +1,5 @@
 import './style.css';
+import '../MainPage.css';
 // Import stylesheets
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import { initializeApp } from 'firebase/app';
@@ -128,7 +129,7 @@ export default function SignInOut() {
       ui.start('#firebaseui-auth-container', uiConfig2);
     }
   return (
-    <>
+    <body>
     <>
   <meta charSet="utf-8" />
   <title>BruinRide Login</title>
@@ -147,6 +148,7 @@ export default function SignInOut() {
   />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </>
+<div className="background-circles"></div>
 <TopBar/>
   <div id="signinout">
       <div id="event-details-container">
@@ -173,7 +175,7 @@ export default function SignInOut() {
       <section id="firebaseui-auth-container"></section>
     </div>
   </div>
-  </>
+  </body>
   );
 }
 
