@@ -44,7 +44,7 @@ const Profile = () => {
           <h2>Current Trips</h2>
           {Trips ? (
             Trips.map((trip) => (
-              <div key={trip.uid}>
+              <div key={trip.id}>
                 <Link to={`/trip_page/${trip.id}`} style={linkStyle}>
                   <div className="trip-box">
                     <p> Name: {trip.name} </p>
