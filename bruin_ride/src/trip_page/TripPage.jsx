@@ -1,6 +1,9 @@
 // TripPage.js
-import React, {useState, useEffect} from 'react';
+import './TripPage.css'
+import '../MainPage.css';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { db } from '../login/SignInOut';
 import { getFirestore, collection, query, orderBy, onSnapshot, doc, setDoc, where, getDocs } from 'firebase/firestore';
 import TopBar from '../main_page/components/Topbar/Topbar';
@@ -43,7 +46,10 @@ const TripPage = ({trips}) => {
   //const phoneNumbers = nameToPhoneNumberEntries.map(([, phoneNumber]) => phoneNumber);
 
   return (
+    
     <div>
+      <div className="background-circles"></div>
+
       <header>
         <TopBar />
       </header>

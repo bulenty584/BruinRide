@@ -1,3 +1,5 @@
+//import './Profile.css';
+import '../MainPage.css';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TripList from './components/TripList';
@@ -35,6 +37,8 @@ const Profile = () => {
   }, []); // Empty dependency array means this runs once on mount
 
   return (
+    <body>
+    <div className="background-circles"></div>
     <div className="app">
       <header>
         <TopBar />
@@ -60,6 +64,7 @@ const Profile = () => {
         </div>
       </main>
     </div>
+    </body>
   );
 };
 
