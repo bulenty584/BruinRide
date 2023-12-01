@@ -5,7 +5,8 @@ import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
 import {db, auth} from "../login/SignInOut"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { set } from "firebase/database";
+import {ref as sRef} from "firebase/storage";
 import { getFirestore, addDoc, collection, query, orderBy, onSnapshot, doc, setDoc, where } from 'firebase/firestore';
 
 const DateInput = ({ selectedDate, handleDateChange }) => {
@@ -79,15 +80,16 @@ const BookRide = () => {
   
     const publishData = (userId) => {
       try {
-        set(ref(db, 'users/' + userId), {
-          dateTime: iso8601String,
+        set(sRef(db, 'users/' + userId), {
+          date: iso8601String,
+          time: "1000",
           pickupLocation: selectedPickupLocation,
         });
       } catch (e) {
         console.error("Error adding document: ", e);
       }
     };
-  
+    console.log(auth.currentUser.uid)
     publishData(auth.currentUser.uid);
   
     setDate(null);

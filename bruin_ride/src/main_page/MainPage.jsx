@@ -13,7 +13,7 @@ function MainPage() {
     <div className="App">
       <TopBar />
       <main className='main'>  
-        
+        <ControlledCarousel />
       </main>
     </div>
     </body>
