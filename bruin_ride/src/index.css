@@ -8,3 +8,9 @@ body {
 code {
   font-family: 'Outfit', 'Rubik';
 }
+
+.app{
+  background: rgb(73,124,162);
+  background: linear-gradient(90deg, rgba(73,124,162,1) 0%, rgba(2,36,56,1) 42%, rgba(84,129,166,1) 100%);
+  color: white;
+}
