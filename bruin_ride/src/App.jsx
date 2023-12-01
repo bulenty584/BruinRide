@@ -1,4 +1,4 @@
-import './App.css';
+import './MainPage.css';
 import MainPage from './main_page/MainPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';

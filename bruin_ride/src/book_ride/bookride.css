@@ -1,4 +1,26 @@
-  /* Style the booking container */
+body {
+  align-self: center;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Outfit', 'Rubik';
+  color: #FFFFFF;
+  background-color: #0E7482;
+}
+
+.background-circles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* change the link to relative path */
+  background-image: url("/src/images/background_design.png");
+  background-size: cover;
+  z-index: -1; 
+}
 
 .bookpage{
     padding: 169px;
@@ -8,7 +30,7 @@
     justify-self: center;
     max-width: 600px;
     margin: 20px auto 50px; /* Adjusted margin to provide space below the booking container */
-    background-color: #fff;
+    background-color: rgba(255, 0, 0, 0);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
     border-radius: 10px;

@@ -5,7 +5,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Roboto Mono', monospace;    
+    font-family: 'Outfit', monospace;    
     transition: none;
 }
 
@@ -22,7 +22,6 @@
 
 body{
     height: 100vh;
-    background-color: var(--body-color);
 }
 
 body.dark{
@@ -55,6 +54,7 @@ body.dark nav{
     height: 100%;
     width: 100%;
     padding-bottom: 1%;
+    background-color: rgba(255, 0, 0, 0);
 }
 
 nav .nav-bar{

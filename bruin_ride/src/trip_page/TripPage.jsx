@@ -1,4 +1,6 @@
 // TripPage.js
+import './TripPage.css'
+import '../MainPage.css';
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -22,7 +24,10 @@ const TripPage = ({ trips }) => {
   const phoneNumbers = nameToPhoneNumberEntries.map(([, phoneNumber]) => phoneNumber);
 
   return (
+    
     <div>
+      <div className="background-circles"></div>
+
       <header>
         <TopBar />
       </header>
