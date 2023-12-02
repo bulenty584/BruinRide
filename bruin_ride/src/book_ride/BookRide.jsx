@@ -77,6 +77,31 @@ const BookRide = () => {
     const iso8601String = combinedDateTime.toISOString();
   
     console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
+
+    const getGroup = async () => {
+      try{
+        const cloudFunctionURL = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/algo/allow-cors?database = ' + db + '&dateTime = ' + iso8601String + '&location = ' + selectedPickupLocation;
+
+        const response = await fetch({cloudFunctionURL,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          });
+
+          if (response.ok){
+            const data = await response.json();
+            console.log(data);
+          }
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
   
     const publishData = async () => {
       try {
@@ -94,6 +119,7 @@ const BookRide = () => {
         console.error("Error adding document: ", e);
       }
     };
+    getGroup();
     publishData();
   
     setDate(null);
