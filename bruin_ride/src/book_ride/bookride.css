@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} 
+
 body {
   align-self: center;
   display: block;
@@ -26,7 +32,7 @@ body {
     padding: 169px;
 }
 
-   .booking-container {
+  .booking-container {
     justify-self: center;
     max-width: 600px;
     margin: 20px auto 50px; /* Adjusted margin to provide space below the booking container */
@@ -34,7 +40,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
     border-radius: 10px;
-  } 
+  }
   
   /* Style the form container */
   .book-form {

@@ -7,6 +7,7 @@
     box-sizing: border-box;
     font-family: 'Outfit', monospace;    
     transition: none;
+    color: white;
 }
 
 
@@ -36,10 +37,29 @@ nav{
     position: fixed;
     top: 0;
     left: 0;
-    height: 9%;
-    width: 100%;
-    background-color: var(--nav-color);
+    height: 10%;
+    background-color: transparent;
     z-index: 100;
+    width: 100%;
+    /*
+    background-color: rgba(255, 255, 255, 0.05);
+    */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.1) 100%);
+}
+
+nav .nav-bar{
+    margin-left: 30px; 
+    margin-right: 30px;
+    max-width: calc(100% - 60px);
+    position: static;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 4%;
 }
 
 body.dark nav{
@@ -49,38 +69,38 @@ body.dark nav{
 .navHeader{
     display: block;
     align-items: center;
-    justify-content: space-between;
     padding: 0 30px;
     height: 100%;
     width: 100%;
-    padding-bottom: 1%;
-    background-color: rgba(255, 0, 0, 0);
 }
 
-nav .nav-bar{
-    position: static;
-    height: 100%;
-    width: 100%;
-    background-color: var(--nav-color);
-    margin: 0 auto;
-    padding: 0 30px;
+
+nav .nav-bar .menu{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 4%;
+    justify-content: center;
+    padding-left: 400px;
+}
+
+nav .nav-bar .signin-up{
+    display: flex;
 }
 
 nav .nav-bar .sidebarOpen{
-    color: var(--text-color);
     font-size: 20px;
     padding: 5px;
     cursor: pointer;
     display: none;
 }
 
+nav .nav-bar .logoo{
+    display: flex;
+    justify-content: flex-start;
+}
+
 nav .nav-bar .logoo a{
-    font-size: 34px;
-    font-weight: 500;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
     color: var(--text-color);
     text-decoration: none;
 }
@@ -94,7 +114,7 @@ nav .nav-bar .logoo a{
 }
 
 .nav-bar .nav-links li{
-    margin: 0 5px;
+    margin: 0 15px;
     list-style: none;
 }
 
@@ -105,6 +125,19 @@ nav .nav-bar .logoo a{
     color: var(--text-color);
     text-decoration: none;
     padding: 10px;
+    white-space: nowrap;
+}
+
+.nav-bar .signin-up .nav-links .nav-item-2{
+    border: 2px solid #C6FBB9;
+    border-radius: 30px;
+    display: inline-block;
+    margin: 5px;
+    line-height: 0.5;
+}
+
+.nav-links li a:hover {
+    color: #C6FBB9; 
 }
 
 .nav-links li a::before{
@@ -116,7 +149,7 @@ nav .nav-bar .logoo a{
     height: 6px;
     width: 6px;
     border-radius: 50%;
-    background-color: var(--text-color);
+    background-color: #C6FBB9;
     opacity: 0;
     transition: all 0.3s ease;
 }
@@ -125,134 +158,12 @@ nav .nav-bar .logoo a{
     opacity: 1;
 }
 
-.nav-bar .darkLight-searchBox{
-    display: flex;
-    align-items: center;
-}
-.darkLight-searchBox {
-    display: flex;
-    align-items: center;
-    margin-right: 4%; /* Adjust the margin to push the icons to the right */
+.signin-up .nav-links li a:hover{
+    color: black;
 }
 
-.darkLight-searchBox .dark-light,
-.darkLight-searchBox .searchToggle{
-    height: 40px;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 5px;
-}
-
-
-.dark-light i,
-.searchToggle i{
-    position: absolute;
-    color: var(--text-color);
-    font-size: 22px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.dark-light i.sun{
+.signin-up .nav-links li:hover a::before{
     opacity: 0;
-    pointer-events: none;
-}
-
-.dark-light.active i.sun{
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.dark-light.active i.moon{
-    opacity: 0;
-    pointer-events: none;
-}
-
-.searchToggle i.cancel{
-    opacity: 0;
-    pointer-events: none;
-}
-
-.searchToggle.active i.cancel{
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.searchToggle.active i.search{
-    opacity: 0;
-    pointer-events: none;
-}
-
-.searchBox{
-    position: relative;
-}
-
-.searchBox .search-field{
-    position: absolute;
-    bottom: -85px;
-    right: 5px;
-    height: 50px;
-    width: 300px;
-    display: flex;
-    align-items: center;
-    background-color: var(--nav-color);
-    padding: 3px;
-    border-radius: 6px;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-}
-
-  
-  
-.searchToggle.active ~ .search-field{
-    bottom: -74px;
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.search-field::before{
-    content: '';
-    position: absolute;
-    right: 14px;
-    top: -4px;
-    height: 12px;
-    width: 12px;
-    background-color: var(--nav-color);
-    transform: rotate(-45deg);
-    z-index: -1;
-}
-
-.search-field input{
-    height: 100%;
-    width: 100%;
-    padding: 0 45px 0 15px;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--search-text);
-    background-color: var(--search-bar);
-}
-
-body.dark .search-field input{
-    color: var(--text-color);
-}
-
-.search-field i{
-    position: absolute;
-    color: var(--nav-color);
-    right: 15px;
-    font-size: 22px;
-    cursor: pointer;
-}
-
-body.dark .search-field i{
-    color: var(--text-color);
 }
 
 @media (max-width: 790px) {
@@ -304,61 +215,3 @@ body.dark .search-field i{
         margin-top: 20px;
     }
 }
-
-/* Style The Dropdown Button */
-.dropbtn {
-    background-color: transparent;
-    background-size:30px;
-    background-position: center;
-    background-repeat: no-repeat; 
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  /* The container <div> - needed to position the dropdown content */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    border-radius: 10px; /* Add rounded corners */
-    width: 160px; /* Set the width */
-    max-width: 160px; /* Set the maximum width */
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    border-radius: 10px; /* Add rounded corners */
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {
-    background-color: #f1f1f1;
-    border-radius: 10px; /* Add rounded corners */
-  }
-  
-  /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {
-    display: block;
-    border-radius: 10px; /* Add rounded corners */
-  }
-  
-  /* Change the background color of the dropdown button when the dropdown content is shown */
-  .dropdown:hover .dropbtn {
-    background-color: transparent;
-    border-radius: 10px; /* Add rounded corners */
-  }
