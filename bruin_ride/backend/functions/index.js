@@ -30,6 +30,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
   response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
   response.setHeader('Access-Control-Allow-Credentials', true); // If needed
+<<<<<<< HEAD
   const db = request.query.database;
   const dateTime = request.query.dateTime;
   const pickupLocation = request.query.location;
@@ -41,9 +42,68 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   querySnapshot.forEach((doc) => {
     trips.push(doc.data());
   });
+=======
+  const Records = request.query.records;  //Records is an array of all the trips in database
+  response.send(Records.toJSON());
+  /*
+  let time;
+  let pickupLocation;
+  let date;
+  for (const key in Records) {
+    if ((Records.hasOwnProperty(key)) && (key.userId !== auth.currentUser.uid)) {
+      time = key.dateTime;
+      pickupLocation = key.pickupLocation;
+      date = key.date;
+    }
+
+    const user = await auth.currentUser;
+
+    if (user.time === time && user.pickupLocation === pickupLocation && user.date === date) {
+      response.send(key.toJSON());
+      return;
+    }
+
+    else if (user.time === time && user.pickupLocation === pickupLocation) {
+      response.send(key.name.toJSON());
+      return;
+    }
+
+    else if (user.time === time && user.date === date) {
+      response.send(key.toJSON());
+      return;
+    }
+
+    else if (user.pickupLocation === pickupLocation && user.date === date) {
+      response.send(key.toJSON());
+      return;
+    }
+
+    else if (user.time === time) {
+      response.send(key.toJSON());
+      return;
+    }
+
+    else if (user.pickupLocation === pickupLocation) {
+      response.send(key.toJSON());
+      return;
+    }
+
+    else if (user.date === date) {
+      response.send(key.toJSON());
+      return;
+    }
+
+    else {
+      response.send("No rides found");
+      return;
+    }
+  }
+  */
+>>>>>>> 2b82269 (Changed index.js to reflect preliminary algo function, some bugs with CORS)
 
   return;
 });
+
 
     
       
@@ -65,26 +125,11 @@ exports.getUsers = functions.https.onRequest(async (request, response) => {
   return;
 });
 
-exports.addUserCon = functions.database.ref('/users/{uid}/config').onCreate((snapshot, context) => {
-  const uid = context.params.uid;
-  const config = snapshot.val();
-  console.log(uid);
-
-  const userRef = admin.database().ref('/users/' + uid);
-  userRef.update({
-    config: config
-  });
-
-  return;
-});
-
-
-
 exports.login = functions.https.onRequest(async (request, response) => {
 
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type'); // If needed
   response.setHeader('Access-Control-Allow-Credentials', true); // If needed
   try {
     // Extract user credentials from the request (ensure you handle this securely in a real-world scenario)
