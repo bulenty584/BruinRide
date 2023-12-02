@@ -4,8 +4,6 @@ import divbox from '../images/Rectangle.png'
 import TopBar from './components/Topbar/Topbar';
 import ControlledCarousel from './components/Carousel/Carousel';
 
-/* <div><ControlledCarousel /></div> in the main class*/
-
 function MainPage() {
   return(
     <body>
@@ -13,7 +11,7 @@ function MainPage() {
     <div className="App">
       <TopBar />
       <main className='main'>  
-        <ControlledCarousel />
+        
       </main>
     </div>
     </body>
