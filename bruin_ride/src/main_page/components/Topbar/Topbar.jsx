@@ -25,7 +25,7 @@ const TopBar = () => {
 
             <li className="nav-item">
               <NavLink to='/bookride' className="nav-link">
-                Book Ride
+                Book a ride
               </NavLink>
             </li>
             
@@ -41,13 +41,13 @@ const TopBar = () => {
           <ul className="nav-links">
             <li className="nav-item-2">
               <NavLink to='/signIn' className="nav-link">
-                Log In
+                Log in
               </NavLink>
             </li>
 
             <li className="nav-item-2">
               <NavLink to='/signIn' className="nav-link">
-                Sign Up
+                Sign up
               </NavLink>
             </li>
           </ul>

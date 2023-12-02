@@ -1,0 +1,13 @@
+.tripsPage{
+    margin-top: 150px;
+    align-items: center;
+    justify-content: center;
+}
+
+.trip-box{
+    max-width: 40%;
+    border-radius: 8px;
+    margin-left: 30%;
+    background: rgb(45,81,108);
+    background: linear-gradient(90deg, rgba(45,81,108,1) 0%, rgba(2,36,56,1) 42%, rgba(84,129,166,1) 100%);
+}

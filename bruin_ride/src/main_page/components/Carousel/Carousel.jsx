@@ -25,7 +25,7 @@ function ControlledCarousel(props) {
   };
   //console.log(props);
   return (
-    <Carousel activeIndex={index} onSelect={handleSelect}>
+    <Carousel activeIndex={index} onSelect={handleSelect} className='carousel'>
       <Carousel.Item>
         <CarouselImage text="First slide" src={one}/>
         <Carousel.Caption className='caption'>
