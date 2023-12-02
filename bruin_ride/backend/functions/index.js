@@ -11,11 +11,9 @@ const admin = require('firebase-admin');
 const express = require('express');
 const cors = require('cors')({origin: true});
 var serviceAccount = require('./bruinride-41c8c-af7386b4c05d.json');
-const { response } = require('express');
 const { auth } = require('firebase-admin');
-const { onSnapshot } = require('firebase/firestore');
-
-const { getDocs, collection, query } = require('firebase/firestore');
+const { getFirestore, getDocs, collection, query, updateDoc, onSnapshot, where, setDoc, doc } = require('firebase/firestore');
+const { initializeApp } = require('firebase/app');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://bruinride-41c8c-default-rtdb.firebaseio.com"
@@ -24,86 +22,87 @@ admin.initializeApp({
 
 const app = express();
 app.use(cors);
+let db = null;
+const firebaseConfig = {
+  apiKey: "AIzaSyDnYQ5G59of8KxraVKEPYQ0EXbAS4iP18s",
+  authDomain: "bruinride-41c8c.firebaseapp.com",
+  projectId: "bruinride-41c8c",
+  storageBucket: "bruinride-41c8c.appspot.com",
+  messagingSenderId: "667677751852",
+  appId: "1:667677751852:web:16a4993a6541a5edeb6f89",
+  measurementId: "G-FXNPFB06WZ",
+  databaseURL: "https://bruinride-41c8c-default-rtdb.firebaseio.com/"
+};
+  // Make sure Firebase is initilized
+  try {
+    if (firebaseConfig && firebaseConfig.apiKey) {
+      const firebaseApp = initializeApp(firebaseConfig);
+      db = getFirestore(firebaseApp);
+    }
+  } catch (e) {
+    console.error(e);
+  }
 
 exports.algo = functions.https.onRequest(async (request, response) => {
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
   response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
   response.setHeader('Access-Control-Allow-Credentials', true); // If needed
-<<<<<<< HEAD
-  const db = request.query.database;
+  //const db = request.query.database;
   const dateTime = request.query.dateTime;
   const pickupLocation = request.query.location;
+  const uid = request.query.uid;
 
-  const collections = query(collection(db, "trips"));
-      
-  const querySnapshot = await getDocs(collections);
-  const trips = [];
-  querySnapshot.forEach((doc) => {
-    trips.push(doc.data());
-  });
-=======
-  const Records = request.query.records;  //Records is an array of all the trips in database
-  response.send(Records.toJSON());
-  /*
-  let time;
-  let pickupLocation;
-  let date;
-  for (const key in Records) {
-    if ((Records.hasOwnProperty(key)) && (key.userId !== auth.currentUser.uid)) {
-      time = key.dateTime;
-      pickupLocation = key.pickupLocation;
-      date = key.date;
-    }
+  // ...
 
-    const user = await auth.currentUser;
+  const q = query(
+    collection(db, "trips").
+    where("dateTime", "==", dateTime).
+    where("pickupLocation", "==", pickupLocation).
+    where("userID", "!=", uid).
+    where("groupSet", "==", false)
+  );
 
-    if (user.time === time && user.pickupLocation === pickupLocation && user.date === date) {
-      response.send(key.toJSON());
-      return;
-    }
+  const querySnapshot = await getDocs(q);
+  const tripsRef = collection(db, "trips");
 
-    else if (user.time === time && user.pickupLocation === pickupLocation) {
-      response.send(key.name.toJSON());
-      return;
-    }
-
-    else if (user.time === time && user.date === date) {
-      response.send(key.toJSON());
-      return;
-    }
-
-    else if (user.pickupLocation === pickupLocation && user.date === date) {
-      response.send(key.toJSON());
-      return;
-    }
-
-    else if (user.time === time) {
-      response.send(key.toJSON());
-      return;
-    }
-
-    else if (user.pickupLocation === pickupLocation) {
-      response.send(key.toJSON());
-      return;
-    }
-
-    else if (user.date === date) {
-      response.send(key.toJSON());
-      return;
-    }
-
-    else {
-      response.send("No rides found");
-      return;
-    }
+  if (querySnapshot.empty) {
+    console.log('Creating new trip');
+    // Create a new Uber trip
+    // Add the new trip to the database
+    await setDoc(doc(tripsRef), {
+      dateTime: dateTime,
+      pickupLocation: pickupLocation,
+      groupSet: false,
+      groupSize: 1,
+      groupMembers: [uid],
+    });
+    response.send(JSON.stringify({message: 'Trip created successfully with id: ' + tripsRef.id}));
+    return;
   }
-  */
->>>>>>> 2b82269 (Changed index.js to reflect preliminary algo function, some bugs with CORS)
+
+  const tripDocRef = querySnapshot.docs[0].ref; // Reference to the first document
+  const tripData = querySnapshot.docs[0].data(); // Data of the first document
+
+  // Modify the document data as needed
+  tripData.groupMembers.push(uid);
+  const groupIsSet = tripData.groupMembers.length === 4;
+
+  try {
+    await updateDoc(tripDocRef, {
+      groupMembers: tripData.groupMembers,
+      groupSet: groupIsSet,
+      groupSize: tripData.groupMembers.length
+    });
+    response.send(JSON.stringify(tripData));
+    return;
+  } catch (e) {
+    response.status(500).send(('Error updating trip. \n' + e).toJSON());
+    console.log('Error updating trip. \n', e);
+  }
 
   return;
 });
-
 
     
       
@@ -125,11 +124,26 @@ exports.getUsers = functions.https.onRequest(async (request, response) => {
   return;
 });
 
+exports.addUserCon = functions.database.ref('/users/{uid}/config').onCreate((snapshot, context) => {
+  const uid = context.params.uid;
+  const config = snapshot.val();
+  console.log(uid);
+
+  const userRef = admin.database().ref('/users/' + uid);
+  userRef.update({
+    config: config
+  });
+
+  return;
+});
+
+
+
 exports.login = functions.https.onRequest(async (request, response) => {
 
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
   response.setHeader('Access-Control-Allow-Credentials', true); // If needed
   try {
     // Extract user credentials from the request (ensure you handle this securely in a real-world scenario)
