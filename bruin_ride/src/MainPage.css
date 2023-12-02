@@ -1,9 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .background-circles {
     position: absolute;
     top: 0;
@@ -12,5 +6,70 @@
     height: 100%;
     background-image: url("/src/images/background_design.png");
     background-size: cover;
-    z-index: -1; 
+    z-index: -2; 
 }
+
+.TopBar{
+    position: fixed;
+    z-index: 100;
+}
+
+.main{
+    background-color: transparent;
+}
+
+.hero-section{
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 120px;
+    align-items: center;
+}
+
+.hero-section .col{
+    flex-basis: calc(50% - 10px);
+    background-color: transparent;
+}
+
+.hero-section .col img {
+    max-width: 100%; /* Limit maximum width to the container width */
+    max-height: 100%; /* Limit maximum height to the container height */
+    width: auto; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
+    padding: 80px;
+}
+
+.header{
+    font-size: 60px;
+    font-weight: 800;
+    line-height: 100%;
+}
+
+.header2{
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.subheader{
+    font-size: 25px;
+}
+  
+.startbutton{
+    background-color: black;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.get-started{
+    background-image: url('/src/images/Rectangle.png'); 
+    padding: 20px;
+    border-radius: 30px;
+    background-size: 101% auto;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: -20px;
+}
+
