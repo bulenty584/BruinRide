@@ -77,6 +77,7 @@ const BookRide = () => {
     const iso8601String = combinedDateTime.toISOString();
   
     console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
+
   
     const publishData = async () => {
       try {

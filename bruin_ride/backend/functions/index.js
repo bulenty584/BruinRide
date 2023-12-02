@@ -23,60 +23,57 @@ const app = express();
 app.use(cors);
 
 exports.algo = functions.https.onRequest(async (request, response) => {
-  const Records = request.query;
-
-  let recordarr = [];
-  for (const key in Records) {
-    if (Records.hasOwnProperty(key)) {
-      const element = Records[key];
-      recordarr.push(element);
-    }
-  }
-
+  response.setHeader('Access-Control-Allow-Origin', '*');
+  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  response.setHeader('Access-Control-Allow-Credentials', true); // If needed
+  const Records = request.query.records;  //Records is an array of all the trips in database
+  response.send(Records.toJSON());
+  /*
   let time;
   let pickupLocation;
   let date;
-  for (const key in recordarr) {
-    if (recordarr.hasOwnProperty(key)) {
-      time = recordarr[key].time;
-      pickupLocation = recordarr[key].pickupLocation;
-      date = recordarr[key].date;
+  for (const key in Records) {
+    if ((Records.hasOwnProperty(key)) && (key.userId !== auth.currentUser.uid)) {
+      time = key.dateTime;
+      pickupLocation = key.pickupLocation;
+      date = key.date;
     }
 
     const user = await auth.currentUser;
 
     if (user.time === time && user.pickupLocation === pickupLocation && user.date === date) {
-      response.send(recordarr[key].toJSON());
+      response.send(key.toJSON());
       return;
     }
 
     else if (user.time === time && user.pickupLocation === pickupLocation) {
-      response.send(recordarr[key].name.toJSON());
+      response.send(key.name.toJSON());
       return;
     }
 
     else if (user.time === time && user.date === date) {
-      response.send(recordarr[key].toJSON());
+      response.send(key.toJSON());
       return;
     }
 
     else if (user.pickupLocation === pickupLocation && user.date === date) {
-      response.send(recordarr[key].toJSON());
+      response.send(key.toJSON());
       return;
     }
 
     else if (user.time === time) {
-      response.send(recordarr[key].toJSON());
+      response.send(key.toJSON());
       return;
     }
 
     else if (user.pickupLocation === pickupLocation) {
-      response.send(recordarr[key].toJSON());
+      response.send(key.toJSON());
       return;
     }
 
     else if (user.date === date) {
-      response.send(recordarr[key].toJSON());
+      response.send(key.toJSON());
       return;
     }
 
@@ -85,9 +82,11 @@ exports.algo = functions.https.onRequest(async (request, response) => {
       return;
     }
   }
+  */
 
   return;
 });
+
 
     
       
@@ -109,26 +108,11 @@ exports.getUsers = functions.https.onRequest(async (request, response) => {
   return;
 });
 
-exports.addUserCon = functions.database.ref('/users/{uid}/config').onCreate((snapshot, context) => {
-  const uid = context.params.uid;
-  const config = snapshot.val();
-  console.log(uid);
-
-  const userRef = admin.database().ref('/users/' + uid);
-  userRef.update({
-    config: config
-  });
-
-  return;
-});
-
-
-
 exports.login = functions.https.onRequest(async (request, response) => {
 
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type'); // If needed
   response.setHeader('Access-Control-Allow-Credentials', true); // If needed
   try {
     // Extract user credentials from the request (ensure you handle this securely in a real-world scenario)
