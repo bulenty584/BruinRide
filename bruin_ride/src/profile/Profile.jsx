@@ -6,7 +6,7 @@ import TripList from './components/TripList';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { db } from '../login/SignInOut';
 import { getFirestore, collection, query, orderBy, onSnapshot, doc, setDoc, where, getDocs } from 'firebase/firestore';
-import './profile.css';
+import './Profile.css';
 const Profile = () => {
   const allTrips = async () => {
     const tripsRef = collection(db, 'trips');
