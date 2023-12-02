@@ -1,12 +1,15 @@
-//import './Profile.css';
 import '../MainPage.css';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TripList from './components/TripList';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { db } from '../login/SignInOut';
+import plane from '../images/airplane.svg'
 import { getFirestore, collection, query, orderBy, onSnapshot, doc, setDoc, where, getDocs } from 'firebase/firestore';
-import './profile.css';
+import './Profile.css';
+
+/* fine tune gradient, implement status and link to trip page */
+
 const Profile = () => {
   const allTrips = async () => {
     const tripsRef = collection(db, 'trips');
@@ -37,23 +40,33 @@ const Profile = () => {
   }, []); // Empty dependency array means this runs once on mount
 
   return (
-    <body>
-    <div className="background-circles"></div>
+    <>
     <div className="app">
-      <header>
-        <TopBar />
-      </header>
-      <main className='backTrips'>
+      <div className="background-circles"></div>
+      <header> <TopBar /> </header>
+      <main className='main'>
         <div className='tripsPage'>
-          <h2>Current Trips</h2>
+          <div className="title">
+            <p className='header'>Current Trips</p>
+            <img class="plane" src={plane}/>
+          </div>
           {Trips ? (
             Trips.map((trip) => (
               <div key={trip.id}>
                 <Link to={`/trip_page/${trip.id}`} style={linkStyle}>
                   <div className="trip-box">
-                    <p> Name: {trip.name} </p>
-                    <p>Pickup Point: {trip.pickupLocation}</p>
-                    <p>Time: {trip.time}</p>
+                    <div className="text">
+                      <div className="trip-info">
+                        <p>{`${trip.pickupLocation} -> LAX`}</p>
+                        <br></br>
+                        <p>{`date | ${trip.time}`}</p>
+                      </div>
+                      <div className="status">
+                        <p>status:</p>
+                        <br></br>
+                        <p className="statuslink">assigned</p>
+                      </div>
+                    </div>
                   </div>
                 </Link>
               </div>
@@ -64,7 +77,7 @@ const Profile = () => {
         </div>
       </main>
     </div>
-    </body>
+    </>
   );
 };
 

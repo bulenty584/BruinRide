@@ -1,0 +1,64 @@
+.main{
+    background-color: transparent;
+}
+
+.tripsPage{
+    margin-top: 100px;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 200px;
+    margin-bottom: 40px;
+}
+
+.header{
+    font-size: 50px;
+    font-weight: 800;
+    line-height: 100%;
+    margin: 0;
+}
+
+.plane{
+    width: auto; 
+    height: 100px;
+}
+
+.trip-box{
+    border: 3px solid white;
+    border-radius: 10px;
+    margin: 5px;
+    margin-left: 200px;
+    margin-right: 200px;
+    border-radius: 8px;
+    margin-top: 20px;
+    background: linear-gradient(to bottom, #8D8DDA , rgba(141, 141, 218, 0));
+
+}
+
+.text {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 40%;
+    text-align: center;
+}
+  
+.trip-info {
+    text-align: left;
+    padding-left: 10px;
+}
+  
+.status {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.status .statuslink{
+    text-decoration: underline;
+    color: #C6FBB9;
+}

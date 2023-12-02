@@ -19,19 +19,19 @@ const TopBar = () => {
           <ul className="nav-links">
             <li className="nav-item">
               <NavLink to='/mainPage' className="nav-link">
-                Home
+                home
               </NavLink>
             </li>
 
             <li className="nav-item">
               <NavLink to='/bookride' className="nav-link">
-                Book a ride
+                book a ride
               </NavLink>
             </li>
             
             <li className="nav-item">
               <NavLink to='/profile' className="nav-link">
-                Profile
+                profile
               </NavLink>
             </li>
 
@@ -41,13 +41,13 @@ const TopBar = () => {
           <ul className="nav-links">
             <li className="nav-item-2">
               <NavLink to='/signIn' className="nav-link">
-                Log in
+                log in
               </NavLink>
             </li>
 
             <li className="nav-item-2">
               <NavLink to='/signIn' className="nav-link">
-                Sign up
+                sign up
               </NavLink>
             </li>
           </ul>

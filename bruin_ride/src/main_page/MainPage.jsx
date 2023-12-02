@@ -8,7 +8,7 @@ import TopBar from './components/Topbar/Topbar';
 function MainPage() {
   return(
     <div className="App">
-        <div className="background-circles"></div>
+        <header className="background-circles"></header>
         <TopBar />
         <main className='main'>  
         <div class="hero-section">
