@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { auth } from '../../../login/SignInOut';
+import { db, auth } from '../../../login/SignInOut';
+import { getFirestore, collection, query, orderBy, onSnapshot, doc, setDoc, where, getDocs } from 'firebase/firestore';
 
 
 function LoadingButton() {
@@ -22,31 +23,7 @@ function LoadingButton() {
 
   const handleClick = async () => {
     setLoading(true);
-
-    try{
-      const uid  = 'XMW1w9TW8MXqhxUPshb3myfBoIL2';
-      const cloudFunctionURL = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/getUsers/allow-cors?uid=' + uid;
-      console.log(cloudFunctionURL)
-      const response = await fetch(cloudFunctionURL, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Success:', data);
-      }
-      else {
-        const errorData = await response.json();
-        console.error('Error:', errorData);
-      }
-    } catch (error) {
-      console.error('Error during button click:', error);
-    }
   };
-
 
   return (
     <NavLink to='/signIn' >

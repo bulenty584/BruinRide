@@ -13,6 +13,9 @@ const cors = require('cors')({origin: true});
 var serviceAccount = require('./bruinride-41c8c-af7386b4c05d.json');
 const { response } = require('express');
 const { auth } = require('firebase-admin');
+const { onSnapshot } = require('firebase/firestore');
+
+const { getDocs, collection, query } = require('firebase/firestore');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://bruinride-41c8c-default-rtdb.firebaseio.com"
@@ -23,68 +26,21 @@ const app = express();
 app.use(cors);
 
 exports.algo = functions.https.onRequest(async (request, response) => {
-  const Records = request.query;
+  response.setHeader('Access-Control-Allow-Origin', '*');
+  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  response.setHeader('Access-Control-Allow-Credentials', true); // If needed
+  const db = request.query.database;
+  const dateTime = request.query.dateTime;
+  const pickupLocation = request.query.location;
 
-  let recordarr = [];
-  for (const key in Records) {
-    if (Records.hasOwnProperty(key)) {
-      const element = Records[key];
-      recordarr.push(element);
-    }
-  }
-
-  let time;
-  let pickupLocation;
-  let date;
-  for (const key in recordarr) {
-    if (recordarr.hasOwnProperty(key)) {
-      time = recordarr[key].time;
-      pickupLocation = recordarr[key].pickupLocation;
-      date = recordarr[key].date;
-    }
-
-    const user = await auth.currentUser;
-
-    if (user.time === time && user.pickupLocation === pickupLocation && user.date === date) {
-      response.send(recordarr[key].toJSON());
-      return;
-    }
-
-    else if (user.time === time && user.pickupLocation === pickupLocation) {
-      response.send(recordarr[key].name.toJSON());
-      return;
-    }
-
-    else if (user.time === time && user.date === date) {
-      response.send(recordarr[key].toJSON());
-      return;
-    }
-
-    else if (user.pickupLocation === pickupLocation && user.date === date) {
-      response.send(recordarr[key].toJSON());
-      return;
-    }
-
-    else if (user.time === time) {
-      response.send(recordarr[key].toJSON());
-      return;
-    }
-
-    else if (user.pickupLocation === pickupLocation) {
-      response.send(recordarr[key].toJSON());
-      return;
-    }
-
-    else if (user.date === date) {
-      response.send(recordarr[key].toJSON());
-      return;
-    }
-
-    else {
-      response.send("No rides found");
-      return;
-    }
-  }
+  const collections = query(collection(db, "trips"));
+      
+  const querySnapshot = await getDocs(collections);
+  const trips = [];
+  querySnapshot.forEach((doc) => {
+    trips.push(doc.data());
+  });
 
   return;
 });
