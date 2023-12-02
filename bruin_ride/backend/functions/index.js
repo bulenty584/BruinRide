@@ -100,9 +100,11 @@ exports.algo = functions.https.onRequest(async (request, response) => {
     response.status(500).send(('Error updating trip. \n' + e).toJSON());
     console.log('Error updating trip. \n', e);
   }
+  
 
   return;
 });
+
 
     
       
@@ -124,26 +126,11 @@ exports.getUsers = functions.https.onRequest(async (request, response) => {
   return;
 });
 
-exports.addUserCon = functions.database.ref('/users/{uid}/config').onCreate((snapshot, context) => {
-  const uid = context.params.uid;
-  const config = snapshot.val();
-  console.log(uid);
-
-  const userRef = admin.database().ref('/users/' + uid);
-  userRef.update({
-    config: config
-  });
-
-  return;
-});
-
-
-
 exports.login = functions.https.onRequest(async (request, response) => {
 
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type'); // If needed
   response.setHeader('Access-Control-Allow-Credentials', true); // If needed
   try {
     // Extract user credentials from the request (ensure you handle this securely in a real-world scenario)
