@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
@@ -64,7 +64,7 @@ const BookRide = () => {
   const [selectedDate, setDate] = useState(null);
   const [selectedTime, setTime] = useState('');
   const [selectedPickupLocation, setPickupLocation] = useState('');
-  const handleSubmit = (event) => {
+  const handleSubmit = useCallback((event) => {
     event.preventDefault();
   
     if (!selectedDate || !selectedTime || !selectedPickupLocation) {
@@ -135,7 +135,7 @@ const BookRide = () => {
     setDate(null);
     setTime('');
     setPickupLocation('');
-  };
+  }, [selectedDate, selectedTime, selectedPickupLocation]);
   
 
   return (

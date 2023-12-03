@@ -2,7 +2,7 @@ import '../MainPage.css';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TopBar from '../main_page/components/Topbar/Topbar';
-import { db } from '../login/SignInOut';
+import { auth, db } from '../login/SignInOut';
 import plane from '../images/airplane.svg'
 import {collection, query, getDocs } from 'firebase/firestore';
 import './profile.css';
@@ -16,7 +16,11 @@ const Profile = () => {
     const querySnapshot = await getDocs(q);
     const trips = [];
     querySnapshot.forEach((doc) => {
-      trips.push(doc.data());
+      if(doc.data().groupMembers.includes(auth.currentUser.uid)){
+        let trip = doc.data();
+        trip.id = doc.id;
+        trips.push(trip);
+      }
     });
     return trips;
   };
@@ -52,7 +56,7 @@ const Profile = () => {
         <div className='tripsPage'>
           <div className="title">
             <p className='header'>Current Trips</p>
-            <img class="plane" src={plane}/>
+            <img className="plane" src={plane}/>
           </div>
           {currentTrips ? (
             currentTrips.map((trip) => (
@@ -81,7 +85,7 @@ const Profile = () => {
           )}
            <div className="title">
             <p className='header'>Past Trips</p>
-            <img class="plane" src={plane}/>
+            <img className="plane" src={plane}/>
           </div>
           {pastTrips ? (
             pastTrips.map((trip) => (

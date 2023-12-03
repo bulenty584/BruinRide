@@ -5,46 +5,46 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { db } from '../login/SignInOut';
-import {collection, query, getDocs } from 'firebase/firestore';
+import {collection, query, getDoc, doc } from 'firebase/firestore';
 import TopBar from '../main_page/components/Topbar/Topbar';
 
-const TripPage = ({trips}) => {
+const TripPage = () => {
   const [selectedTrip, selectTrip] = useState(null)
-  const allTrips = async () => {
-    const tripsRef = collection(db, 'trips');
-    const q = query(tripsRef);
-    const querySnapshot = await getDocs(q);
-    const trips = [];
-    querySnapshot.forEach((doc) => {
-      trips.push(doc.data());
-    });
-    return trips;
-  }
-  
-
-  console.log(trips)
-  
+  const [names, setNames] = useState(null); 
   const { tripId } = useParams();
-  console.log(tripId)
 
-  
+  const getTrip = async () => {
+    // const collectionRef = collection(db, 'trips');
+    // // Use the doc method to get a DocumentReference for the specified document
+    // const documentRef = collectionRef.doc(tripId);
+    // // Use the get method to retrieve the document
+    // console.log(documentRef);
+    // documentRef.get()
+    //   .then((documentSnapshot) => {
+    //     if (documentSnapshot.exists()) {
+    //       // Document found, you can access its data
+    //       selectTrip(documentSnapshot.data());
+    //     } else {
+    //       console.log('Document does not exist');
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error getting document:', error);
+    //   });
+     const docRef = doc(db, "trips", tripId);
+     const docSnap = await getDoc(docRef);
+     selectTrip(docSnap.data());
+  };
 
   useEffect(() => {
-    allTrips().then((result) => {
-      const currentTime = new Date();
-      const pastTrips = result;
-      console.log(pastTrips);
-      selectTrip(pastTrips); // Update state
-      console.log(tripId)
-    }).catch((error) => {
-      console.error(error);
-    });
-  }, []); 
-
-  console.log(selectedTrip)
+    getTrip()
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []); // Empty dependency array means this runs once on mount
 
   // Convert nameToEmail object into arrays of names and phone numbers
-  const names = selectedTrip.map((trip) => trip.name);
+  //const names = selectedTrip.groupMembers.map((user) => user.name);
   //const phoneNumbers = nameToPhoneNumberEntries.map(([, phoneNumber]) => phoneNumber);
 
   return (
@@ -55,24 +55,22 @@ const TripPage = ({trips}) => {
       <header>
         <TopBar />
       </header>
-
+      { selectedTrip === null ? <h2>Loading...</h2> :
       <div style={{ padding: '20px', marginTop: '50px' }}>
-        <h2>Trip Details</h2>
+        <h2 style={{marginTop: '5%'}}>Trip Details</h2>
         <p>Pickup Point: {selectedTrip.pickupLocation}</p>
-        <p>Date and Time: {new Date(selectedTrip.time).toLocaleString()}</p>
-        <p>Status: {selectedTrip.status}</p>
+        <p>Date and Time: {new Date(selectedTrip.dateTime).toLocaleString()}</p>
+        <p>Status: {selectedTrip.groupSet ? "Assigned" : "Unassigned"}</p>
         <p>Group Size: {selectedTrip.groupSize}</p>
 
         {/* Render Your Group header and parallel lists */}
         <div>
-          <h3>Your Group</h3>
-          <div style={{ display: 'flex' }}>
+          <h3 style={{ marginTop: "58px"}}>Your Group</h3>
+          <div style={{ display: 'flex', marginLeft: '30%', marginTop: "28px"}}>
             {/* List of names */}
             <div style={{ marginRight: '20px' }}>
-              <h4>Names</h4>
-              {names.map((name, index) => (
-                <p key={index}>{name}</p>
-              ))}
+              <h4>UID's</h4>
+              {selectedTrip.groupMembers.map((name, index) => ( <p key={index}>{name}</p> ))}
             </div>
 
             {/* List of phone numbers */}
@@ -86,10 +84,11 @@ const TripPage = ({trips}) => {
         </div>
         
         {/* Back to All Trips button */}
-        <Link to="/profile" style={{ display: 'block', marginTop: '20px' }}>
+        <Link to="/profile" style={{ display: 'block', marginTop: '40px' }}>
           <button>Back to All Trips</button>
         </Link>
       </div>
+      }
     </div>
   );
 };

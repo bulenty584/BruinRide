@@ -59,14 +59,49 @@ exports.algo = functions.https.onRequest(async (request, response) => {
     collection(db, "trips"),
     where("dateTime", "==", dateTime),
     where("pickupLocation", "==", pickupLocation),
-    where("userID", "!=", uid),
     where("groupSet", "==", false)
   );
-  const querySnapshot = await getDocs(q).then(console.log('Query snapshot completed'))
+  
+  let querySnapshot = null;
+  try {
+    querySnapshot = await getDocs(q);
+    console.log('Query snapshot completed');
+  } catch (e) {
+    console.log('Error getting documents: ', e);
+    response.status(500).send(JSON.stringify({message:'Error getting documents: ' + e}));
+    return;
+  }
 
+  if(querySnapshot === null){
+    console.log('Error getting documents: ', e);
+    response.status(500).send(JSON.stringify({message:'Error getting documents'}));
+    return;
+  }
+
+  let found = false;
+  let possibleTrips = [];
+  // Filter out trips that already have the user in them
+  querySnapshot.forEach((doc) => {
+    console.log(doc.data());
+    if (!doc.data().groupMembers.includes(uid)) {
+      possibleTrips.push(doc);
+    }
+    else if(doc.data().groupMembers.includes(uid)){
+      found = true;
+      console.log('User already in trip at this time and location');
+      response.send(JSON.stringify({message: 'User already in trip at this time and location'}));
+      return;
+    }
+  });
+
+  console.log(possibleTrips);
+  if(found){
+    console.log('User already in trip at this time and location');
+    response.send(JSON.stringify({message: 'User already in trip at this time and location'}));
+    return;
+  }
   const tripsRef = collection(db, "trips");
-
-  if (querySnapshot.empty) {
+  if (querySnapshot.empty || possibleTrips.length === 0) {
     console.log('Creating new trip');
     // Create a new Uber trip
     // Add the new trip to the database
@@ -81,8 +116,8 @@ exports.algo = functions.https.onRequest(async (request, response) => {
     return;
   }
 
-  const tripDocRef = querySnapshot.docs[0].ref; // Reference to the first document
-  const tripData = querySnapshot.docs[0].data(); // Data of the first document
+  const tripDocRef = possibleTrips[0].ref; // Reference to the first document
+  const tripData = possibleTrips[0].data(); // Data of the first document
 
   // Modify the document data as needed
   tripData.groupMembers.push(uid);
