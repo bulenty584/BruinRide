@@ -56,14 +56,14 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   // ...
 
   const q = query(
-    collection(db, "trips").
-    where("dateTime", "==", dateTime).
-    where("pickupLocation", "==", pickupLocation).
-    where("userID", "!=", uid).
+    collection(db, "trips"),
+    where("dateTime", "==", dateTime),
+    where("pickupLocation", "==", pickupLocation),
+    where("userID", "!=", uid),
     where("groupSet", "==", false)
   );
+  const querySnapshot = await getDocs(q).then(console.log('Query snapshot completed'))
 
-  const querySnapshot = await getDocs(q);
   const tripsRef = collection(db, "trips");
 
   if (querySnapshot.empty) {
@@ -94,7 +94,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
       groupSet: groupIsSet,
       groupSize: tripData.groupMembers.length
     });
-    response.send(JSON.stringify(tripData));
+    response.send(tripData);
     return;
   } catch (e) {
     response.status(500).send(('Error updating trip. \n' + e).toJSON());
@@ -105,11 +105,14 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   return;
 });
 
-
-    
-      
-
-      
+exports.returnConfig = functions.https.onRequest(async (request, response) => {
+  response.setHeader('Access-Control-Allow-Origin', '*');
+  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  response.setHeader('Access-Control-Allow-Credentials', true); // If needed
+  response.send(firebaseConfig)
+  return firebaseConfig;
+});
 
 
 

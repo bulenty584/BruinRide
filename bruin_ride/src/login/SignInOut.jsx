@@ -5,6 +5,7 @@ import '../MainPage.css';
 import { initializeApp } from 'firebase/app';
 import { useState, useEffect } from 'react';
 import TopBar from '../main_page/components/Topbar/Topbar';
+import {NavLink} from 'react-router-dom';
 
 // Add the Firebase products and methods that you want to use
 import {
@@ -95,6 +96,22 @@ let db, auth;
 export default function SignInOut() {
     const [userSign, setUserSign] = useState(false);
     // Listen to RSVP button clicks
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+              // User is signed in.
+              setUserSign(true);
+              localStorage.setItem('userSign', 'true');
+          } else {
+              // No user is signed in.
+              localStorage.setItem('userSign', 'false');
+              setUserSign(false);
+          }
+      });
+
+      // Cleanup subscription on unmount
+      return () => unsubscribe();
+  }, []);
 
     //ui.start('#firebaseui-auth-container', uiConfig)
     const handleLoginProvider = () => {
@@ -104,9 +121,9 @@ export default function SignInOut() {
         signInWithPopup(auth, provider)
           .then((result) => {
             setUserSign(true);
+            console.log("user signed in");
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
-
             const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
@@ -128,6 +145,45 @@ export default function SignInOut() {
     const handleSignUp = () => {
       ui.start('#firebaseui-auth-container', uiConfig2);
     }
+
+    const handleLogout = () => {
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful.
+          setUserSign(false);
+          console.log("user signed out");
+          localStorage.setItem('userSign', 'false');
+        })
+        .catch((error) => {
+          // An error happened.
+          console.error("Error signing out: ", error);
+        });
+    }
+    
+  
+  if(userSign){
+    return (
+      <body>
+          <div className="background-circles"></div>
+          <TopBar />
+          <div id="signinout">
+              <div id="event-details-container">
+                  <div className='buttons'>
+                      <div className='description'>
+                          <h1 className="welcome-message">Welcome to Bruin Ride</h1>
+                          <div className='desc'>
+                              You are logged in. Ready to find your next ride?
+                          </div>
+                      </div>
+                      <button id="logoutButton" onClick={() => handleLogout()}>
+                          <div className='bxicon'>Logout</div>
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </body>
+  );
+  } else {
   return (
     <body>
     <>
@@ -177,6 +233,7 @@ export default function SignInOut() {
   </div>
   </body>
   );
+}
 }
 
 export {db, auth, uiConfig, uiConfig2, ui, provider}

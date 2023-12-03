@@ -4,9 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
 import {db, auth} from "../login/SignInOut"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, set } from "firebase/database";
-import { getFirestore, addDoc, collection, query, orderBy, onSnapshot, doc, setDoc, where } from 'firebase/firestore';
+import {addDoc, collection } from 'firebase/firestore';
 
 
 const DateInput = ({ selectedDate, handleDateChange }) => {
@@ -74,15 +72,23 @@ const BookRide = () => {
   
     const combinedDateTime = new Date(selectedDate.toISOString().split('T')[0] + 'T' + selectedTime);
 
+    const currentDate = new Date();
+
+    if(currentDate > combinedDateTime){
+      alert('Cannot book a ride for a past date and time. Please choose a future date and time.');
+      return;
+    }
+
     const iso8601String = combinedDateTime.toISOString();
   
     console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
 
     const getGroup = async () => {
       try{
-        const cloudFunctionURL = 'https://us-central1-bruinride-41c8c.cloudfunctions.net/algo/allow-cors?database = ' + db + '&dateTime = ' + iso8601String + '&location = ' + selectedPickupLocation;
+        const uid = auth.currentUser.uid;
+        const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/algo/allow-cors?database=${db}&dateTime=${iso8601String}&location=${selectedPickupLocation}&uid=${uid}`;
 
-        const response = await fetch({cloudFunctionURL,
+        const response = await fetch(cloudFunctionURL, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -119,8 +125,10 @@ const BookRide = () => {
         console.error("Error adding document: ", e);
       }
     };
+
+
     getGroup();
-    publishData();
+    //publishData();
   
     setDate(null);
     setTime('');
@@ -133,7 +141,7 @@ const BookRide = () => {
       <section className="booking-container">
       <TopBar/>
       <div className='book-form'>
-    <form onSubmit={handleSubmit}>
+    <form>
       <label>
         Date:
         <DateInput selectedDate={selectedDate} handleDateChange={(date) => setDate(date)} />

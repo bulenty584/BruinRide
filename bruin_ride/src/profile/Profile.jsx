@@ -1,11 +1,10 @@
 import '../MainPage.css';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import TripList from './components/TripList';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { db } from '../login/SignInOut';
 import plane from '../images/airplane.svg'
-import { getFirestore, collection, query, orderBy, onSnapshot, doc, setDoc, where, getDocs } from 'firebase/firestore';
+import {collection, query, getDocs } from 'firebase/firestore';
 import './Profile.css';
 
 /* fine tune gradient, implement status and link to trip page */
@@ -59,7 +58,8 @@ const Profile = () => {
                       <div className="trip-info">
                         <p>{`${trip.pickupLocation} -> LAX`}</p>
                         <br></br>
-                        <p>{`date | ${trip.time}`}</p>
+                        <p>{`date | ${trip.dateTime.substr(0,10)}`}</p>
+                        <p>{`time | ${trip.dateTime.substr(11, 5)}`}</p>
                       </div>
                       <div className="status">
                         <p>status:</p>

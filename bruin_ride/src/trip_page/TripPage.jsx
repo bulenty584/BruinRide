@@ -5,11 +5,11 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { db } from '../login/SignInOut';
-import { getFirestore, collection, query, orderBy, onSnapshot, doc, setDoc, where, getDocs } from 'firebase/firestore';
+import {collection, query, getDocs } from 'firebase/firestore';
 import TopBar from '../main_page/components/Topbar/Topbar';
 
 const TripPage = ({trips}) => {
-
+  const [selectedTrip, selectTrip] = useState(null)
   const allTrips = async () => {
     const tripsRef = collection(db, 'trips');
     const q = query(tripsRef);
@@ -20,8 +20,10 @@ const TripPage = ({trips}) => {
     });
     return trips;
   }
+  
 
-  const [selectedTrip, selectTrip] = useState(null)
+  console.log(trips)
+  
   const { tripId } = useParams();
   console.log(tripId)
 
@@ -31,7 +33,7 @@ const TripPage = ({trips}) => {
     allTrips().then((result) => {
       const currentTime = new Date();
       const pastTrips = result;
-      console.log(pastTrips)
+      console.log(pastTrips);
       selectTrip(pastTrips); // Update state
       console.log(tripId)
     }).catch((error) => {
