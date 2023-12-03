@@ -5,7 +5,9 @@ import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
 import {db, auth} from "../login/SignInOut"
 import {addDoc, collection } from 'firebase/firestore';
+import map from '../images/map.svg'
 
+/* change photo of the map with actual map api */
 
 const DateInput = ({ selectedDate, handleDateChange }) => {
   return (
@@ -13,7 +15,7 @@ const DateInput = ({ selectedDate, handleDateChange }) => {
       selected={selectedDate}
       onChange={handleDateChange}
       dateFormat="yyyy-MM-dd"
-      placeholderText="Select Date"
+      placeholderText="Select date"
     />
   );
 };
@@ -30,7 +32,7 @@ const TimeInput = ({ selectedTime, handleTimeChange }) => {
   return (
     <select value={selectedTime} onChange={handleTimeChange}>
       <option value="" disabled>
-        Select Time
+        Select time
       </option>
       {timeSlots.map((timeSlot) => (
         <option key={timeSlot} value={timeSlot}>
@@ -47,7 +49,7 @@ const PickupSpotInput = ({ selectedPickupSpot, handlePickupSpotChange }) => {
   return (
     <select value={selectedPickupSpot} onChange={handlePickupSpotChange}>
       <option value="" disabled>
-        Select Pickup Spot
+        Choose pickup location
       </option>
       {pickupSpots.map((spot) => (
         <option key={spot} value={spot}>
@@ -137,34 +139,39 @@ const BookRide = () => {
   
 
   return (
-    <body className='bookpage'>
-      <section className="booking-container">
-      <TopBar/>
-      <div className='book-form'>
-    <form>
-      <label>
-        Date:
-        <DateInput selectedDate={selectedDate} handleDateChange={(date) => setDate(date)} />
-      </label>
-      <br />
-      <label>
-        Time:
-        <TimeInput selectedTime={selectedTime} handleTimeChange={(e) => setTime(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Pickup Location:
-        <PickupSpotInput
-          selectedPickupSpot={selectedPickupLocation}
-          handlePickupSpotChange={(e) => setPickupLocation(e.target.value)}
-        />
-      </label>
-      <br />
-      <button type="submit" onClick={(handleSubmit)}>Submit</button>
-    </form>
+    <div className="app">
+      <div className="background-circles"></div>
+      <header> <TopBar /> </header>
+      <main className='bookpage'>
+      <p className='header'>Plan your next trip to LAX</p>
+      <div className='bookform'>
+        <div className="image">
+          <img src={map}/>
+        </div>
+        <div className='booking-container'>
+        <form>
+          <label className="box">
+            <DateInput selectedDate={selectedDate} handleDateChange={(date) => setDate(date)} />
+          </label>
+          <br />
+          <label className="box">
+            <TimeInput selectedTime={selectedTime} handleTimeChange={(e) => setTime(e.target.value)} />
+          </label>
+          <br />
+          <label className="box">
+            <PickupSpotInput
+              selectedPickupSpot={selectedPickupLocation}
+              handlePickupSpotChange={(e) => setPickupLocation(e.target.value)}
+            />
+          </label>
+          <br />
+          <button className="submit-button" type="submit" onClick={(handleSubmit)}>SUBMIT</button>
+        </form>
     </div>
-    </section>
-    </body>
+      </div>
+      </main>
+    </div>
+    
   );
 };
 
