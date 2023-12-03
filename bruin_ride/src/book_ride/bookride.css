@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;800&family=Rubik&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
 body {
   align-self: center;
   display: block;
@@ -23,10 +26,28 @@ body {
 }
 
 .bookpage{
-    padding: 169px;
+  margin-top: 100px;
 }
 
-  .booking-container {
+.bookform {
+  display: flex;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+.image {
+  margin-top: 20px;
+  flex: 1; /* Take 50% of the space */
+  /* Optionally, you can add styling for the image container */
+}
+
+.image img {
+  max-width: 100%; /* Ensure the image doesn't exceed its container */
+  height: auto; /* Maintain the aspect ratio */
+  padding: 50px;
+}
+
+.booking-container {
     justify-self: center;
     max-width: 600px;
     margin: 20px auto 50px; /* Adjusted margin to provide space below the booking container */
@@ -34,26 +55,37 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
     border-radius: 10px;
+    margin-top: 50px;
+    flex: 1;
   }
-  
-  /* Style the form container */
-  .book-form {
-    margin-top: 20px;
-  }
-  
+
   /* Style form labels */
-  label {
+  .box {
     display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
+    width: 100%; /* Set labels to 100% width */
+    padding-left: 16px;
+    padding-right: 16px;
+   
   }
-  
+
+  select {
+    width: calc(100% - 16px); /* Adjust width for select element to match input */
+  }
+
   /* Style form inputs */
-  input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
+  input, select {
+    color: #878787;
+    font-family: 'Rubik', sans-serif;
+    background-color: rgba(255, 255, 255, 0.8); /* White color with 80% opacity */
+    padding: 8px 16px;
+    border: 1px solid #ccc; 
+    border-radius: 16px;
+    font-size: 18px;
+    width: calc(100% - 32px); /* Adjust the width to account for padding */
     box-sizing: border-box;
+    border-radius: 16px;
+    font-size: 18px;
+    margin-bottom: 10px; /* Adjust margin as needed */
   }
   
   /* Style the submit button */
@@ -72,5 +104,12 @@ body {
   /* Style the submit button on hover */
   button:hover {
     background-color: #9A4991;
+  }
+
+  .submit-button{
+    color: black;
+    background-color: #C6FBB9;
+    font-size:11px;
+    font-weight: 600;
   }
   

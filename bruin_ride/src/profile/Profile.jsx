@@ -26,16 +26,21 @@ const Profile = () => {
     textDecoration: 'none', // Remove underline
   };
 
-  const [Trips, setTrips] = useState(null)
+  const [currentTrips, setCurrentTrips] = useState([]);
+  const [pastTrips, setPastTrips] = useState([]);
 
   useEffect(() => {
-    allTrips().then((result) => {
-      const currentTime = new Date();
-      const pastTrips = result;
-      setTrips(pastTrips); // Update state
-    }).catch((error) => {
-      console.error(error);
-    });
+    allTrips()
+      .then((result) => {
+        const currentTime = new Date();
+        const pastTrips = result.filter((trip) => new Date(trip.dateTime) < currentTime);
+        const upcomingTrips = result.filter((trip) => new Date(trip.dateTime) >= currentTime);
+        setPastTrips(pastTrips);
+        setCurrentTrips(upcomingTrips);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []); // Empty dependency array means this runs once on mount
 
   return (
@@ -49,8 +54,8 @@ const Profile = () => {
             <p className='header'>Current Trips</p>
             <img class="plane" src={plane}/>
           </div>
-          {Trips ? (
-            Trips.map((trip) => (
+          {currentTrips ? (
+            currentTrips.map((trip) => (
               <div key={trip.id}>
                 <Link to={`/trip_page/${trip.id}`} style={linkStyle}>
                   <div className="trip-box">
@@ -72,7 +77,36 @@ const Profile = () => {
               </div>
             ))
           ) : (
-            <p>Loading trips...</p> // Show a loading message or spinner
+            <p>Loading current trips...</p> // Show a loading message or spinner
+          )}
+           <div className="title">
+            <p className='header'>Past Trips</p>
+            <img class="plane" src={plane}/>
+          </div>
+          {pastTrips ? (
+            pastTrips.map((trip) => (
+              <div key={trip.id}>
+                <Link to={`/trip_page/${trip.id}`} style={linkStyle}>
+                  <div className="trip-box">
+                    <div className="text">
+                      <div className="trip-info">
+                        <p>{`${trip.pickupLocation} -> LAX`}</p>
+                        <br></br>
+                        <p>{`date | ${trip.dateTime.substr(0,10)}`}</p>
+                        <p>{`time | ${trip.dateTime.substr(11, 5)}`}</p>
+                      </div>
+                      <div className="status">
+                        <p>status:</p>
+                        <br></br>
+                        <p className="statuslink">completed</p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ))
+          ) : (
+            <p>Loading past trips...</p> // Show a loading message or spinner
           )}
         </div>
       </main>
