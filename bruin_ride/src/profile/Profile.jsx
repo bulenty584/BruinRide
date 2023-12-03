@@ -5,7 +5,7 @@ import TopBar from '../main_page/components/Topbar/Topbar';
 import { db } from '../login/SignInOut';
 import plane from '../images/airplane.svg'
 import {collection, query, getDocs } from 'firebase/firestore';
-import './Profile.css';
+import './profile.css';
 
 /* fine tune gradient, implement status and link to trip page */
 

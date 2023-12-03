@@ -63,17 +63,6 @@ const TopBar = () => {
                 home
               </NavLink>
             </li>
-
-            <li className="nav-item">
-              <NavLink to='/bookride' className="nav-link">
-                book a ride
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to='/profile' className="nav-link">
-                profile
-              </NavLink>
-            </li>
           </ul>
         </div>
         <div className="signin-up">
