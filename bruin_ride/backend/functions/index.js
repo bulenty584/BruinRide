@@ -52,6 +52,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   const dateTime = request.query.dateTime;
   const pickupLocation = request.query.location;
   const uid = request.query.uid;
+  const name = request.query.name;
 
   // ...
 
@@ -73,7 +74,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   }
 
   if(querySnapshot === null){
-    console.log('Error getting documents: ', e);
+    console.log('Error getting documents');
     response.status(500).send(JSON.stringify({message:'Error getting documents'}));
     return;
   }
@@ -106,6 +107,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
     // Create a new Uber trip
     // Add the new trip to the database
     await setDoc(doc(tripsRef), {
+      name: [name],
       dateTime: dateTime,
       pickupLocation: pickupLocation,
       groupSet: false,
@@ -121,13 +123,15 @@ exports.algo = functions.https.onRequest(async (request, response) => {
 
   // Modify the document data as needed
   tripData.groupMembers.push(uid);
+  tripData.name.push(name)
   const groupIsSet = tripData.groupMembers.length === 4;
 
   try {
     await updateDoc(tripDocRef, {
       groupMembers: tripData.groupMembers,
       groupSet: groupIsSet,
-      groupSize: tripData.groupMembers.length
+      groupSize: tripData.groupMembers.length, 
+      name : tripData.name,
     });
     response.send(tripData);
     return;

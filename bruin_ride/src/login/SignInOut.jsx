@@ -5,7 +5,6 @@ import '../MainPage.css';
 import { initializeApp } from 'firebase/app';
 import { useState, useEffect } from 'react';
 import TopBar from '../main_page/components/Topbar/Topbar';
-import {NavLink} from 'react-router-dom';
 
 // Add the Firebase products and methods that you want to use
 import {
@@ -13,9 +12,6 @@ import {
   EmailAuthProvider,
   signInWithPopup,
   GoogleAuthProvider,
-  FacebookAuthProvider,
-  TwitterAuthProvider,
-  GithubAuthProvider,
   signOut,
   onAuthStateChanged,
 } from 'firebase/auth';
@@ -62,11 +58,7 @@ let db, auth;
         credentialHelper: firebaseui.auth.CredentialHelper.NONE,
         signInOptions: [
           // Email / Password Provider.
-          GoogleAuthProvider.PROVIDER_ID,
-          FacebookAuthProvider.PROVIDER_ID,
-          TwitterAuthProvider.PROVIDER_ID,
-          GithubAuthProvider.PROVIDER_ID,
-        ],
+          GoogleAuthProvider.PROVIDER_ID        ],
         callbacks: {
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
             alert(authResult);
@@ -79,7 +71,8 @@ let db, auth;
       const uiConfig2 = {
         credentialHelper: firebaseui.auth.CredentialHelper.NONE,
         signInOptions: [
-          EmailAuthProvider.PROVIDER_ID
+          EmailAuthProvider.PROVIDER_ID,
+
         ],
         callbacks: {
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
@@ -114,6 +107,7 @@ export default function SignInOut() {
   }, []);
 
     //ui.start('#firebaseui-auth-container', uiConfig)
+
     const handleLoginProvider = () => {
       ui.start('#firebaseui-auth-container', uiConfig);        
     const handleLoginGoogle = () => {
@@ -121,15 +115,13 @@ export default function SignInOut() {
         signInWithPopup(auth, provider)
           .then((result) => {
             setUserSign(true);
+            localStorage.setItem('userSign', 'true');
             console.log("user signed in");
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
-            // The signed-in user info.
             const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            
-            // ...
+
           }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
@@ -138,12 +130,14 @@ export default function SignInOut() {
             const email = error.customData.email;
             // The AuthCredential type that was used.
             const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log("bub");
             // ...
           });
         }
     };  
     const handleSignUp = () => {
       ui.start('#firebaseui-auth-container', uiConfig2);
+      
     }
 
     const handleLogout = () => {

@@ -7,10 +7,10 @@ import { useState, useEffect } from 'react';
 import { db } from '../login/SignInOut';
 import {collection, query, getDoc, doc } from 'firebase/firestore';
 import TopBar from '../main_page/components/Topbar/Topbar';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const TripPage = () => {
   const [selectedTrip, selectTrip] = useState(null)
-  const [names, setNames] = useState(null); 
   const { tripId } = useParams();
 
   const getTrip = async () => {
@@ -45,6 +45,14 @@ const TripPage = () => {
 
   // Convert nameToEmail object into arrays of names and phone numbers
   //const names = selectedTrip.groupMembers.map((user) => user.name);
+
+  // const names = [];
+  // if (selectedTrip !== null) {
+  //   for (const user of selectedTrip.groupMembers) {
+  //     const dbUser = auth.getUser(user);
+  //     names.push(dbUser.getDisplayName());
+  //   }
+  // }
   //const phoneNumbers = nameToPhoneNumberEntries.map(([, phoneNumber]) => phoneNumber);
 
   return (
@@ -69,8 +77,8 @@ const TripPage = () => {
           <div style={{ display: 'flex', marginLeft: '30%', marginTop: "28px"}}>
             {/* List of names */}
             <div style={{ marginRight: '20px' }}>
-              <h4>UID's</h4>
-              {selectedTrip.groupMembers.map((name, index) => ( <p key={index}>{name}</p> ))}
+              <h4>Names</h4>
+              {selectedTrip.name.map((name, index) => ( <p key={index}>{name}</p> ))}
             </div>
 
             {/* List of phone numbers */}

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
@@ -86,9 +86,10 @@ const BookRide = () => {
     console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
 
     const getGroup = async () => {
+      const name = auth.currentUser.displayName;
       try{
         const uid = auth.currentUser.uid;
-        const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/algo/allow-cors?database=${db}&dateTime=${iso8601String}&location=${selectedPickupLocation}&uid=${uid}`;
+        const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/algo/allow-cors?database=${db}&dateTime=${iso8601String}&location=${selectedPickupLocation}&uid=${uid}&name=${name}`;
 
         const response = await fetch(cloudFunctionURL, {
           method: 'GET',
@@ -111,22 +112,22 @@ const BookRide = () => {
     };
 
   
-    const publishData = async () => {
-      try {
-        const docRef = await addDoc(collection(db, "trips"), {
-          userId : auth.currentUser.uid,
-          dateTime: iso8601String,
-          pickupLocation: selectedPickupLocation,
-          groupSet: false,
-          groupSize: 1,
-          groupMembers: [],
+    // const publishData = async () => {
+    //   try {
+    //     const docRef = await addDoc(collection(db, "trips"), {
+    //       userId : auth.currentUser.uid,
+    //       dateTime: iso8601String,
+    //       pickupLocation: selectedPickupLocation,
+    //       groupSet: false,
+    //       groupSize: 1,
+    //       groupMembers: [],
 
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    };
+    //     });
+    //     console.log("Document written with ID: ", docRef.id);
+    //   } catch (e) {
+    //     console.error("Error adding document: ", e);
+    //   }
+    // };
 
 
     getGroup();
