@@ -97,13 +97,8 @@ function convertISOToTimeString(isoDateString) {
                       <div className="trip-info">
                         <p>{`${trip.pickupLocation} -> LAX`}</p>
                         <br></br>
-<<<<<<< HEAD
-                        <p>{`date | ${[trip.dateTime.substr(0,10)].reverse()}`}</p>
-                        <p>{`time | ${trip.dateTime.substr(11, 5)}`}</p>
-=======
                         <p>{`date | ${convertISOToDateString(trip.dateTime)}`}</p>
                         <p>{`time | ${convertISOToTimeString(trip.dateTime)}`}</p>
->>>>>>> main
                       </div>
                       <div className="status">
                         <p>status: </p>
