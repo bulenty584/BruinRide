@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;800&family=Rubik&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
+.navbar{
+  z-index: 100;
+}
+
 body {
   align-self: center;
   display: block;
@@ -11,6 +15,7 @@ body {
   font-family: 'Outfit', 'Rubik';
   color: #FFFFFF;
   background-color: #0E7482;
+  z-index: 10;
 }
 
 .background-circles {

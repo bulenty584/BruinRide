@@ -1,0 +1,69 @@
+.trip-details{
+    border: 3px solid white;
+    border-radius: 10px;
+    margin: 5px;
+    margin-left: 200px;
+    margin-right: 200px;
+    border-radius: 8px;
+    margin-top: 20px;
+    background: linear-gradient(to bottom, #8D8DDA , rgba(141, 141, 218, 0));
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 40%;
+    text-align: center;
+    height: 262px;
+    margin-bottom: -20px;
+}
+
+.left {
+    flex: 3.5;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.right {
+    flex: 6.5;
+    padding: 10px;
+    display: flex;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; 
+}
+
+.right .display-text{
+    line-height: 150%;
+}
+
+.phone{
+    width: auto; 
+    height: 130px;
+    padding-top: 20px;
+}
+
+.name-phone-list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.names, .phones {
+    flex: 1;
+}
+
+.names p, .phones p {
+    margin: 5px 0;
+    line-height: 130%;
+    color: #C6FBB9;
+    font-weight: 500;
+}
+
+.vertical-line {
+    border-left: 3px solid #D9D9D9; 
+    height: 100%;
+    align-self: stretch;
+}
+
+.goback{
+    font-size: 15px;
+}
+

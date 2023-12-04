@@ -14,7 +14,7 @@ const DateInput = ({ selectedDate, handleDateChange }) => {
     <DatePicker
       selected={selectedDate}
       onChange={handleDateChange}
-      dateFormat="yyyy-MM-dd"
+      dateFormat="MM-dd-yyyy"
       placeholderText="Select date"
     />
   );
@@ -142,7 +142,7 @@ const BookRide = () => {
   return (
     <div className="app">
       <div className="background-circles"></div>
-      <header> <TopBar /> </header>
+      <header className="navbar"> <TopBar /> </header>
       <main className='bookpage'>
       <p className='header'>Plan your next trip to LAX</p>
       <div className='bookform'>

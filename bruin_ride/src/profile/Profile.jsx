@@ -71,9 +71,13 @@ const Profile = () => {
                         <p>{`time | ${trip.dateTime.substr(11, 5)}`}</p>
                       </div>
                       <div className="status">
-                        <p>status:</p>
+                        <p>status: </p>
                         <br></br>
+                        {trip.groupSet ? (
                         <p className="statuslink">assigned</p>
+                        ) : (
+                        <p className="statuslink">unassigned</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -83,7 +87,7 @@ const Profile = () => {
           ) : (
             <p>Loading current trips...</p> // Show a loading message or spinner
           )}
-           <div className="title">
+           <div className="title2">
             <p className='header'>Past Trips</p>
             <img className="plane" src={plane}/>
           </div>
