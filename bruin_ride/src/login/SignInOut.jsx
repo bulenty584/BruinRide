@@ -109,14 +109,15 @@ export default function SignInOut() {
     //ui.start('#firebaseui-auth-container', uiConfig)
 
     const handleLoginProvider = () => {
-      ui.start('#firebaseui-auth-container', uiConfig);        
+      ui.start('#firebaseui-auth-container', uiConfig).then(() => {
+        setUserSign(true);
+        localStorage.setItem('userSign', 'true');
+        console.log("user signed in");   
+      });     
     const handleLoginGoogle = () => {
         // No user is signed in; allows user to sign in
         signInWithPopup(auth, provider)
           .then((result) => {
-            setUserSign(true);
-            localStorage.setItem('userSign', 'true');
-            console.log("user signed in");
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
@@ -130,13 +131,17 @@ export default function SignInOut() {
             const email = error.customData.email;
             // The AuthCredential type that was used.
             const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log("bub");
+            console.log("bubu");
             // ...
           });
         }
     };  
     const handleSignUp = () => {
-      ui.start('#firebaseui-auth-container', uiConfig2);
+        ui.start('#firebaseui-auth-container', uiConfig2).then(() => {
+          setUserSign(true);
+          localStorage.setItem('userSign', 'true');
+          console.log("user signed in");
+        });
       
     }
 
