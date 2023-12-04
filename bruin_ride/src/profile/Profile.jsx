@@ -67,7 +67,7 @@ const Profile = () => {
                       <div className="trip-info">
                         <p>{`${trip.pickupLocation} -> LAX`}</p>
                         <br></br>
-                        <p>{`date | ${trip.dateTime.substr(0,10)}`}</p>
+                        <p>{`date | ${[trip.dateTime.substr(0,10)].reverse()}`}</p>
                         <p>{`time | ${trip.dateTime.substr(11, 5)}`}</p>
                       </div>
                       <div className="status">

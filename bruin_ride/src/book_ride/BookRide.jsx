@@ -14,7 +14,7 @@ const DateInput = ({ selectedDate, handleDateChange }) => {
     <DatePicker
       selected={selectedDate}
       onChange={handleDateChange}
-      dateFormat="yyyy-MM-dd"
+      dateFormat="MM/dd/yyyy"
       placeholderText="Select date"
     />
   );

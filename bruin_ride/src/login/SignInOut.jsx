@@ -58,7 +58,7 @@ let db, auth;
         credentialHelper: firebaseui.auth.CredentialHelper.NONE,
         signInOptions: [
           // Email / Password Provider.
-          GoogleAuthProvider.PROVIDER_ID        ],
+          GoogleAuthProvider.PROVIDER_ID],
         callbacks: {
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
             alert(authResult);
@@ -71,7 +71,11 @@ let db, auth;
       const uiConfig2 = {
         credentialHelper: firebaseui.auth.CredentialHelper.NONE,
         signInOptions: [
-          EmailAuthProvider.PROVIDER_ID,
+          {
+          provider: EmailAuthProvider.PROVIDER_ID,
+          requireDisplayName: true,
+
+          },
 
         ],
         callbacks: {
