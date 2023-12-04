@@ -11,6 +11,8 @@ function MainPage() {
     e.preventDefault();
   }
 
+  const user = localStorage.getItem('userSign');
+
   return(
     <div className="App">
         <header className="background-circles"></header>
@@ -30,14 +32,26 @@ function MainPage() {
           <img src={image}/>
           </div>
         </div>
-        <div className="get-started">
-          <p className="header2">Plan Your Next <br></br>Airport Ride Now</p>
-          <NavLink to='/signIn' className="nav-link">
-          <button class="startbutton" onSubmit={(handleSubmit)}>
-            GET STARTED
-          </button>
-          </NavLink>
-        </div>
+        
+          {user ? (
+             <div className="get-started">
+              <p className="header2">View Your <br></br>Upcoming Trips</p>
+                <NavLink to='/profile' className="nav-link">
+                <button class="startbutton" onSubmit={(handleSubmit)}>
+                  MY RIDES
+                </button>
+                </NavLink>
+            </div>
+          ) : (
+            <div className="get-started">
+              <p className="header2">Plan Your Next <br></br>Airport Ride Now</p>
+              <NavLink to='/signIn' className="nav-link">
+              <button class="startbutton" onSubmit={(handleSubmit)}>
+                GET STARTED
+              </button>
+              </NavLink>
+            </div>
+          )}
       </main>
     </div>
 )};
