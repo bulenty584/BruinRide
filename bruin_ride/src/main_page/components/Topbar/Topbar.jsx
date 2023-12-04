@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './Topbar.css';
 import { NavLink } from 'react-router-dom';
 
+/* onClick={() => handleLogout()} */
+
 const TopBar = () => {
   
-  const user = localStorage.getItem('userSign') === 'true';
-  /* change link for sign up item */
+ const user=localStorage.getItem('userSign'); 
+
   if(user){
     return(
       <header className='navHeader'>
@@ -34,14 +36,18 @@ const TopBar = () => {
                   profile
                 </NavLink>
               </li>
-              <li className="nav-item-2">
-              <NavLink to='/signIn' className="nav-link">
-                log out
-              </NavLink>
-            </li>
+             
             </ul>
           </div>
-          
+          <div className="logout">
+            <ul className="nav-links">
+              <li className="nav-item-2" >
+                <NavLink to='/mainPage' className="nav-link" >
+                  log out
+                </NavLink>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
       </header>

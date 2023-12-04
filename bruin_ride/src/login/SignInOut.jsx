@@ -4,7 +4,7 @@ import '../MainPage.css';
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import { initializeApp } from 'firebase/app';
 import { useState, useEffect } from 'react';
-import TopBar from '../main_page/components/Topbar/Topbar';
+import TopBar from '../main_page/components/Topbar/Topbar.jsx';
 
 // Add the Firebase products and methods that you want to use
 import {

@@ -106,7 +106,7 @@ nav .nav-bar .logoo a{
     white-space: nowrap;
 }
 
-.nav-bar .signin-up .nav-links .nav-item-2{
+.nav-item-2{
     border: 2px solid #C6FBB9;
     border-radius: 30px;
     display: inline-block;
@@ -141,6 +141,14 @@ nav .nav-bar .logoo a{
 }
 
 .signin-up .nav-links li:hover a::before{
+    opacity: 0;
+}
+
+.logout .nav-links li a:hover{
+    color: black;
+}
+
+.logout .nav-links li:hover a::before{
     opacity: 0;
 }
 
