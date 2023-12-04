@@ -124,7 +124,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   // Modify the document data as needed
   tripData.groupMembers.push(uid);
   tripData.name.push(name)
-  const groupIsSet = tripData.groupMembers.length === 4;
+  const groupIsSet = tripData.groupMembers.length === 3;
 
   try {
     await updateDoc(tripDocRef, {

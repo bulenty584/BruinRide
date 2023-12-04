@@ -47,6 +47,36 @@ const Profile = () => {
       });
   }, []); // Empty dependency array means this runs once on mount
 
+// Function to convert ISO 8601 to date (MM/DD/YYYY)
+function convertISOToDateString(isoDateString) {
+  const date = new Date(isoDateString);
+
+  // Extracting individual components
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+  const day = String(date.getDate()).padStart(2, '0');
+
+  // Creating the MM/DD/YYYY format
+  const mmddyyyy = `${month}/${day}/${year}`;
+
+  return mmddyyyy;
+}
+
+// Function to convert ISO 8601 to time (HH:MM:SS)
+function convertISOToTimeString(isoDateString) {
+  const date = new Date(isoDateString);
+
+  // Extracting individual components
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  // Creating the HH:MM:SS format
+  const hhmmss = `${hours}:${minutes}:${seconds}`;
+
+  return hhmmss;
+}
+
   return (
     <>
     <div className="app">
@@ -67,13 +97,22 @@ const Profile = () => {
                       <div className="trip-info">
                         <p>{`${trip.pickupLocation} -> LAX`}</p>
                         <br></br>
+<<<<<<< HEAD
                         <p>{`date | ${[trip.dateTime.substr(0,10)].reverse()}`}</p>
                         <p>{`time | ${trip.dateTime.substr(11, 5)}`}</p>
+=======
+                        <p>{`date | ${convertISOToDateString(trip.dateTime)}`}</p>
+                        <p>{`time | ${convertISOToTimeString(trip.dateTime)}`}</p>
+>>>>>>> main
                       </div>
                       <div className="status">
-                        <p>status:</p>
+                        <p>status: </p>
                         <br></br>
+                        {trip.groupSet ? (
                         <p className="statuslink">assigned</p>
+                        ) : (
+                        <p className="statuslink">unassigned</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -83,7 +122,7 @@ const Profile = () => {
           ) : (
             <p>Loading current trips...</p> // Show a loading message or spinner
           )}
-           <div className="title">
+           <div className="title2">
             <p className='header'>Past Trips</p>
             <img className="plane" src={plane}/>
           </div>
@@ -96,8 +135,8 @@ const Profile = () => {
                       <div className="trip-info">
                         <p>{`${trip.pickupLocation} -> LAX`}</p>
                         <br></br>
-                        <p>{`date | ${trip.dateTime.substr(0,10)}`}</p>
-                        <p>{`time | ${trip.dateTime.substr(11, 5)}`}</p>
+                        <p>{`date | ${convertISOToDateString(trip.dateTime)}`}</p>
+                        <p>{`time | ${convertISOToTimeString(trip.dateTime)}`}</p>
                       </div>
                       <div className="status">
                         <p>status:</p>
