@@ -144,31 +144,92 @@ export default function SignInOut() {
           console.error("Error signing out: ", error);
         });
     }
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
+      const handlePhoneNumberSubmit = async (event) => {
+        event.preventDefault();
+      
+        try {
+          const phoneNumber = event.target.phoneNumber.value;
+      
+          if (!phoneNumber) {
+            console.error('Please enter a valid phone number');
+            return;
+          }
+      
+          const uid = auth.currentUser.uid;
+          const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/updatePhoneNumber/allow-cors?uid=${uid}&phoneNumber=${phoneNumber}`;
+      
+          const response = await fetch(cloudFunctionURL, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+      
+          if (response.ok) {
+            console.log('Phone number updated successfully');
+            setIsSubmitted(true);
+          } else {
+            console.error('Failed to update phone number');
+          }
+        } catch (error) {
+          console.error('Error submitting phone number:', error);
+        }      
+    }
     
   
-  if(isLoggedIn()){
-    return (
-      <body>
+    if (isLoggedIn()) {
+      return (
+        <body>
           <div className="background-circles"></div>
           <TopBar />
           <div id="signinout">
-              <div id="event-details-container">
-                  <div className='buttons'>
-                      <div className='description'>
-                          <h1 className="welcome-message">Welcome to Bruin Ride</h1>
-                          <div className='desc'>
-                              You are logged in. Ready to find your next ride?
-                          </div>
-                      </div>
-                      <button id="logoutButton" onClick={() => handleLogout()}>
-                          <div className='bxicon'>Logout</div>
-                      </button>
+            <div id="event-details-container">
+              <div className='buttons'>
+                <div className='description'>
+                  <h1 className="welcome-message">Welcome to Bruin Ride</h1>
+                  <div className='desc'>
+                    You are logged in. Ready to find your next ride?
                   </div>
+                </div>
+  
+                {/* Phone number input form */}
+                {!isSubmitted ? (
+                <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
+
+                    <div className="phone-input-container">
+                      <div className='desc'>
+                      Please enter your phone number below (no special characters or spaces) and proceed to book your next ride!
+                      </div>
+                      <div className="phone-form">
+                        <input
+                          type="tel"
+                          id="phoneNumber"
+                          name="phoneNumber"
+                          pattern="[0-9]*"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="button-container">
+                      <button type="submit" className="submit-button">Submit</button>
+                    </div>
+                  </form>
+                ) : null}
+  
+                <button id="logoutButton" onClick={() => handleLogout()}>
+                  <div className='bxicon'>Logout</div>
+                </button>
               </div>
+            </div>
           </div>
-      </body>
-  );
-  } else {
+        </body>
+      );
+    }  
+    
+    
+    else {
   return (
     <body>
     <>
