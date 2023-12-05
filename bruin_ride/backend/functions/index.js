@@ -153,6 +153,72 @@ exports.returnConfig = functions.https.onRequest(async (request, response) => {
   return firebaseConfig;
 });
 
+exports.updatePhoneNumber = functions.https.onRequest(async (request, response) => {
+  response.setHeader('Access-Control-Allow-Origin', '*');
+  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  response.setHeader('Access-Control-Allow-Credentials', true); // If needed
+
+  try {
+    const uid = request.query.uid;
+    const phoneNumber = request.query.phoneNumber;
+
+    if (!uid || !phoneNumber) {
+      response.status(400).json({ error: 'Invalid request data' });
+      return;
+    }
+
+    const q = query(
+      collection(db, "phoneNumbers"),
+      where("uid", "==", uid)
+    );
+
+    const phoneRef = collection(db, "phoneNumbers");
+
+    let querySnapshot = null;
+
+    try {
+      querySnapshot = await getDocs(q);
+    } catch (e) {
+      console.log('Error getting documents: ', e);
+      response.status(500).send(JSON.stringify({ message: 'Error getting documents: ' + e }));
+      return;
+    }
+
+    if (querySnapshot === null) {
+      console.log('Error getting documents');
+      response.status(500).send(JSON.stringify({ message: 'Error getting documents' }));
+      return;
+    }
+    let phone;
+    let found = false;
+    querySnapshot.forEach((doc) => {
+      if (doc.data().uid === uid) {
+        found = true;
+        phone = doc.data().phoneNumber;
+      }
+    });
+
+    if (!found) {
+      await setDoc(doc(phoneRef, uid), { uid: uid, phoneNumber: phoneNumber });
+      response.status(200).json({ message: 'Phone number updated successfully' });
+      return;
+    }
+
+    if (found){
+      response.send(200).json(phone);
+      return;
+
+    }
+
+
+  } catch (error) {
+    console.error('Error updating phone number:', error);
+    response.status(500).json({ error: 'Internal Server Error' });
+    return;
+  }
+
+});
 
 
 
