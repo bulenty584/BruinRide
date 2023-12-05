@@ -3,8 +3,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export const AuthContext = createContext();
 
-localStorage.setItem("TripAdded", "false");
 localStorage.setItem("userSign", "false");
+localStorage.setItem("TripAdded", "false");
 
 export const AuthProvider = ({ children }) => {
   const [change, setChange] = useState(false);
