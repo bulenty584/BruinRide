@@ -6,6 +6,7 @@ import './bookride.css';
 import {db, auth} from "../login/SignInOut"
 import {addDoc, collection } from 'firebase/firestore';
 import map from '../images/map.svg'
+import {NavLink } from 'react-router-dom';
 
 /* change photo of the map with actual map api */
 
@@ -16,6 +17,7 @@ const DateInput = ({ selectedDate, handleDateChange }) => {
       onChange={handleDateChange}
       dateFormat="MM-dd-yyyy"
       placeholderText="Select date"
+      className="custom-input"
     />
   );
 };
@@ -30,7 +32,7 @@ const TimeInput = ({ selectedTime, handleTimeChange }) => {
   }
 
   return (
-    <select value={selectedTime} onChange={handleTimeChange}>
+    <select className="custom-input" value={selectedTime} onChange={handleTimeChange}>
       <option value="" disabled>
         Select time
       </option>
@@ -47,7 +49,7 @@ const PickupSpotInput = ({ selectedPickupSpot, handlePickupSpotChange }) => {
   const pickupSpots = ['De Neve', 'Rieber Terrace', 'Carnesale Commons', 'Holly/Gayley'];
 
   return (
-    <select value={selectedPickupSpot} onChange={handlePickupSpotChange}>
+    <select className="custom-input" value={selectedPickupSpot} onChange={handlePickupSpotChange}>
       <option value="" disabled>
         Choose pickup location
       </option>
@@ -166,7 +168,9 @@ const BookRide = () => {
             />
           </label>
           <br />
-          <button className="submit-button" type="submit" onClick={(handleSubmit)}>SUBMIT</button>
+          <NavLink to='/profile' className="nav-link">
+            <button className="submit-button" type="submit" onSubmit={(handleSubmit)}>SUBMIT</button>
+          </NavLink>
         </form>
     </div>
       </div>

@@ -1,14 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import './Topbar.css';
 import { NavLink } from 'react-router-dom';
+import {db, auth } from "../../../login/SignInOut"
+import { signOut } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 /* onClick={() => handleLogout()} */
 
 const TopBar = () => {
+  const [userSign, setUserSign] = useState(true);
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        setUserSign(false);
+        console.log("user signed out");
+        localStorage.setItem('userSign', 'false');
+      })
+      .catch((error) => {
+        // An error happened.
+        console.error("Error signing out: ", error);
+      });
+  }
   
  const user=localStorage.getItem('userSign'); 
 
-  if(user){
+  if(userSign){
     return(
       <header className='navHeader'>
       <nav>
