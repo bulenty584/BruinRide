@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
 .navbar{
-  z-index: 100;
+  z-index: 5;
 }
 
 body {
@@ -15,11 +15,11 @@ body {
   font-family: 'Outfit', 'Rubik';
   color: #FFFFFF;
   background-color: #0E7482;
-  z-index: 10;
+  z-index: 1;
 }
 
 .background-circles {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -57,28 +57,34 @@ body {
     max-width: 600px;
     margin: 20px auto 50px; /* Adjusted margin to provide space below the booking container */
     background-color: rgba(255, 0, 0, 0);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 50px rgba(198, 251, 185, 0.4);
     padding: 10px;
     border-radius: 10px;
     margin-top: 50px;
     flex: 1;
   }
+  
+  .booking-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 90%; /* Set the maximum width of the form container */
+    margin: 0 auto; /* Center the form horizontally */
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
 
   /* Style form labels */
   .box {
-    display: block;
     width: 100%; /* Set labels to 100% width */
     padding-left: 16px;
     padding-right: 16px;
-   
-  }
-
-  select {
-    width: calc(100% - 16px); /* Adjust width for select element to match input */
+    margin-bottom: -8px;
   }
 
   /* Style form inputs */
-  input, select {
+  .box input, .box select {
     color: #878787;
     font-family: 'Rubik', sans-serif;
     background-color: rgba(255, 255, 255, 0.8); /* White color with 80% opacity */
@@ -86,13 +92,22 @@ body {
     border: 1px solid #ccc; 
     border-radius: 16px;
     font-size: 18px;
-    width: calc(100% - 32px); /* Adjust the width to account for padding */
+    width: 100%; /* Adjust the width to account for padding */
     box-sizing: border-box;
     border-radius: 16px;
     font-size: 18px;
     margin-bottom: 10px; /* Adjust margin as needed */
+    margin: 0 auto;
+    align-self: center;
   }
-  
+
+  .box input{
+    width: 340px;
+    margin: 0 auto;
+    height: 40px;
+    color: #878787;
+  }
+
   /* Style the submit button */
   button {
     background-color: #8D8DDA;
@@ -104,6 +119,7 @@ body {
     border: none;
     outline: none;
     letter-spacing: 2.5px;
+    margin-top: 0px;
   }
   
   /* Style the submit button on hover */
@@ -117,4 +133,3 @@ body {
     font-size:11px;
     font-weight: 600;
   }
-  

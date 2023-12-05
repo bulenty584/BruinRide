@@ -15,8 +15,8 @@ function MainPage() {
 
   return(
     <div className="App">
-        <header className="background-circles"></header>
-        <TopBar />
+        <div className="background-circles"></div>
+        <header> <TopBar /> </header>
         <main className='main'>  
         <div class="hero-section">
           <div class="col">

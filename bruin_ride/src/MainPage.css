@@ -6,12 +6,12 @@
     height: 100%;
     background-image: url("/src/images/background_design.png");
     background-size: cover;
-    z-index: -2; 
+    z-index: -1; 
 }
 
 .TopBar{
     position: fixed;
-    z-index: 100;
+    z-index: 5;
 }
 
 .main{
