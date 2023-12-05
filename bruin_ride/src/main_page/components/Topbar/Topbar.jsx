@@ -1,15 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import './Topbar.css';
 import { NavLink } from 'react-router-dom';
+import {db, auth} from '../../../login/SignInOut';
+import { signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { AuthContext } from '../../../context/context';
+import { useContext } from 'react';
 
-/* onClick={() => handleLogout()} */
 
 const TopBar = () => {
-  
- const user=localStorage.getItem('userSign'); 
+  const {login, logout, isLoggedIn} = useContext(AuthContext);
+  console.log(isLoggedIn());
 
-  if(user){
-    return(
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        logout();  // Update context or state to reflect logout
+        console.log("User signed out");
+      })
+      .catch((error) => {
+        console.error("Error signing out: ", error);
+      });
+  };
+
+
+  return (
+    <>
+    {isLoggedIn() ? (
       <header className='navHeader'>
       <nav>
         <div className='nav-bar'>
@@ -42,8 +59,8 @@ const TopBar = () => {
           <div className="logout">
             <ul className="nav-links">
               <li className="nav-item-2" >
-                <NavLink to='/mainPage' className="nav-link" >
-                  log out
+                <NavLink to='/mainPage' className="nav-link">
+                  <button className="logout-button" onClick={handleLogout}>log out</button>
                 </NavLink>
               </li>
             </ul>
@@ -51,9 +68,7 @@ const TopBar = () => {
         </div>
       </nav>
       </header>
-    );
-  }else {
-  return (
+  ) : (
     <header className='navHeader'>
     <nav>
       <div className='nav-bar'>
@@ -89,8 +104,9 @@ const TopBar = () => {
       </div>
     </nav>
     </header>
+  )}
+  </>
   );
-  }
 };
 
 export default TopBar;

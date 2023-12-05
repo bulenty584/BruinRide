@@ -6,6 +6,8 @@ import './bookride.css';
 import {db, auth} from "../login/SignInOut"
 import {addDoc, collection } from 'firebase/firestore';
 import map from '../images/map.svg'
+import { AuthContext } from "../context/context";
+import { useContext } from 'react';
 
 /* change photo of the map with actual map api */
 
@@ -61,6 +63,7 @@ const PickupSpotInput = ({ selectedPickupSpot, handlePickupSpotChange }) => {
 };
 
 const BookRide = () => {
+  const {TripAdded, isTripAdded} = useContext(AuthContext)
   const [selectedDate, setDate] = useState(null);
   const [selectedTime, setTime] = useState('');
   const [selectedPickupLocation, setPickupLocation] = useState('');
@@ -100,6 +103,8 @@ const BookRide = () => {
 
           if (response.ok){
             const data = await response.json();
+
+            
             console.log(data);
           }
 
@@ -131,6 +136,7 @@ const BookRide = () => {
 
 
     getGroup();
+    TripAdded();
     //publishData();
   
     setDate(null);

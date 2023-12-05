@@ -7,7 +7,7 @@ import SignInOut from './login/SignInOut';
 function App() {
   const [mainPage, SetMainPage] = useState(true);
   const [Login, SetLogin] = useState(false);
-  if(mainPage){
+  /*if(mainPage){
     return ( 
         <MainPage/>
     );
@@ -22,6 +22,7 @@ function App() {
     <></>
     );
   }
+  */
 }
 
 export default App;

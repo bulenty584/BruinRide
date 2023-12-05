@@ -4,7 +4,9 @@ import '../MainPage.css';
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import { initializeApp } from 'firebase/app';
 import { useState, useEffect } from 'react';
-import TopBar from '../main_page/components/Topbar/Topbar.jsx';
+import TopBar from '../main_page/components/Topbar/Topbar';
+import {AuthContext } from '../context/context';
+import { useContext } from 'react';
 
 // Add the Firebase products and methods that you want to use
 import {
@@ -31,37 +33,44 @@ import {
 import * as firebaseui from 'firebaseui';
 
 let db, auth;
+const firebaseConfig = {
+  apiKey: "AIzaSyDnYQ5G59of8KxraVKEPYQ0EXbAS4iP18s",
+  authDomain: "bruinride-41c8c.firebaseapp.com",
+  projectId: "bruinride-41c8c",
+  storageBucket: "bruinride-41c8c.appspot.com",
+  messagingSenderId: "667677751852",
+  appId: "1:667677751852:web:16a4993a6541a5edeb6f89",
+  measurementId: "G-FXNPFB06WZ",
+  databaseURL: "https://bruinride-41c8c-default-rtdb.firebaseio.com/"
+};
+  // Make sure Firebase is initilized
+  try {
+    if (firebaseConfig && firebaseConfig.apiKey) {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+    }
+    auth = getAuth();
+  } catch (e) {
+    console.log('error:', e);
+  }
+
+  var ui = new firebaseui.auth.AuthUI(getAuth());
+  const provider = new GoogleAuthProvider();
+  provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+
+
+export default function SignInOut() {
+  const {login, logout, isLoggedIn} = useContext(AuthContext);
     // Add Firebase project configuration object here
-    const firebaseConfig = {
-      apiKey: "AIzaSyDnYQ5G59of8KxraVKEPYQ0EXbAS4iP18s",
-      authDomain: "bruinride-41c8c.firebaseapp.com",
-      projectId: "bruinride-41c8c",
-      storageBucket: "bruinride-41c8c.appspot.com",
-      messagingSenderId: "667677751852",
-      appId: "1:667677751852:web:16a4993a6541a5edeb6f89",
-      measurementId: "G-FXNPFB06WZ",
-      databaseURL: "https://bruinride-41c8c-default-rtdb.firebaseio.com/"
-    };
-      // Make sure Firebase is initilized
-      try {
-        if (firebaseConfig && firebaseConfig.apiKey) {
-          const app = initializeApp(firebaseConfig);
-          db = getFirestore(app);
-        }
-        auth = getAuth();
-      } catch (e) {
-        console.log('error:', e);
-      }
-    
       // FirebaseUI config
       const uiConfig = {
         credentialHelper: firebaseui.auth.CredentialHelper.NONE,
         signInOptions: [
           // Email / Password Provider.
-          GoogleAuthProvider.PROVIDER_ID],
+          GoogleAuthProvider.PROVIDER_ID        ],
         callbacks: {
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-            alert(authResult);
+            login();
             // Handle sign-in.
             // Return false to avoid redirect.
             return false;
@@ -80,48 +89,28 @@ let db, auth;
         ],
         callbacks: {
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            login();
             // Handle sign-in.
             // Return false to avoid redirect.
             return false;
           }
         }
       };
-      var ui = new firebaseui.auth.AuthUI(getAuth());
-      const provider = new GoogleAuthProvider();
-      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-export default function SignInOut() {
     const [userSign, setUserSign] = useState(false);
     // Listen to RSVP button clicks
-    useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-          if (user) {
-              // User is signed in.
-              setUserSign(true);
-              localStorage.setItem('userSign', 'true');
-          } else {
-              // No user is signed in.
-              localStorage.setItem('userSign', 'false');
-              setUserSign(false);
-          }
-      });
-
-      // Cleanup subscription on unmount
-      return () => unsubscribe();
-  }, []);
 
     //ui.start('#firebaseui-auth-container', uiConfig)
 
     const handleLoginProvider = () => {
-      ui.start('#firebaseui-auth-container', uiConfig).then(() => {
-        setUserSign(true);
-        localStorage.setItem('userSign', 'true');
-        console.log("user signed in");   
-      });     
+      ui.start('#firebaseui-auth-container', uiConfig); 
+    };
     const handleLoginGoogle = () => {
+      // [START auth_google_signin_popup]
         // No user is signed in; allows user to sign in
         signInWithPopup(auth, provider)
           .then((result) => {
+            login()
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
@@ -135,18 +124,12 @@ export default function SignInOut() {
             const email = error.customData.email;
             // The AuthCredential type that was used.
             const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log("bubu");
+            console.log("bub");
             // ...
           });
-        }
-    };  
+        } 
     const handleSignUp = () => {
-        ui.start('#firebaseui-auth-container', uiConfig2).then(() => {
-          setUserSign(true);
-          localStorage.setItem('userSign', 'true');
-          console.log("user signed in");
-        });
-      
+      ui.start('#firebaseui-auth-container', uiConfig2);
     }
 
     const handleLogout = () => {
@@ -154,8 +137,7 @@ export default function SignInOut() {
         .then(() => {
           // Sign-out successful.
           setUserSign(false);
-          console.log("user signed out");
-          localStorage.setItem('userSign', 'false');
+          logout();
         })
         .catch((error) => {
           // An error happened.
@@ -164,7 +146,7 @@ export default function SignInOut() {
     }
     
   
-  if(userSign){
+  if(isLoggedIn()){
     return (
       <body>
           <div className="background-circles"></div>
@@ -223,8 +205,8 @@ export default function SignInOut() {
                 Sign up now to start your journey!
             </div>
           </div>
-          <button id="startRsvp2" onClick={()=>handleLoginProvider()}>
-            <div className='bxicon'>Continue with Provider</div>
+          <button id="startRsvp2" onClick={()=>handleLoginGoogle()}>
+            <div className='bxicon'>Continue with Google</div>
           </button>
           <button id="startRsvp" onClick={()=>handleSignUp()}>
               <div className='bx bx-envelope bx-sm bxicon' ></div>
@@ -238,5 +220,4 @@ export default function SignInOut() {
   );
 }
 }
-
-export {db, auth, uiConfig, uiConfig2, ui, provider}
+export {db, auth, };

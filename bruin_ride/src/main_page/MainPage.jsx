@@ -3,17 +3,26 @@ import React from 'react';
 import image from '../images/homepage.svg'
 import TopBar from './components/Topbar/Topbar';
 import {NavLink } from 'react-router-dom';
+import {auth, db} from '../login/SignInOut';
+import { onAuthStateChanged } from 'firebase/auth';
+import { AuthContext } from '../context/context';
+import { useContext } from 'react';
+
 
 /* if signed in, change text to view ur upcoming trips, and my rides */
 
+
+
 function MainPage() {
+
+  const {login, logout, isLoggedIn} = useContext(AuthContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
   }
 
-  const user = localStorage.getItem('userSign');
-
   return(
+  
     <div className="App">
         <header className="background-circles"></header>
         <TopBar />
@@ -33,7 +42,7 @@ function MainPage() {
           </div>
         </div>
         
-          {user ? (
+          {isLoggedIn() ? (
              <div className="get-started">
               <p className="header2">View Your <br></br>Upcoming Trips</p>
                 <NavLink to='/profile' className="nav-link">

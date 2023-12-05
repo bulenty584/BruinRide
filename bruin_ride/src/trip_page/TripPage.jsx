@@ -39,6 +39,8 @@ const TripPage = () => {
      selectTrip(docSnap.data());
   };
 
+  console.log(selectedTrip);
+
   useEffect(() => {
     getTrip()
       .catch((error) => {
@@ -84,7 +86,7 @@ const TripPage = () => {
                   </div>
                   <div class="vertical-line"></div>
                   <div className="right">
-                    {selectedTrip.groupSet ? (
+                    {selectedTrip.groupSet  ? (
                       <div>
                         {/* HTML to display when status is assigned */}
                         <p className="display-text">Your group has been assigned:</p>
@@ -97,7 +99,6 @@ const TripPage = () => {
                             <p style={{ color: 'white', fontWeight: 600 }}>Phone</p>
                             {/* {phoneNumbers.map((phoneNumber, index) => ( <p key={index}>{phoneNumber}</p> ))} */}
                           </div>
-                          
                         </div>
                       </div>
                     ) : (

@@ -10,11 +10,13 @@ import reportWebVitals from './reportWebVitals';
 import MainPage from './main_page/MainPage';
 import Profile from './profile/Profile';
 import TripPage from './trip_page/TripPage';
+import {AuthProvider} from './context/context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+    <AuthProvider>
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/signIn" element={<SignInOut />} />
@@ -23,6 +25,7 @@ root.render(
       <Route path="/bookride" element={<BookRide />} />
       <Route path="/trip_page/:tripId" element={<TripPage />} />
     </Routes>
+    </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
