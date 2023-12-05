@@ -1,0 +1,12 @@
+.imgs{
+    width: 100%;
+}
+
+.caption{
+    background-color:rgb(55, 109, 167);
+    color: white;
+    border-radius: 40px;
+}
+.carousel{
+    margin-top: 86px;
+}
