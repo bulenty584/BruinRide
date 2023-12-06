@@ -6,6 +6,8 @@ import { auth, db } from '../login/SignInOut';
 import plane from '../images/airplane.svg'
 import {collection, query, getDocs } from 'firebase/firestore';
 import './profile.css';
+import { format, utcToZonedTime } from 'date-fns-tz';
+
 
 /* fine tune gradient, implement status and link to trip page */
 
@@ -29,7 +31,7 @@ const Profile = () => {
     color: 'inherit', // Inherit the color from the parent
     textDecoration: 'none', // Remove underline
   };
-
+  const { utcToZonedTime, format } = require('date-fns-tz');
   const [currentTrips, setCurrentTrips] = useState([]);
   const [pastTrips, setPastTrips] = useState([]);
 
@@ -63,17 +65,13 @@ function convertISOToDateString(isoDateString) {
 }
 
 // Function to convert ISO 8601 to time (HH:MM:SS)
-function convertISOToTimeString(isoDateString) {
-  const date = new Date(isoDateString);
+function convertISOToTimeString(utcISOString) {
+  const utcDate = new Date(utcISOString);
 
-  // Extracting individual components
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
+  // Convert UTC date to PST
+  const pstTimeString = format(utcDate, 'HH:mm', { timeZone: 'America/Los_Angeles' });
 
-  // Creating the HH:MM:SS format
-  const hhmmss = `${hours}:${minutes}`;
-
-  return hhmmss;
+  return pstTimeString;
 }
 
   return (

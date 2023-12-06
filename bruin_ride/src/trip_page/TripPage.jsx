@@ -1,4 +1,3 @@
-// TripPage.js
 import './TripPage.css'
 import '../MainPage.css';
 import React from 'react';
@@ -10,11 +9,39 @@ import TopBar from '../main_page/components/Topbar/Topbar';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import phone from '../images/phone.svg'
 import plane from '../images/airplane.svg'
-
+import { format, utcToZonedTime } from 'date-fns-tz';
 
 const TripPage = () => {
   const [selectedTrip, selectTrip] = useState(null)
   const { tripId } = useParams();
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [groupMembers, setGroupMembers] = useState([]);
+
+  // Function to convert ISO 8601 to date (MM/DD/YYYY)
+function convertISOToDateString(isoDateString) {
+  const date = new Date(isoDateString);
+
+  // Extracting individual components
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+  const day = String(date.getDate()).padStart(2, '0');
+
+  // Creating the MM/DD/YYYY format
+  const mmddyyyy = `${month}/${day}/${year}`;
+
+  return mmddyyyy;
+}
+
+// Function to convert ISO 8601 to time (HH:MM:SS)
+function convertISOToTimeString(utcISOString) {
+  const utcDate = new Date(utcISOString);
+
+  // Convert UTC date to PST
+  const pstTimeString = format(utcDate, 'HH:mm', { timeZone: 'America/Los_Angeles' });
+
+  return pstTimeString;
+}
+
 
   const getTrip = async () => {
     // const collectionRef = collection(db, 'trips');
@@ -39,13 +66,40 @@ const TripPage = () => {
      selectTrip(docSnap.data());
   };
 
+
+const getGroupMembers = async (tripId) => {
+  try {
+    const trip = await getTrip(tripId);
+
+    if (trip && trip.groupMembers) {
+      return trip.groupMembers;
+    } else {
+      console.warn('No group members found for the current trip.');
+      return [];
+    }
+  } catch (error) {
+    console.error('Error fetching group members:', error.message);
+    throw error;
+  }
+};
   console.log(selectedTrip);
 
   useEffect(() => {
-    getTrip()
-      .catch((error) => {
-        console.error(error);
-      });
+    const fetchTripAndGroupMembers = async () => {
+      try {
+        const tripData = await getTrip();
+        if (tripData) {
+          selectTrip(tripData);
+          setGroupMembers(await getGroupMembers(tripData.id));
+        }
+      } catch (error) {
+        // Handle error appropriately, e.g., display an error message to the user
+      }
+    };
+
+    fetchTripAndGroupMembers();
+    console.log(selectedTrip);
+    console.log(groupMembers);
   }, []); // Empty dependency array means this runs once on mount
 
   // Convert nameToEmail object into arrays of names and phone numbers
@@ -80,7 +134,7 @@ const TripPage = () => {
                     <div className="trip-info">
                           <p>{`${selectedTrip.pickupLocation} -> LAX`}</p>
                           <br></br>
-                          <p>{`${selectedTrip.dateTime.substr(0,10)}, ${selectedTrip.dateTime.substr(11, 5)}`}</p>
+                          <p>{`${convertISOToDateString(selectedTrip.dateTime)}, ${convertISOToTimeString(selectedTrip.dateTime)}`}</p>
                     </div>
                     <div> <img className="phone" src={phone}/> </div>
                   </div>
