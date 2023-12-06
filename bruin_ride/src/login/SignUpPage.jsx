@@ -25,7 +25,7 @@ const SignUpPage = () => {
 
     event.preventDefault();
 
-    const username = event.target.username.value;
+    const username = event.target.email.value;
     const password = event.target.password.value;
     const name = event.target.name.value;
     try{
@@ -178,14 +178,14 @@ const SignUpPage = () => {
       <form onSubmit={(event) => signUp(event)}>
         <div className="sign-in-input">
           <div className='desc'>
-          Please choose a username and password
+          Please choose an email and password
           </div>
-          <div className="username">
+          <div className="email">
                   <input
-                  type="username"
-                  id="username"
-                  name="username"
-                  placeholder='Username'
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder='Email'
                   required
                   onInput={null}
                 />

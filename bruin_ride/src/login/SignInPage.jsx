@@ -73,7 +73,7 @@ const SignInPage = () => {
 
     event.preventDefault();
 
-    const username = event.target.username.value;
+    const username = event.target.email.value;
     const password = event.target.password.value;
     try{
         signInWithEmailAndPassword(auth, username, password).then((userCredential) => {
@@ -109,41 +109,6 @@ const SignInPage = () => {
     return !querySnapshot.empty;
   }
 
-  const handleLoginGoogle = () => {
-    // [START auth_google_signin_popup]
-      // No user is signed in; allows user to sign in
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          login();
-          const existingUser = isUserPresent().then(
-            (result) => {
-              console.log(result);
-              if (!result) {
-                setIsSubmitted(false);
-              }
-              else if (result) {
-                setIsSubmitted(true);
-              } 
-            }
-          );
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          const user = result.user;
-
-        }).catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = GoogleAuthProvider.credentialFromError(error);
-          
-          // ...
-        });
-      } 
-
   return (
     <div className="sign-up-page">
       <TopBar />
@@ -152,14 +117,14 @@ const SignInPage = () => {
       <form onSubmit={(event) => signUp(event)}>
         <div className="sign-in-input">
           <div className='desc'>
-          Please enter a username and password
+          Please enter an email and a password
           </div>
-          <div className="username">
+          <div className="email">
                   <input
-                  type="username"
-                  id="username"
-                  name="username"
-                  placeholder='Username'
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder='Email'
                   required
                   onInput={null}
                 />
@@ -177,11 +142,10 @@ const SignInPage = () => {
         </div>
         <div className="button-container">
           <button type="submit" className="submit-button">Submit</button>
-          <button type="button" className="google-button" onClick={handleLoginGoogle}>Continue with Google</button>
         </div>
       </form>
       <div>
-      <button type="submit" className="submit-button" onClick={handleLoginGoogle}>Sign in with Google</button>
+      <button type="submit" className="submit-button" onClick={handleLoginGoogle}> Continue with Google</button>
       </div>
       </body>
   ) : (
