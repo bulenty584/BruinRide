@@ -9,7 +9,7 @@ import { useContext } from 'react';
 
 
 const TopBar = () => {
-  const {login, logout, isLoggedIn} = useContext(AuthContext);
+  const { logout, isLoggedIn} = useContext(AuthContext);
 
   const handleLogout = () => {
     signOut(auth)
