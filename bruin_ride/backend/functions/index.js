@@ -127,10 +127,10 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   const q = query(
     collection(db, "trips"),
     where("dateTime", "==", dateTime),
-    where("pickupLocation", "==", pickupLocation),
-    where("groupSize", "<", 4)
+    where("pickupLocation", "==", pickupLocation)
   );
-  
+
+
   let querySnapshot = null;
   try {
     querySnapshot = await getDocs(q);
@@ -151,7 +151,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   let possibleTrips = [];
   // Filter out trips that already have the user in them
   querySnapshot.forEach((doc) => {
-    if (!doc.data().groupMembers.includes(uid)) {
+    if (!doc.data().groupMembers.includes(uid) && doc.data().groupSize < 4) {
       possibleTrips.push(doc);
     }
     else if(doc.data().groupMembers.includes(uid)){

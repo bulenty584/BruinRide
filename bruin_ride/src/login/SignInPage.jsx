@@ -2,14 +2,34 @@ import {SignInOut} from './SignInOut';
 import { useContext } from 'react';
 import {AuthContext} from '../context/context';
 import {db, auth} from './SignInOut';
-import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {signInWithEmailAndPassword} from 'firebase/auth';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { NavLink } from 'react-router-dom';
 import './SignUpPage.css'
+import { GoogleAuthProvider } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import * as firebaseui from 'firebaseui';
 
-const SignUpPage = () => {
+const SignInPage = () => {
 
   const {login, logout, isLoggedIn} = useContext(AuthContext);
+
+  // Add Firebase project configuration object here
+  // FirebaseUI config
+  const uiConfig = {
+    credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+    signInOptions: [
+      // Email / Password Provider.
+      GoogleAuthProvider.PROVIDER_ID],
+    callbacks: {
+      signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+        login();
+        // Handle sign-in.
+        // Return false to avoid redirect.
+        return false;
+      }
+    }
+  };
 
   const signUp = (event) => {
 
@@ -18,7 +38,7 @@ const SignUpPage = () => {
     const username = event.target.username.value;
     const password = event.target.password.value;
     try{
-      createUserWithEmailAndPassword(auth, username, password).then((userCredential) => {
+        signInWithEmailAndPassword(auth, username, password).then((userCredential) => {
         // Signed in
         const user = userCredential.user;
       })
@@ -44,7 +64,7 @@ const SignUpPage = () => {
       <form onSubmit={(event) => signUp(event)}>
         <div className="sign-in-input">
           <div className='desc'>
-          Please choose a username and password
+          Please Enter a username and password
           </div>
           <div className="username">
                   <input
@@ -88,4 +108,4 @@ const SignUpPage = () => {
   </div>
 )};
 
-export default SignUpPage;
+export default SignInPage;

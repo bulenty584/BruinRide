@@ -87,7 +87,7 @@ const TopBar = () => {
         <div className="signin-up">
           <ul className="nav-links">
             <li className="nav-item-2">
-              <NavLink to='/signIn' className="nav-link">
+              <NavLink to='/login' className="nav-link">
                 log in
               </NavLink>
             </li>

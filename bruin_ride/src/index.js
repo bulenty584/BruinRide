@@ -10,6 +10,7 @@ import MainPage from './main_page/MainPage';
 import Profile from './profile/Profile';
 import TripPage from './trip_page/TripPage';
 import SignUpPage from './login/SignUpPage';
+import SignInPage from './login/SignInPage';
 import {AuthProvider} from './context/context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -25,6 +26,7 @@ root.render(
       <Route path="/bookride" element={<BookRide />} />
       <Route path="/trip_page/:tripId" element={<TripPage />} />
       <Route path="/signIn" element={<SignUpPage />} />
+      <Route path="/login" element={<SignInPage />} />
     </Routes>
     </AuthProvider>
     </BrowserRouter>

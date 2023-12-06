@@ -98,10 +98,11 @@ const BookRide = () => {
       const name = auth.currentUser.displayName;
       try{
         const uid = auth.currentUser.uid;
+        console.log(uid);
         const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/algo/allow-cors?database=${db}&dateTime=${iso8601String}&location=${selectedPickupLocation}&uid=${uid}&name=${name}`;
 
         const response = await fetch(cloudFunctionURL, {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -123,6 +124,7 @@ const BookRide = () => {
     setDate(null);
     setTime('');
     setPickupLocation('');
+    getGroup();
   }, [selectedDate, selectedTime, selectedPickupLocation]);
 
   useEffect(() => {
