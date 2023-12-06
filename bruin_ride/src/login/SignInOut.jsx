@@ -55,11 +55,24 @@ const firebaseConfig = {
     alert('error:', e);
   }
 
-  var ui = new firebaseui.auth.AuthUI(getAuth());
-  const provider = new GoogleAuthProvider();
+  export const ui = new firebaseui.auth.AuthUI(getAuth());
+  export const provider = new GoogleAuthProvider();
   provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-
+  export const uiConfig = {
+    credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+    signInOptions: [
+      // Email / Password Provider.
+      GoogleAuthProvider.PROVIDER_ID        ],
+    callbacks: {
+      signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+        //login();
+        // Handle sign-in.
+        // Return false to avoid redirect.
+        return false;
+      }
+    }
+  };
 export default function SignInOut() {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -79,20 +92,7 @@ export default function SignInOut() {
   const {login, logout, isLoggedIn} = useContext(AuthContext);
     // Add Firebase project configuration object here
       // FirebaseUI config
-      const uiConfig = {
-        credentialHelper: firebaseui.auth.CredentialHelper.NONE,
-        signInOptions: [
-          // Email / Password Provider.
-          GoogleAuthProvider.PROVIDER_ID        ],
-        callbacks: {
-          signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-            login();
-            // Handle sign-in.
-            // Return false to avoid redirect.
-            return false;
-          }
-        }
-      };
+      
       const uiConfig2 = {
         credentialHelper: firebaseui.auth.CredentialHelper.NONE,
         signInOptions: [
@@ -328,4 +328,4 @@ export default function SignInOut() {
   );
 }
 }
-export {db, auth, };
+export {db, auth, firebaseui};
