@@ -20,6 +20,8 @@ import {
 const SignUpPage = () => {
 
   const {login, logout, isLoggedIn} = useContext(AuthContext);
+  const [signedInWithGoogle, setSignedInWithGoogle] = useState(false);
+
 
   const signUp = (event) => {
 
@@ -74,7 +76,7 @@ const SignUpPage = () => {
             setIsLoading(false);
             return;
           }
-      
+          
           const uid = auth.currentUser.uid;
           const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/updatePhoneNumber/allow-cors?uid=${uid}&phoneNumber=${phoneNumber}`;
       
@@ -139,6 +141,7 @@ const SignUpPage = () => {
   const handleLoginGoogle = () => {
     // [START auth_google_signin_popup]
       // No user is signed in; allows user to sign in
+      setSignedInWithGoogle(true);
       signInWithPopup(auth, provider)
         .then((result) => {
           login();
@@ -210,6 +213,21 @@ const SignUpPage = () => {
                   onInput={null}
                 />
         </div>
+        <div className="phone-input-container">
+            <div className='desc'>
+            </div>
+            <div className="phone-form">
+                    <input
+                    type="tel"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    placeholder='Phone Number'
+                    pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+                    required
+                    onInput={formatPhoneNumber}
+                  />
+            </div>
+          </div>
         </div>
         <div className="button-container">
           <button type="submit" className="submit-button">Submit</button>
@@ -235,7 +253,7 @@ const SignUpPage = () => {
             <div id="event-details-container">
               <div className='buttons'>
                 {/* Phone number input form */}
-                {!isSubmitted ? (
+                {!isSubmitted && signedInWithGoogle ? (
                   <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
 
                     <div className="phone-input-container">
@@ -257,7 +275,6 @@ const SignUpPage = () => {
                       <button type="submit" className="submit-button">Submit</button>
                     </div>
                     </form> 
-                
                     ) : (
                     <div className='desc'>
                         You're logged in! You can now book a ride.

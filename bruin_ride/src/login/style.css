@@ -111,8 +111,6 @@
 }
 
 .desc{
-  margin-top: 15px;
-  margin-bottom: 15px;
   align-self: left;
   justify-self: left;
   justify-content: left;
@@ -123,7 +121,7 @@
 }
 
 .phone-label {
-  margin-top: 15px;
+  margin-top: 5p;
   margin-bottom: 15px;
   align-self: left;
   justify-self: left;
