@@ -36,24 +36,22 @@ body {
 
 .bookform {
   display: flex;
-  margin-left: 200px;
-  margin-right: 200px;
+  margin-left: 100px;
+  margin-right: 100px;
+  flex: 3;
 }
 
-.image {
-  margin-top: 20px;
-  flex: 1; /* Take 50% of the space */
-  /* Optionally, you can add styling for the image container */
-}
-
-.image img {
-  max-width: 100%; /* Ensure the image doesn't exceed its container */
-  height: auto; /* Maintain the aspect ratio */
+.map {
+  margin-top: 0px;
+  flex: 7; 
+  height: 420px;
   padding: 50px;
 }
 
+
 .booking-container {
     justify-self: center;
+    align-self: center;
     max-width: 600px;
     margin: 20px auto 50px; /* Adjusted margin to provide space below the booking container */
     background-color: rgba(255, 0, 0, 0);
@@ -69,7 +67,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: 90%; /* Set the maximum width of the form container */
+    max-width: 100%; /* Set the maximum width of the form container */
     margin: 0 auto; /* Center the form horizontally */
     padding-top: 20px;
     padding-bottom: 10px;
@@ -133,3 +131,5 @@ body {
     font-size:11px;
     font-weight: 600;
   }
+
+
