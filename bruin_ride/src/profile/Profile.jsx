@@ -46,7 +46,7 @@ const Profile = () => {
         setCurrentTrips(upcomingTrips);
       })
       .catch((error) => {
-        console.error(error);
+        alert(error);
       });
   }, []); // Empty dependency array means this runs once on mount
 
