@@ -61,6 +61,7 @@ const SignInPage = () => {
     <div className="sign-up-page">
       <TopBar />
       {!isLoggedIn() ? (
+        <body>
       <form onSubmit={(event) => signUp(event)}>
         <div className="sign-in-input">
           <div className='desc'>
@@ -71,6 +72,7 @@ const SignInPage = () => {
                   type="username"
                   id="username"
                   name="username"
+                  placeholder='Username'
                   required
                   onInput={null}
                 />
@@ -80,6 +82,7 @@ const SignInPage = () => {
                   type="password"
                   id="password"
                   name="password"
+                  placeholder='Password'
                   required
                   onInput={null}
                 />
@@ -89,7 +92,7 @@ const SignInPage = () => {
           <button type="submit" className="submit-button">Submit</button>
         </div>
       </form>
-
+      </body>
   ) : (
     <div className="signed-in-page">
       <TopBar />

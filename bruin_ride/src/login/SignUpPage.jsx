@@ -185,6 +185,7 @@ const SignUpPage = () => {
                   type="username"
                   id="username"
                   name="username"
+                  placeholder='Username'
                   required
                   onInput={null}
                 />
@@ -194,6 +195,7 @@ const SignUpPage = () => {
                   type="password"
                   id="password"
                   name="password"
+                  placeholder='Password'
                   required
                   onInput={null}
                 />
@@ -203,6 +205,7 @@ const SignUpPage = () => {
                   type="name"
                   id="name"
                   name="name"
+                  placeholder='Name'
                   required
                   onInput={null}
                 />
