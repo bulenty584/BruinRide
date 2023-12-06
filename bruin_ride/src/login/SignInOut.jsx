@@ -60,7 +60,22 @@ const firebaseConfig = {
 
 
 export default function SignInOut() {
-  const {login, logout, isLoggedIn, fillPhone, isPhoneFilled, unfillPhone} = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const overlayStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000, // Ensure it's above everything else
+  };
+
+  const {login, logout, isLoggedIn} = useContext(AuthContext);
     // Add Firebase project configuration object here
       // FirebaseUI config
       const uiConfig = {
@@ -134,6 +149,7 @@ export default function SignInOut() {
     }
 
     const handleLogout = () => {
+      setIsLoading(false);
       signOut(auth)
         .then(() => {
           // Sign-out successful.
@@ -144,17 +160,19 @@ export default function SignInOut() {
           // An error happened.
           console.error("Error signing out: ", error);
         });
-    };
+    }
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
       let exists;
       const handlePhoneNumberSubmit = async (event) => {
+        setIsLoading(true);
         event.preventDefault();
-      
         try {
           const phoneNumber = event.target.phoneNumber.value;
       
           if (!phoneNumber) {
             console.error('Please enter a valid phone number');
+            setIsLoading(false);
             return;
           }
       
@@ -170,23 +188,21 @@ export default function SignInOut() {
       
           if (response.ok) {
             console.log('Phone number updated successfully');
-            const data = await response.json();
-
-            if (data._found === true) {
-              fillPhone();
-            }
-            
-            else if (data._found === false) {
-              unfillPhone();
-            }
-            console.log(data);
-
+            setIsSubmitted(true);
+            setIsLoading(false);
           } else {
             console.error('Failed to update phone number');
+            setIsSubmitted(false);
+            setIsLoading(false);
           }
         } catch (error) {
           console.error('Error submitting phone number:', error);
-        }      
+          setIsSubmitted(false);
+          setIsLoading(false);
+        }    
+        finally {
+          setIsLoading(false);
+        }  
     }
       
 
@@ -207,6 +223,11 @@ export default function SignInOut() {
     if (isLoggedIn()) {
       return (
         <body>
+         {isLoading && (
+          <div style={overlayStyle}>
+            <div>Loading...</div>
+          </div>
+          )} 
           <div className="background-circles"></div>
           <TopBar />
           <div id="signinout">
@@ -220,7 +241,7 @@ export default function SignInOut() {
                 </div>
   
                 {/* Phone number input form */}
-                {!isPhoneFilled() ? (
+                {!isSubmitted ? (
                 <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
 
                     <div className="phone-input-container">
