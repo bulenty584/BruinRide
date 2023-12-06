@@ -96,7 +96,7 @@ exports.updatePhoneNumber = functions.https.onRequest(async (request, response) 
     }
 
     if (found){
-      response.send(200).json(phone);
+      response.send(200).json({result: found});
       return;
 
     }
@@ -212,14 +212,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   return;
 });
 
-exports.returnConfig = functions.https.onRequest(async (request, response) => {
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
-  response.setHeader('Access-Control-Allow-Credentials', true); // If needed
-  response.send(firebaseConfig)
-  return firebaseConfig;
-});
+
 
 exports.updatePhoneNumber = functions.https.onRequest(async (request, response) => {
   response.setHeader('Access-Control-Allow-Origin', '*');
@@ -269,12 +262,11 @@ exports.updatePhoneNumber = functions.https.onRequest(async (request, response) 
 
     if (!found) {
       await setDoc(doc(phoneRef, uid), { uid: uid, phoneNumber: phoneNumber });
-      response.status(200).json({ message: 'Phone number updated successfully' });
       return;
     }
 
     if (found){
-      response.send(200).json(phone);
+      response.status(200).json({_found: found});
       return;
 
     }
@@ -333,6 +325,63 @@ exports.login = functions.https.onRequest(async (request, response) => {
     response.status(500).json({ error: 'Internal Server Error' });
   }
   return;
+});
+
+exports.getPhoneNumbers = functions.https.onRequest(async (request, response) => {
+  response.setHeader('Access-Control-Allow-Origin', '*');
+  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+  response.setHeader('Access-Control-Allow-Credentials', true); // If needed
+
+  try {
+    let uids = request.query.uids;
+
+    let uidsArray = uids.split(',');
+
+    if (!uidsArray) {
+      response.status(400).json({ error: 'Invalid request data' });
+      return;
+    }
+
+    console.log(uidsArray);
+
+    let phoneNumbers = [];
+
+    
+
+    const q = query(
+      collection(db, "phoneNumbers"),
+      where("uid", "in", uidsArray)
+    );
+
+
+    const phoneRef = collection(db, "phoneNumbers");
+
+    let querySnapshot = null;
+
+    try {
+      querySnapshot = await getDocs(q);
+    } catch (e) {
+      console.log('Error getting documents: ', e);
+      response.status(500).send(JSON.stringify({ message: 'Error getting documents: ' + e }));
+      return;
+    }
+    
+    querySnapshot.forEach((doc) => {
+      phoneNumbers.push(doc.data().phoneNumber);
+    });
+
+      console.log(phoneNumbers);
+
+      response.status(200).json({ phoneNumbers: phoneNumbers });
+    return;
+
+  } catch (error) {
+    console.error('Error getting phone numbers:', error);
+    response.status(500).json({ error: 'Internal Server Error' });
+    return;
+  }
+
 });
 
 
