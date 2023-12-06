@@ -24,7 +24,7 @@ root.render(
       <Route path="/profile" element={<Profile />} />
       <Route path="/bookride" element={<BookRide />} />
       <Route path="/trip_page/:tripId" element={<TripPage />} />
-      <Route path="/signIn" element={<SignUpPage />} />why do 
+      <Route path="/signIn" element={<SignUpPage />} />
     </Routes>
     </AuthProvider>
     </BrowserRouter>
