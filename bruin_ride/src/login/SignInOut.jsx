@@ -100,7 +100,6 @@ export default function SignInOut() {
     const [userSign, setUserSign] = useState(false);
     // Listen to RSVP button clicks
 
-    //ui.start('#firebaseui-auth-container', uiConfig)
 
     const handleLoginProvider = () => {
       ui.start('#firebaseui-auth-container', uiConfig); 
@@ -187,7 +186,19 @@ export default function SignInOut() {
         }      
     }
     
-  
+    function formatPhoneNumber(event) {
+      let input = event.target.value;
+      input = input.replace(/\D/g, '');
+    
+      if (input.length > 3 && input.length <= 6) {
+        input = `(${input.slice(0, 3)}) ${input.slice(3)}`;
+      } else if (input.length > 6) {
+        input = `(${input.slice(0, 3)}) ${input.slice(3, 6)}-${input.slice(6, 10)}`;
+      }
+    
+      event.target.value = input; 
+    }
+
     if (isLoggedIn()) {
       return (
         <body>
@@ -212,13 +223,14 @@ export default function SignInOut() {
                       Please enter your phone number below (no special characters or spaces) and proceed to book your next ride!
                       </div>
                       <div className="phone-form">
-                        <input
-                          type="tel"
-                          id="phoneNumber"
-                          name="phoneNumber"
-                          pattern="[0-9]*"
-                          required
-                        />
+                              <input
+                              type="tel"
+                              id="phoneNumber"
+                              name="phoneNumber"
+                              pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+                              required
+                              onInput={formatPhoneNumber}
+                            />
                       </div>
                     </div>
                     <div className="button-container">
@@ -236,8 +248,7 @@ export default function SignInOut() {
         </body>
       );
     }  
-    
-    
+        
     else {
   return (
     <body>
