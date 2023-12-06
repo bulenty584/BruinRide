@@ -10,16 +10,14 @@ import { useContext } from 'react';
 
 const TopBar = () => {
   const {login, logout, isLoggedIn} = useContext(AuthContext);
-  console.log(isLoggedIn());
 
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
         logout();  // Update context or state to reflect logout
-        console.log("User signed out");
       })
       .catch((error) => {
-        console.error("Error signing out: ", error);
+        alert("Error signing out: ", error);
       });
   };
 

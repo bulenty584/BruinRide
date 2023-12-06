@@ -51,7 +51,7 @@ const firebaseConfig = {
     }
     auth = getAuth();
   } catch (e) {
-    console.log('error:', e);
+    alert('error:', e);
   }
 
   var ui = new firebaseui.auth.AuthUI(getAuth());
@@ -140,7 +140,7 @@ export default function SignInOut() {
             const email = error.customData.email;
             // The AuthCredential type that was used.
             const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log("bub");
+            
             // ...
           });
         } 
@@ -158,7 +158,7 @@ export default function SignInOut() {
         })
         .catch((error) => {
           // An error happened.
-          console.error("Error signing out: ", error);
+          alert("Error signing out: ", error);
         });
     }
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -171,7 +171,7 @@ export default function SignInOut() {
           const phoneNumber = event.target.phoneNumber.value;
       
           if (!phoneNumber) {
-            console.error('Please enter a valid phone number');
+            alert('Please enter a valid phone number');
             setIsLoading(false);
             return;
           }
@@ -187,16 +187,16 @@ export default function SignInOut() {
           });
       
           if (response.ok) {
-            console.log('Phone number updated successfully');
+            //console.log('Phone number updated successfully');
             setIsSubmitted(true);
             setIsLoading(false);
           } else {
-            console.error('Failed to update phone number');
+            //console.error('Failed to update phone number');
             setIsSubmitted(false);
             setIsLoading(false);
           }
         } catch (error) {
-          console.error('Error submitting phone number:', error);
+          //console.error('Error submitting phone number:', error);
           setIsSubmitted(false);
           setIsLoading(false);
         }    

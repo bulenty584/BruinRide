@@ -70,8 +70,6 @@ function convertISOToTimeString(utcISOString) {
       if (response.ok){
         const data = await response.json();
         setPhoneNumbers(data.phoneNumbers);
-        
-        console.log(data);
       }
 
       if (!response.ok) {
@@ -82,7 +80,7 @@ function convertISOToTimeString(utcISOString) {
   useEffect(() => {
     getTrip()
       .catch((error) => {
-        console.error(error);
+        alert(error);
       });
   }, []);
 
@@ -90,27 +88,10 @@ function convertISOToTimeString(utcISOString) {
     if (selectedTrip !== null) {
       getPhoneNumbers()
         .catch((error) => {
-          console.error(error);
+          alert(error);
         });
     }
   }, [selectedTrip]);
-
-
-  
-  // Empty dependency array means this runs once on mount
-
-  // Convert nameToEmail object into arrays of names and phone numbers
-  //const names = selectedTrip.groupMembers.map((user) => user.name);
-
-  // const names = [];
-  // if (selectedTrip !== null) {
-  //   for (const user of selectedTrip.groupMembers) {
-  //     const dbUser = auth.getUser(user);
-  //     names.push(dbUser.getDisplayName());
-  //   }
-  // }
-  //const phoneNumbers = nameToPhoneNumberEntries.map(([, phoneNumber]) => phoneNumber);
-
   return (
     
     <div className="app">
