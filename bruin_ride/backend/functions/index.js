@@ -128,7 +128,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
     collection(db, "trips"),
     where("dateTime", "==", dateTime),
     where("pickupLocation", "==", pickupLocation),
-    where("groupSet", "==", false)
+    where("groupSize", "<", 4)
   );
   
   let querySnapshot = null;
@@ -151,7 +151,6 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   let possibleTrips = [];
   // Filter out trips that already have the user in them
   querySnapshot.forEach((doc) => {
-    console.log(doc.data());
     if (!doc.data().groupMembers.includes(uid)) {
       possibleTrips.push(doc);
     }
@@ -163,7 +162,6 @@ exports.algo = functions.https.onRequest(async (request, response) => {
     }
   });
 
-  console.log(possibleTrips);
   if(found){
     console.log('User already in trip at this time and location');
     response.send(JSON.stringify({message: 'User already in trip at this time and location'}));

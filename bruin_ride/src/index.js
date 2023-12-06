@@ -9,6 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import MainPage from './main_page/MainPage';
 import Profile from './profile/Profile';
 import TripPage from './trip_page/TripPage';
+import SignUpPage from './login/SignUpPage';
 import {AuthProvider} from './context/context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,11 +19,12 @@ root.render(
     <AuthProvider>
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/signIn" element={<SignInOut />} />
+      {/*<Route path="/signIn" element={<SignInOut />} />*/}
       <Route path="/mainPage" element={<MainPage />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/bookride" element={<BookRide />} />
       <Route path="/trip_page/:tripId" element={<TripPage />} />
+      <Route path="/signIn" element={<SignUpPage />} />why do 
     </Routes>
     </AuthProvider>
     </BrowserRouter>

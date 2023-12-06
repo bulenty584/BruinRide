@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
@@ -108,10 +108,8 @@ const BookRide = () => {
 
           if (response.ok){
             const data = await response.json();
-            TripAdded();
-
-            
-            //console.log(data);
+            console.log(data);
+            isTripAdded(true);
           }
 
           if (!response.ok) {
@@ -121,11 +119,19 @@ const BookRide = () => {
         alert(error);
       }
     };
-    getGroup();  
     setDate(null);
     setTime('');
     setPickupLocation('');
   }, [selectedDate, selectedTime, selectedPickupLocation]);
+
+  useEffect(() => {
+    if(!TripAdded){
+      handleSubmit();
+    }
+    else if (TripAdded){
+      isTripAdded(false);
+    }
+  }, [TripAdded]);
   
 
   return (

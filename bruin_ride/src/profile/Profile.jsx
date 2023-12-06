@@ -75,6 +75,8 @@ function convertISOToTimeString(utcISOString) {
   return pstTimeString;
 }
 
+  console.log(pastTrips)
+
   return (
     <>
     <div className="app">
@@ -119,7 +121,7 @@ function convertISOToTimeString(utcISOString) {
             <p className='header'>Past Trips</p>
             <img className="plane" src={plane}/>
           </div>
-          {pastTrips ? (
+          {pastTrips !== [] ? (
             pastTrips.map((trip) => (
               <div key={trip.id}>
                 <Link to={`/trip_page/${trip.id}`} style={linkStyle}>
@@ -142,7 +144,7 @@ function convertISOToTimeString(utcISOString) {
               </div>
             ))
           ) : (
-            <p>Loading past trips...</p> // Show a loading message or spinner
+            <p>No Past Trips</p> // Show a loading message or spinner
           )}
         </div>
       </main>
