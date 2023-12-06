@@ -101,6 +101,8 @@ export default function SignInOut() {
     // Listen to RSVP button clicks
 
 
+
+
     const handleLoginProvider = () => {
       ui.start('#firebaseui-auth-container', uiConfig); 
     };
@@ -144,6 +146,7 @@ export default function SignInOut() {
         });
     };
 
+      let exists;
       const handlePhoneNumberSubmit = async (event) => {
         event.preventDefault();
       
@@ -185,6 +188,8 @@ export default function SignInOut() {
           console.error('Error submitting phone number:', error);
         }      
     }
+      
+
     
     function formatPhoneNumber(event) {
       let input = event.target.value;
