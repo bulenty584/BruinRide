@@ -3,7 +3,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export const AuthContext = createContext();
 
-localStorage.setItem("userSign", "false");
 localStorage.setItem("TripAdded", "false");
 
 export const AuthProvider = ({ children }) => {
@@ -27,6 +26,20 @@ export const AuthProvider = ({ children }) => {
     setChange(!change); // Trigger re-render
   };
 
+  const fillPhone = () => {
+    localStorage.setItem("phoneFilled", "true");
+    setChange(!change); // Trigger re-render
+  };
+
+  const unfillPhone = () => {
+    localStorage.setItem("phoneFilled", "false");
+    setChange(!change); // Trigger re-render
+  };
+
+  const isPhoneFilled = () => {
+    return localStorage.getItem("phoneFilled") === "true";
+  }
+
   const logout = () => {
     localStorage.setItem("userSign", "false");
     setChange(!change); // Trigger re-render
@@ -46,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, TripAdded, isTripAdded }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, TripAdded, isTripAdded, isPhoneFilled, fillPhone, unfillPhone }}>
       {children}
     </AuthContext.Provider>
   );

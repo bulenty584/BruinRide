@@ -60,7 +60,7 @@ const firebaseConfig = {
 
 
 export default function SignInOut() {
-  const {login, logout, isLoggedIn} = useContext(AuthContext);
+  const {login, logout, isLoggedIn, fillPhone, isPhoneFilled, unfillPhone} = useContext(AuthContext);
     // Add Firebase project configuration object here
       // FirebaseUI config
       const uiConfig = {
@@ -100,7 +100,6 @@ export default function SignInOut() {
     const [userSign, setUserSign] = useState(false);
     // Listen to RSVP button clicks
 
-    //ui.start('#firebaseui-auth-container', uiConfig)
 
     const handleLoginProvider = () => {
       ui.start('#firebaseui-auth-container', uiConfig); 
@@ -143,8 +142,7 @@ export default function SignInOut() {
           // An error happened.
           console.error("Error signing out: ", error);
         });
-    }
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    };
 
       const handlePhoneNumberSubmit = async (event) => {
         event.preventDefault();
@@ -169,7 +167,17 @@ export default function SignInOut() {
       
           if (response.ok) {
             console.log('Phone number updated successfully');
-            setIsSubmitted(true);
+            const data = await response.json();
+
+            if (data._found === true) {
+              fillPhone();
+            }
+            
+            else if (data._found === false) {
+              unfillPhone();
+            }
+            console.log(data);
+
           } else {
             console.error('Failed to update phone number');
           }
@@ -178,7 +186,19 @@ export default function SignInOut() {
         }      
     }
     
-  
+    function formatPhoneNumber(event) {
+      let input = event.target.value;
+      input = input.replace(/\D/g, '');
+    
+      if (input.length > 3 && input.length <= 6) {
+        input = `(${input.slice(0, 3)}) ${input.slice(3)}`;
+      } else if (input.length > 6) {
+        input = `(${input.slice(0, 3)}) ${input.slice(3, 6)}-${input.slice(6, 10)}`;
+      }
+    
+      event.target.value = input; 
+    }
+
     if (isLoggedIn()) {
       return (
         <body>
@@ -195,7 +215,7 @@ export default function SignInOut() {
                 </div>
   
                 {/* Phone number input form */}
-                {!isSubmitted ? (
+                {!isPhoneFilled() ? (
                 <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
 
                     <div className="phone-input-container">
@@ -203,13 +223,14 @@ export default function SignInOut() {
                       Please enter your phone number below (no special characters or spaces) and proceed to book your next ride!
                       </div>
                       <div className="phone-form">
-                        <input
-                          type="tel"
-                          id="phoneNumber"
-                          name="phoneNumber"
-                          pattern="[0-9]*"
-                          required
-                        />
+                              <input
+                              type="tel"
+                              id="phoneNumber"
+                              name="phoneNumber"
+                              pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+                              required
+                              onInput={formatPhoneNumber}
+                            />
                       </div>
                     </div>
                     <div className="button-container">
@@ -227,8 +248,7 @@ export default function SignInOut() {
         </body>
       );
     }  
-    
-    
+        
     else {
   return (
     <body>
