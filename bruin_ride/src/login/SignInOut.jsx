@@ -231,10 +231,9 @@ export default function SignInOut() {
               <div className='buttons'>
                 <div className='description'>
                   <div className='desc'>
-                    You are logged in. Ready to find your next ride?
+                    You are logged in. Plan your next trip today!
                   </div>
                 </div>
-  
                 {/* Phone number input form */}
                 {!isSubmitted ? (
                 <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
@@ -258,7 +257,13 @@ export default function SignInOut() {
                       <button type="submit" className="submit-button">Submit</button>
                     </div>
                   </form>
-                ) : null}
+                  ) : 
+                  <button className = "book_a_ride">
+                  <NavLink to="/bookride" className="nav-link">
+                    Book a ride
+                  </NavLink>
+                  </button>
+                }
               </div>
             </div>
           </div>
