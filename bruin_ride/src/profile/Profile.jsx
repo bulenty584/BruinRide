@@ -29,7 +29,7 @@ const Profile = () => {
     color: 'inherit', // Inherit the color from the parent
     textDecoration: 'none', // Remove underline
   };
-
+  const {utcToZonedTime, format} = require('date-fns-tz');
   const [currentTrips, setCurrentTrips] = useState([]);
   const [pastTrips, setPastTrips] = useState([]);
 
@@ -37,6 +37,7 @@ const Profile = () => {
     allTrips()
       .then((result) => {
         const currentTime = new Date();
+        const sortedTrips = result.sort((a,b) => new Date(a.dateTime) - new Date(b.dateTime));
         const pastTrips = result.filter((trip) => new Date(trip.dateTime) < currentTime);
         const upcomingTrips = result.filter((trip) => new Date(trip.dateTime) >= currentTime);
         setPastTrips(pastTrips);
