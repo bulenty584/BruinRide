@@ -78,7 +78,7 @@ const BookRide = () => {
 
     if(localStorage.getItem('userSign') === 'false'){ 
       alert('Please sign in to book a ride.');
-      return;
+      window.location.href = '/login';
     }
   
     const combinedDateTime = new Date(selectedDate.toISOString().split('T')[0] + 'T' + selectedTime);
@@ -95,7 +95,9 @@ const BookRide = () => {
     //console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
 
     const getGroup = async () => {
-      const name = auth.currentUser.displayName;
+      const user = auth.currentUser;
+      const name = user ? user.displayName : 'Default Name';
+      if(user){
       try{
         const uid = auth.currentUser.uid;
         console.log(uid);
@@ -120,6 +122,9 @@ const BookRide = () => {
       } catch (error) {
         alert(error);
       }
+    } else {
+      console.log("user not logged in");
+    }
     };
     setDate(null);
     setTime('');
