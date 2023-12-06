@@ -60,7 +60,7 @@ const firebaseConfig = {
 
 
 export default function SignInOut() {
-  const {login, logout, isLoggedIn} = useContext(AuthContext);
+  const {login, logout, isLoggedIn, fillPhone, isPhoneFilled, unfillPhone} = useContext(AuthContext);
     // Add Firebase project configuration object here
       // FirebaseUI config
       const uiConfig = {
@@ -142,8 +142,7 @@ export default function SignInOut() {
           // An error happened.
           console.error("Error signing out: ", error);
         });
-    }
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    };
 
       const handlePhoneNumberSubmit = async (event) => {
         event.preventDefault();
@@ -168,7 +167,17 @@ export default function SignInOut() {
       
           if (response.ok) {
             console.log('Phone number updated successfully');
-            setIsSubmitted(true);
+            const data = await response.json();
+
+            if (data._found === true) {
+              fillPhone();
+            }
+            
+            else if (data._found === false) {
+              unfillPhone();
+            }
+            console.log(data);
+
           } else {
             console.error('Failed to update phone number');
           }
@@ -206,7 +215,7 @@ export default function SignInOut() {
                 </div>
   
                 {/* Phone number input form */}
-                {!isSubmitted ? (
+                {!isPhoneFilled() ? (
                 <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
 
                     <div className="phone-input-container">

@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
-import {db, auth} from "../login/SignInOut"
+import {db, auth} from "../login/SignInOut";
 import {addDoc, collection } from 'firebase/firestore';
 import map from '../images/map.svg'
 import { AuthContext } from "../context/context";
@@ -152,8 +152,14 @@ const BookRide = () => {
       <main className='bookpage'>
       <p className='header'>Plan your next trip to LAX</p>
       <div className='bookform'>
-        <div className="image">
-          <img src={map}/>
+        <div className="map">
+          <iframe src="https://storage.googleapis.com/maps-solutions-6o7tjf0tor/locator-plus/tyje/locator-plus.html"
+          width="100%"
+          height="100%" // Set your desired height here
+          style={{ border: '5px solid #C6FBB9', boxShadow: '0 0 50px rgba(198, 251, 185, 0.4)', borderRadius: '5px'}}
+          loading="lazy"
+          title="Google Map">
+          </iframe>
         </div>
         <div className='booking-container'>
         <form>

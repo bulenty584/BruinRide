@@ -59,8 +59,8 @@ const TopBar = () => {
           <div className="logout">
             <ul className="nav-links">
               <li className="nav-item-2" >
-                <NavLink to='/mainPage' className="nav-link">
-                  <button className="logout-button" onClick={handleLogout}>log out</button>
+                <NavLink to='/mainPage' className="nav-link" onClick={handleLogout}>
+                  log out
                 </NavLink>
               </li>
             </ul>
@@ -80,7 +80,7 @@ const TopBar = () => {
         <div className="menu">
           <ul className="nav-links">
             <li className="nav-item">
-              <NavLink to='/mainPage' className="nav-link">
+              <NavLink to='/mainPage' className="nav-link" style={{  marginLeft: '200px'  }}>
                 home
               </NavLink>
             </li>

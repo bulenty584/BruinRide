@@ -13,6 +13,7 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 
 const TripPage = () => {
   const [selectedTrip, selectTrip] = useState(null)
+  const [phoneNumbers, setPhoneNumbers] = useState([]);
   const { tripId } = useParams();
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [groupMembers, setGroupMembers] = useState([]);
@@ -44,63 +45,59 @@ function convertISOToTimeString(utcISOString) {
 
 
   const getTrip = async () => {
-    // const collectionRef = collection(db, 'trips');
-    // // Use the doc method to get a DocumentReference for the specified document
-    // const documentRef = collectionRef.doc(tripId);
-    // // Use the get method to retrieve the document
-    // console.log(documentRef);
-    // documentRef.get()
-    //   .then((documentSnapshot) => {
-    //     if (documentSnapshot.exists()) {
-    //       // Document found, you can access its data
-    //       selectTrip(documentSnapshot.data());
-    //     } else {
-    //       console.log('Document does not exist');
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error getting document:', error);
-    //   });
+    
      const docRef = doc(db, "trips", tripId);
      const docSnap = await getDoc(docRef);
      selectTrip(docSnap.data());
   };
 
 
-const getGroupMembers = async (tripId) => {
-  try {
-    const trip = await getTrip(tripId);
 
-    if (trip && trip.groupMembers) {
-      return trip.groupMembers;
-    } else {
-      console.warn('No group members found for the current trip.');
-      return [];
-    }
-  } catch (error) {
-    console.error('Error fetching group members:', error.message);
-    throw error;
-  }
-};
-  console.log(selectedTrip);
+
+  const getPhoneNumbers = async () => {
+
+     let uids = selectedTrip.groupMembers;
+
+     const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/getPhoneNumbers/allow-cors?uids=${uids.join(',')}`;
+
+     const response = await fetch(cloudFunctionURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      });
+
+      if (response.ok){
+        const data = await response.json();
+        setPhoneNumbers(data.phoneNumbers);
+        
+        console.log(data);
+      }
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  };
 
   useEffect(() => {
-    const fetchTripAndGroupMembers = async () => {
-      try {
-        const tripData = await getTrip();
-        if (tripData) {
-          selectTrip(tripData);
-          setGroupMembers(await getGroupMembers(tripData.id));
-        }
-      } catch (error) {
-        // Handle error appropriately, e.g., display an error message to the user
-      }
-    };
+    getTrip()
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-    fetchTripAndGroupMembers();
-    console.log(selectedTrip);
-    console.log(groupMembers);
-  }, []); // Empty dependency array means this runs once on mount
+  useEffect(() => {
+    if (selectedTrip !== null) {
+      getPhoneNumbers()
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [selectedTrip]);
+
+
+  
+  // Empty dependency array means this runs once on mount
 
   // Convert nameToEmail object into arrays of names and phone numbers
   //const names = selectedTrip.groupMembers.map((user) => user.name);
@@ -151,7 +148,7 @@ const getGroupMembers = async (tripId) => {
                           </div>
                           <div className="phones">
                             <p style={{ color: 'white', fontWeight: 600 }}>Phone</p>
-                            {/* {phoneNumbers.map((phoneNumber, index) => ( <p key={index}>{phoneNumber}</p> ))} */}
+                            {phoneNumbers.map((phoneNumber, index) => ( <p key={index}>{phoneNumber}</p> ))}
                           </div>
                         </div>
                       </div>
