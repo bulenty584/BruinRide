@@ -6,7 +6,7 @@ import TopBar from '../main_page/components/Topbar/Topbar';
 import { NavLink } from 'react-router-dom';
 import './SignUpPage.css'
 import { GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {signInWithPopup} from 'firebase/auth';
 import {
   getDocs,
@@ -15,12 +15,36 @@ import {
   where
 } from 'firebase/firestore';
 
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+const NAME_REGEX = /^[A-Z][a-z]+ [A-Z][a-z]+$/;
+
 
 
 const SignUpPage = () => {
 
   const {login, logout, isLoggedIn} = useContext(AuthContext);
   const [signedInWithGoogle, setSignedInWithGoogle] = useState(false);
+  const [validPwd, setValidPwd] = useState(false);
+  const [mail, setMail] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [validMail, setValidMail] = useState(false);
+
+  const [validName, setValidName] = useState(false);
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    setValidMail(EMAIL_REGEX.test(mail));
+}, [mail])
+
+useEffect(() => {
+    setValidPwd(PWD_REGEX.test(pwd));
+}, [pwd])
+
+useEffect(() => {
+  setValidName(NAME_REGEX.test(name));
+}, [name])
+
 
 
   const signUp = (event) => {
@@ -31,6 +55,21 @@ const SignUpPage = () => {
     const password = event.target.password.value;
     const name = event.target.name.value;
     try{
+      if (!validMail) {
+        alert('Please enter a valid email address');
+        return;
+      }
+
+      if (!validPwd) {
+        alert('Please enter a valid password');
+        return;
+      }
+
+      if (!validName) {
+        alert('Please enter a valid name');
+        return;
+      }
+      
       createUserWithEmailAndPassword(auth, username, password).then((userCredential) => {
         // Signed in
         const user = userCredential.user;
@@ -61,6 +100,10 @@ const SignUpPage = () => {
       logout();
       return;
     } 
+
+    setPwd('');
+    setMail('');
+
   }
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -190,9 +233,17 @@ const SignUpPage = () => {
                   name="email"
                   placeholder='Email'
                   required
-                  onInput={null}
+                  onChange={(e)=>setMail(e.target.value)}
+                  value = {mail}
                 />
           </div>
+
+          {!validMail && (
+              <p id="mailnote" className='text-gray-400 mb-3'>
+                  Must include <span>@</span> and <span>.</span> with some letters or numbers in between.<br />
+                  Must specify a domain.
+              </p>
+          )}
           <div className="password">
                   <input
                   type="password"
@@ -200,9 +251,18 @@ const SignUpPage = () => {
                   name="password"
                   placeholder='Password'
                   required
-                  onInput={null}
+                  onChange={(e)=>setPwd(e.target.value)}
+                  value = {pwd}
                 />
         </div>
+
+        {!validPwd && (
+              <p id="passwordnote" className='text-gray-400 mb-3'>
+                  8 to 24 characters.<br />
+                  Must include uppercase and lowercase letters, a number and a special character.<br />
+                  Allowed special characters: <span>!</span> <span>@</span> <span>#</span> <span>$</span> <span>%</span>
+              </p>
+          )}
         <div className="name">
                   <input
                   type="name"
@@ -210,9 +270,16 @@ const SignUpPage = () => {
                   name="name"
                   placeholder='Name'
                   required
-                  onInput={null}
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
                 />
         </div>
+
+        {!validName && (
+              <p id="mailnote" className='text-gray-400 mb-3'>
+                  First and Last Name
+              </p>
+          )}
         <div className="phone-input-container">
             <div className='desc'>
             </div>
@@ -272,7 +339,7 @@ const SignUpPage = () => {
                       </div>
                     </div>
                     <div className="button-container">
-                      <button type="submit" className="submit-button">Submit</button>
+                      <button type="submit" className="submit-button" disabled={!validName || !validMail || !validPwd ? true : false}>Submit</button>
                     </div>
                     </form> 
                     ) : (
