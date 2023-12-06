@@ -1,7 +1,7 @@
 import {SignInOut} from './SignInOut';
-import { useContext } from 'react';
+import { useContext, useState} from 'react';
 import {AuthContext} from '../context/context';
-import {db, auth} from './SignInOut';
+import {db, auth, provider} from './SignInOut';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { NavLink } from 'react-router-dom';
@@ -9,9 +9,18 @@ import './SignUpPage.css'
 import { GoogleAuthProvider } from "firebase/auth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import * as firebaseui from 'firebaseui';
+import {signInWithPopup} from 'firebase/auth';
+import {
+  getDocs,
+  collection,
+  query,
+  where
+} from 'firebase/firestore';
+
 
 const SignInPage = () => {
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const {login, logout, isLoggedIn} = useContext(AuthContext);
 
   // Add Firebase project configuration object here
@@ -56,6 +65,55 @@ const SignInPage = () => {
 
     
   }
+  const isUserPresent = async () => {
+    console.log(auth.currentUser.uid);
+    const q = query(collection(db, "phoneNumbers"), where("uid", "==", auth.currentUser.uid));
+
+    let querySnapshot = null;
+    try {
+      querySnapshot = await getDocs(q);
+    } catch (e) {
+      alert('Error getting documents: ', e);
+      return;
+    }
+    console.log(querySnapshot.empty);
+    return !querySnapshot.empty;
+  }
+
+  const handleLoginGoogle = () => {
+    // [START auth_google_signin_popup]
+      // No user is signed in; allows user to sign in
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          login();
+          const existingUser = isUserPresent().then(
+            (result) => {
+              console.log(result);
+              if (!result) {
+                setIsSubmitted(false);
+              }
+              else if (result) {
+                setIsSubmitted(true);
+              } 
+            }
+          );
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          const user = result.user;
+
+        }).catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          
+          // ...
+        });
+      } 
 
   return (
     <div className="sign-up-page">
@@ -92,6 +150,9 @@ const SignInPage = () => {
           <button type="submit" className="submit-button">Submit</button>
         </div>
       </form>
+      <div>
+      <button type="submit" className="submit-button" onClick={handleLoginGoogle}>Sign in with Google</button>
+      </div>
       </body>
   ) : (
     <div className="signed-in-page">
