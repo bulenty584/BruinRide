@@ -115,7 +115,7 @@ function convertISOToTimeString(utcISOString) {
           ) : (
             <p>Loading current trips...</p> // Show a loading message or spinner
           )}
-           <div className="title2">
+           <div className="title">
             <p className='header'>Past Trips</p>
             <img className="plane" src={plane}/>
           </div>
