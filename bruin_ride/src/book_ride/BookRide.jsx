@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
@@ -8,6 +8,7 @@ import {addDoc, collection } from 'firebase/firestore';
 import map from '../images/map.svg'
 import { AuthContext } from "../context/context";
 import { useContext } from 'react';
+
 
 /* change photo of the map with actual map api */
 
@@ -46,7 +47,7 @@ const TimeInput = ({ selectedTime, handleTimeChange }) => {
 };
 
 const PickupSpotInput = ({ selectedPickupSpot, handlePickupSpotChange }) => {
-  const pickupSpots = ['De Neve', 'Rieber Terrace', 'Carnesale Commons', 'Holly/Gayley'];
+  const pickupSpots = ['De Neve', 'Carnesale Commons', 'Rieber Terrace', 'Hedrick/Hitch','Gayley Avenue'];
 
   return (
     <select value={selectedPickupSpot} onChange={handlePickupSpotChange}>
@@ -133,7 +134,6 @@ const BookRide = () => {
     }
   }, [TripAdded]);
   
-
   return (
     <div className="app">
       <div className="background-circles"></div>

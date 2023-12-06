@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import {AuthContext } from '../context/context';
 import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 
 // Add the Firebase products and methods that you want to use
 import {
@@ -233,13 +234,6 @@ export default function SignInOut() {
           <div id="signinout">
             <div id="event-details-container">
               <div className='buttons'>
-                <div className='description'>
-                  <h1 className="welcome-message">Welcome to Bruin Ride</h1>
-                  <div className='desc'>
-                    You are logged in. Ready to find your next ride?
-                  </div>
-                </div>
-  
                 {/* Phone number input form */}
                 {!isSubmitted ? (
                 <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
@@ -263,11 +257,18 @@ export default function SignInOut() {
                       <button type="submit" className="submit-button">Submit</button>
                     </div>
                   </form>
-                ) : null}
-  
-                <button id="logoutButton" onClick={() => handleLogout()}>
-                  <div className='bxicon'>Logout</div>
-                </button>
+                  ) : 
+                  <div className='desc'>
+                    You're logged in! You can now book a ride.
+                    <br></br>
+                    <br></br>
+                  <button className = "book_a_ride">
+                  <NavLink to="/bookride" className="nav-link">
+                    Book a ride
+                  </NavLink>
+                  </button>
+                  </div>
+                }
               </div>
             </div>
           </div>
