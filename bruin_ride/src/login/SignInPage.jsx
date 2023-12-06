@@ -123,7 +123,7 @@ const SignInPage = () => {
       <form onSubmit={(event) => signUp(event)}>
         <div className="sign-in-input">
           <div className='desc'>
-          Please Enter a username and password
+          Please enter a username and password
           </div>
           <div className="username">
                   <input
