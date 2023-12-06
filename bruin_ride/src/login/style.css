@@ -91,6 +91,7 @@
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
 .bxicon{
   margin-left: 10px;
   margin-right: 10px;
@@ -128,6 +129,18 @@
   justify-self: left;
   justify-content: left;
   font-size: 17px;
+  font-weight: 500;
+  color: #000000;
+  font-family: var(--bolt-font-family-regular, var(--bolt-font-family-system, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif));
+}
+
+#bookridelink {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  align-self: left;
+  justify-self: left;
+  justify-content: left;
+  font-size: 1px;
   font-weight: 500;
   color: #000000;
   font-family: var(--bolt-font-family-regular, var(--bolt-font-family-system, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif));
