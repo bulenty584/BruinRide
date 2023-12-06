@@ -6,6 +6,7 @@
     margin-top: 100px;
     align-items: center;
     justify-content: center;
+    margin-bottom: 100px;
 }
 
 .title {
@@ -22,6 +23,13 @@
     font-weight: 800;
     line-height: 100%;
     margin: 0;
+}
+
+.display-text{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 200px;
 }
 
 .plane{

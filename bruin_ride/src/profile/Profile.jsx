@@ -87,6 +87,9 @@ function convertISOToTimeString(utcISOString) {
             <img className="plane" src={plane}/>
           </div>
           {currentTrips ? (
+            currentTrips.length === 0 ? (
+              <p className="display-text">No current trips.</p>
+            ) : (
             currentTrips.map((trip) => (
               <div key={trip.id}>
                 <Link to={`/trip_page/${trip.id}`} style={linkStyle}>
@@ -112,6 +115,7 @@ function convertISOToTimeString(utcISOString) {
                 </Link>
               </div>
             ))
+            )
           ) : (
             <p>Loading current trips...</p> // Show a loading message or spinner
           )}
@@ -120,6 +124,9 @@ function convertISOToTimeString(utcISOString) {
             <img className="plane" src={plane}/>
           </div>
           {pastTrips ? (
+            pastTrips.length === 0 ? (
+              <p className="display-text">No past trips.</p>
+            ) : (
             pastTrips.map((trip) => (
               <div key={trip.id}>
                 <Link to={`/trip_page/${trip.id}`} style={linkStyle}>
@@ -141,6 +148,7 @@ function convertISOToTimeString(utcISOString) {
                 </Link>
               </div>
             ))
+            )
           ) : (
             <p>Loading past trips...</p> // Show a loading message or spinner
           )}
