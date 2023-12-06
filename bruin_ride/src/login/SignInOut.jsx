@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import {AuthContext } from '../context/context';
 import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 
 // Add the Firebase products and methods that you want to use
 import {
@@ -229,7 +230,6 @@ export default function SignInOut() {
             <div id="event-details-container">
               <div className='buttons'>
                 <div className='description'>
-                  <h1 className="welcome-message">Welcome to Bruin Ride</h1>
                   <div className='desc'>
                     You are logged in. Ready to find your next ride?
                   </div>
@@ -259,10 +259,6 @@ export default function SignInOut() {
                     </div>
                   </form>
                 ) : null}
-  
-                <button id="logoutButton" onClick={() => handleLogout()}>
-                  <div className='bxicon'>Logout</div>
-                </button>
               </div>
             </div>
           </div>
