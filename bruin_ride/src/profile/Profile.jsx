@@ -6,6 +6,8 @@ import { auth, db } from '../login/SignInOut';
 import plane from '../images/airplane.svg'
 import {collection, query, getDocs } from 'firebase/firestore';
 import './profile.css';
+import { format, utcToZonedTime } from 'date-fns-tz';
+
 
 /* fine tune gradient, implement status and link to trip page */
 
@@ -29,7 +31,7 @@ const Profile = () => {
     color: 'inherit', // Inherit the color from the parent
     textDecoration: 'none', // Remove underline
   };
-  const {utcToZonedTime, format} = require('date-fns-tz');
+  const { utcToZonedTime, format } = require('date-fns-tz');
   const [currentTrips, setCurrentTrips] = useState([]);
   const [pastTrips, setPastTrips] = useState([]);
 
@@ -37,14 +39,14 @@ const Profile = () => {
     allTrips()
       .then((result) => {
         const currentTime = new Date();
-        const sortedTrips = result.sort((a,b) => new Date(a.dateTime) - new Date(b.dateTime));
-        const pastTrips = result.filter((trip) => new Date(trip.dateTime) < currentTime);
-        const upcomingTrips = result.filter((trip) => new Date(trip.dateTime) >= currentTime);
+        const sortedTrips = result.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+        const pastTrips = sortedTrips.filter((trip) => new Date(trip.dateTime) < currentTime).reverse();
+        const upcomingTrips = sortedTrips.filter((trip) => new Date(trip.dateTime) >= currentTime);
         setPastTrips(pastTrips);
         setCurrentTrips(upcomingTrips);
       })
       .catch((error) => {
-        console.error(error);
+        alert(error);
       });
   }, []); // Empty dependency array means this runs once on mount
 
@@ -64,17 +66,13 @@ function convertISOToDateString(isoDateString) {
 }
 
 // Function to convert ISO 8601 to time (HH:MM:SS)
-function convertISOToTimeString(isoDateString) {
-  const date = new Date(isoDateString);
+function convertISOToTimeString(utcISOString) {
+  const utcDate = new Date(utcISOString);
 
-  // Extracting individual components
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
+  // Convert UTC date to PST
+  const pstTimeString = format(utcDate, 'HH:mm', { timeZone: 'America/Los_Angeles' });
 
-  // Creating the HH:MM:SS format
-  const hhmmss = `${hours}:${minutes}`;
-
-  return hhmmss;
+  return pstTimeString;
 }
 
   return (

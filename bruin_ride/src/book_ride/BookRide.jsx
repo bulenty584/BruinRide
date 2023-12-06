@@ -72,7 +72,12 @@ const BookRide = () => {
     event.preventDefault();
   
     if (!selectedDate || !selectedTime || !selectedPickupLocation) {
-      console.error('Please fill in all fields');
+      alert('Please fill in all fields');
+      return;
+    }
+
+    if(localStorage.getItem('userSign') === 'false'){ 
+      alert('Please sign in to book a ride.');
       return;
     }
   
@@ -87,7 +92,7 @@ const BookRide = () => {
 
     const iso8601String = combinedDateTime.toISOString();
   
-    console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
+    //console.log(`Date and Time: ${iso8601String}, Pickup Location: ${selectedPickupLocation}`);
 
     const getGroup = async () => {
       const name = auth.currentUser.displayName;
@@ -107,39 +112,17 @@ const BookRide = () => {
             TripAdded();
 
             
-            console.log(data);
+            //console.log(data);
           }
 
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     };
-
-  
-    // const publishData = async () => {
-    //   try {
-    //     const docRef = await addDoc(collection(db, "trips"), {
-    //       userId : auth.currentUser.uid,
-    //       dateTime: iso8601String,
-    //       pickupLocation: selectedPickupLocation,
-    //       groupSet: false,
-    //       groupSize: 1,
-    //       groupMembers: [],
-
-    //     });
-    //     console.log("Document written with ID: ", docRef.id);
-    //   } catch (e) {
-    //     console.error("Error adding document: ", e);
-    //   }
-    // };
-
-
-    getGroup();
-    //publishData();
-  
+    getGroup();  
     setDate(null);
     setTime('');
     setPickupLocation('');
