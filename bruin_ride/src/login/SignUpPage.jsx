@@ -69,7 +69,7 @@ useEffect(() => {
         alert('Please enter a valid name');
         return;
       }
-      
+
       createUserWithEmailAndPassword(auth, username, password).then((userCredential) => {
         // Signed in
         const user = userCredential.user;
@@ -134,6 +134,7 @@ useEffect(() => {
             console.log('Phone number updated successfully');
             setIsSubmitted(true);
             setIsLoading(false);
+            login();
           }
         } catch (error) {
           //console.error('Error submitting phone number:', error);
@@ -221,7 +222,7 @@ useEffect(() => {
       <TopBar />
       {!isLoggedIn() ? (
         <body>
-      <form onSubmit={(event) => signUp(event)}>
+      <form onSubmit={(event) => signUp(event)} disabled={!validName || !validMail || !validPwd ? true : false}>
         <div className="sign-in-input">
           <div className='desc'>
           Please choose an email and password
@@ -339,7 +340,7 @@ useEffect(() => {
                       </div>
                     </div>
                     <div className="button-container">
-                      <button type="submit" className="submit-button" disabled={!validName || !validMail || !validPwd ? true : false}>Submit</button>
+                      <button type="submit" className="submit-button">Submit</button>
                     </div>
                     </form> 
                     ) : (
