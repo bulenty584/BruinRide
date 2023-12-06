@@ -39,8 +39,9 @@ const Profile = () => {
     allTrips()
       .then((result) => {
         const currentTime = new Date();
-        const pastTrips = result.filter((trip) => new Date(trip.dateTime) < currentTime);
-        const upcomingTrips = result.filter((trip) => new Date(trip.dateTime) >= currentTime);
+        const sortedTrips = result.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+        const pastTrips = sortedTrips.filter((trip) => new Date(trip.dateTime) < currentTime).reverse();
+        const upcomingTrips = sortedTrips.filter((trip) => new Date(trip.dateTime) >= currentTime);
         setPastTrips(pastTrips);
         setCurrentTrips(upcomingTrips);
       })
