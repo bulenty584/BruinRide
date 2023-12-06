@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
@@ -127,7 +127,6 @@ const BookRide = () => {
     setPickupLocation('');
   }, [selectedDate, selectedTime, selectedPickupLocation]);
   
-
   return (
     <div className="app">
       <div className="background-circles"></div>
