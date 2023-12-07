@@ -183,14 +183,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   tripData.name.push(name)
   const groupIsSet = tripData.groupMembers.length <= 4 && tripData.groupMembers.length >= 3;
 
-  let emails = [];
-  for (var i in tripData.groupMembers){
-    let user = tripData.groupMembers[i];
-    emails.push(auth.currentUser.user.email);
-  }
-
-
-
+  
   try {
     await updateDoc(tripDocRef, {
       groupMembers: tripData.groupMembers,
@@ -198,28 +191,6 @@ exports.algo = functions.https.onRequest(async (request, response) => {
       groupSize: tripData.groupMembers.length, 
       name : tripData.name,
     });
-
-    //console.log(emails.join(','));
-
-    
-
-    // if (groupIsSet){
-    //   const mailOptions = {
-    //     from: 'bruinride2@gmail.com',
-    //     to: `${emails.join(',')}`, // list of receivers
-    //     subject: 'BruinRide Trip',
-    //     text: 'Your trip has been set! Your group members are: ' + tripData.name.join(', ') + '. Your pickup location is: ' + tripData.pickupLocation + '. Your pickup time is: ' + tripData.dateTime + '.'
-    //   };
-    //   transporter.sendMail(mailOptions, function(error, info){
-
-    //     if (error) {
-    //       console.log(error);
-    //     } else {
-    //       console.log('Email sent: ' + info.response);
-    //     }
-    //   }
-    //   );
-    // }
     response.send(tripData);
     return;
   } catch (e) {
