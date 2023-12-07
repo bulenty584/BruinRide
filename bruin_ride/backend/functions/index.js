@@ -108,7 +108,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
     service: 'gmail',
     auth: {
       user: 'bruinride2@gmail.com',
-      pass: 'bruinride2usc'
+      pass: 'gzfq ahyx pfwd vzmm'
     }
   });
 
