@@ -18,3 +18,4 @@ npm install
 npm start
 ```
 
+3. The App should work now. Happy travels :)
