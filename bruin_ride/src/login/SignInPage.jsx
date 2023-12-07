@@ -57,6 +57,7 @@ const SignInPage = () => {
           const user = result.user;
 
         }).catch((error) => {
+          logout();
           // Handle Errors here.
           const errorCode = error.code;
           const errorMessage = error.message;
@@ -68,11 +69,7 @@ const SignInPage = () => {
           // ...
         });
       } 
-
-
-
-
-
+      
   const signIn = (event) => {
 
     event.preventDefault();
@@ -124,7 +121,7 @@ const SignInPage = () => {
         <div className="sign-up-page">
           {!isLoggedIn() ? (
             <>
-            <form className="formcontainer" onSubmit={(event) => signUp(event)}>
+            <form className="formcontainer" onSubmit={(event) => signIn(event)}>
               <div className="sign-in-input">
                 <div className='desc'>
                 Please enter your email and password.

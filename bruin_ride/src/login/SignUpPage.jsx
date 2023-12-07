@@ -121,12 +121,6 @@ useEffect(() => {
         setIsLoading(true);
         event.preventDefault();
         try {
-      
-          if (!phoneNumber) {
-            alert('Please enter a valid phone number');
-            setIsLoading(false);
-            return;
-          }
           
           const uid = auth.currentUser.uid;
           const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/updatePhoneNumber/allow-cors?uid=${uid}&phoneNumber=${phoneNumber}`;
@@ -209,7 +203,7 @@ useEffect(() => {
       signInWithPopup(auth, provider)
         .then((result) => {
           login();
-          const existingUser = isUserPresent().then(
+          isUserPresent().then(
             (result) => {
               console.log(result);
               if (!result) {
@@ -218,6 +212,7 @@ useEffect(() => {
               else if (result) {
                 setIsSubmitted(true);
               } 
+              setPhoneNumber(''); 
             }
           );
           // This gives you a Google Access Token. You can use it to access the Google API.
@@ -259,9 +254,16 @@ useEffect(() => {
                       name="email"
                       placeholder='Email'
                       required
-                      onInput={null}
+                      onChange={(e)=>setMail(e.target.value)}
                     />
               </div>
+              {!validMail && (
+                    <p id="mailnote" className='text-gray-400 mb-3'>
+                        Must include <span>@</span> and <span>.</span> with some letters or numbers in between.<br />
+                        Must specify a domain.
+                    </p>
+                )}
+
               <div className="signinbox">
                       <input
                       type="password"
@@ -269,9 +271,16 @@ useEffect(() => {
                       name="password"
                       placeholder='Password'
                       required
-                      onInput={null}
+                      onChange={(e)=>setPwd(e.target.value)}
                     />
             </div>
+            {!validPwd && (
+                  <p id="pwdnote" className='text-gray-400 mb-3'>
+                      8 to 24 characters.<br />
+                      Must include uppercase and lowercase letters, a number and a special character.<br />
+                      Allowed special characters: <span>!</span> <span>@</span> <span>#</span> <span>$</span> <span>%</span>
+                  </p>
+              )}
             <div className="signinbox">
                       <input
                       type="name"
@@ -279,9 +288,14 @@ useEffect(() => {
                       name="name"
                       placeholder='Name'
                       required
-                      onInput={null}
+                      onChange={(e) => setName(e.target.value)}
                     />
             </div>
+            {!validName && (
+                <p id="mailnote" className='text-gray-400 mb-3'>
+                    First and Last Name
+                </p>
+            )}
             <div className="phone-input-container">
                 <div className='desc'>
                 </div>
@@ -299,7 +313,7 @@ useEffect(() => {
               </div>
             </div>
             <div className="button-container">
-              <button type="submit" className="submit-button">Submit</button>
+              <button className="submit-button" disabled={!validName || !validMail || !validPwd ? true : false}> Submit</button>
             </div>
           </form>
           <div>
