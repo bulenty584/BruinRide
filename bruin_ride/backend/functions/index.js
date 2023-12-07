@@ -104,13 +104,13 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   const uid = request.query.uid;
   const name = request.query.name;
 
-  var transporter = nodeMailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'bruinride2@gmail.com',
-      pass: 'bruinride2usc'
-    }
-  });
+  // var transporter = nodeMailer.createTransport({
+  //   service: 'gmail',
+  //   auth: {
+  //     user: 'bruinride2@gmail.com',
+  //     pass: 'gzfq ahyx pfwd vzmm'
+  //   }
+  // });
 
   // ...
 
@@ -179,10 +179,11 @@ exports.algo = functions.https.onRequest(async (request, response) => {
 
   // Modify the document data as needed
   tripData.groupMembers.push(uid);
+  console.log(tripData.groupMembers)
   tripData.name.push(name)
   const groupIsSet = tripData.groupMembers.length <= 4 && tripData.groupMembers.length >= 3;
 
-
+  
   try {
     await updateDoc(tripDocRef, {
       groupMembers: tripData.groupMembers,
@@ -190,28 +191,10 @@ exports.algo = functions.https.onRequest(async (request, response) => {
       groupSize: tripData.groupMembers.length, 
       name : tripData.name,
     });
-
-    if (groupIsSet){
-      const mailOptions = {
-        from: 'bruinride2@gmail.com',
-        to: 'bulentil1752@gmail.com',
-        subject: 'BruinRide Trip',
-        text: 'Your trip has been set! Your group members are: ' + tripData.name.join(', ') + '. Your pickup location is: ' + tripData.pickupLocation + '. Your pickup time is: ' + tripData.dateTime + '.'
-      };
-      transporter.sendMail(mailOptions, function(error, info){
-
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      }
-      );
-    }
     response.send(tripData);
     return;
   } catch (e) {
-    response.status(500).send(('Error updating trip. \n' + e).toJSON());
+    response.status(500).send(JSON.stringify({message: 'Error updating Trip ' + e}));
     console.log('Error updating trip. \n', e);
   }
   
