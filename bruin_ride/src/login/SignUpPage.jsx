@@ -32,6 +32,7 @@ const SignUpPage = () => {
 
   const [validName, setValidName] = useState(false);
   const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect(() => {
     setValidMail(EMAIL_REGEX.test(mail));
@@ -48,16 +49,13 @@ useEffect(() => {
 
 
   const signUp = (event) => {
-
+    setIsLoading(true);
     event.preventDefault();
 
     const username = event.target.email.value;
     const password = event.target.password.value;
     const name = event.target.name.value;
-
-    
-
-
+    const phoneNumber = event.target.phoneNumber.value;
     try{
       if (!validMail) {
         logout();
@@ -76,25 +74,23 @@ useEffect(() => {
         alert('Please enter a valid name');
         return;
       }
-
+      
       createUserWithEmailAndPassword(auth, username, password).then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         const email = user.email;
-
-
         login();
         updateProfile(user, {
           displayName: name,
         }).then(() => {
-          // Profile updated!
-          // ...
+          handlePhoneNumberSubmit(event);
         }).catch((error) => {
           // An error occurred
           
           alert(error);
           
         });
+        setIsLoading(false);
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -110,10 +106,11 @@ useEffect(() => {
       logout();
       return;
     } 
-
+    setName('');
+    setPhoneNumber('');
     setPwd('');
     setMail('');
-
+    setIsLoading(false);
   }
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -122,7 +119,6 @@ useEffect(() => {
         setIsLoading(true);
         event.preventDefault();
         try {
-          const phoneNumber = event.target.phoneNumber.value;
       
           if (!phoneNumber) {
             alert('Please enter a valid phone number');
@@ -145,12 +141,24 @@ useEffect(() => {
             setIsSubmitted(true);
             setIsLoading(false);
             login();
+            return;
           }
         } catch (error) {
           //console.error('Error submitting phone number:', error);
-          setIsSubmitted(false);
+          isUserPresent().then(
+            (result) => {
+              console.log(result);
+              if (!result) {
+                setIsSubmitted(false);
+              }
+              else if (result) {
+                setIsSubmitted(true);
+              } 
+            }
+          );
           setIsLoading(false);
         } 
+        setPhoneNumber(''); 
     }
 
     const overlayStyle = {
@@ -303,6 +311,8 @@ useEffect(() => {
                     pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
                     required
                     onInput={formatPhoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    value={phoneNumber} 
                   />
             </div>
           </div>
@@ -346,6 +356,8 @@ useEffect(() => {
                               pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
                               required
                               onInput={formatPhoneNumber}
+                              onChange={(e) => setPhoneNumber(e.target.value)}
+                              value={phoneNumber} 
                             />
                       </div>
                     </div>
