@@ -182,6 +182,13 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   tripData.name.push(name)
   const groupIsSet = tripData.groupMembers.length <= 4 && tripData.groupMembers.length >= 3;
 
+  let emails = [];
+  for (var i in tripData.groupMembers){
+    let user = tripData.groupMembers[i];
+    emails.push(auth.currentUser.user.email);
+  }
+
+
 
   try {
     await updateDoc(tripDocRef, {
@@ -191,10 +198,14 @@ exports.algo = functions.https.onRequest(async (request, response) => {
       name : tripData.name,
     });
 
+    console.log(emails.join(','));
+
+    
+
     if (groupIsSet){
       const mailOptions = {
         from: 'bruinride2@gmail.com',
-        to: 'bulentil1752@gmail.com',
+        to: `${emails.join(',')}`, // list of receivers
         subject: 'BruinRide Trip',
         text: 'Your trip has been set! Your group members are: ' + tripData.name.join(', ') + '. Your pickup location is: ' + tripData.pickupLocation + '. Your pickup time is: ' + tripData.dateTime + '.'
       };
@@ -211,7 +222,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
     response.send(tripData);
     return;
   } catch (e) {
-    response.status(500).send(('Error updating trip. \n' + e).toJSON());
+    response.status(500).send(JSON.stringify({message: 'Error updating Trip ' + e}));
     console.log('Error updating trip. \n', e);
   }
   

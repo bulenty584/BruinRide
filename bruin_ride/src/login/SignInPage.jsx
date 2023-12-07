@@ -23,6 +23,7 @@ import {
 
 
 const SignInPage = () => {
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const {login, logout, isLoggedIn} = useContext(AuthContext);
@@ -44,13 +45,42 @@ const SignInPage = () => {
     }
   };
 
+  const isUserPresent = async () => {
+    console.log(auth.currentUser.uid);
+    const q = query(collection(db, "phoneNumbers"), where("uid", "==", auth.currentUser.uid));
 
+    let querySnapshot = null;
+    try {
+      querySnapshot = await getDocs(q);
+    } catch (e) {
+      alert('Error getting documents: ', e);
+      return;
+    }
+    console.log(querySnapshot.empty);
+    return !querySnapshot.empty;
+  }
+
+
+  const [signedInWithGoogle, setSignedInWithGoogle] = useState(false);
   const handleLoginGoogle = () => {
+    setSignedInWithGoogle(true);
     // [START auth_google_signin_popup]
       // No user is signed in; allows user to sign in
       signInWithPopup(auth, provider)
         .then((result) => {
           login();
+          isUserPresent().then(
+            (result) => {
+              console.log(result);
+              if (!result) {
+                setIsSubmitted(false);
+              }
+              else if (result) {
+                setIsSubmitted(true);
+              } 
+              setPhoneNumber(''); 
+            }
+          );
           // This gives you a Google Access Token. You can use it to access the Google API.
           const credential = GoogleAuthProvider.credentialFromResult(result);
           const token = credential.accessToken;
@@ -96,19 +126,73 @@ const SignInPage = () => {
 
     
   }
-  const isUserPresent = async () => {
-    console.log(auth.currentUser.uid);
-    const q = query(collection(db, "phoneNumbers"), where("uid", "==", auth.currentUser.uid));
+  const [isLoading, setIsLoading] = useState(false);
 
-    let querySnapshot = null;
+  const handlePhoneNumberSubmit = async (event) => {
+
+    setIsLoading(true);
+    event.preventDefault();
     try {
-      querySnapshot = await getDocs(q);
-    } catch (e) {
-      alert('Error getting documents: ', e);
-      return;
+      
+      const uid = auth.currentUser.uid;
+      const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/updatePhoneNumber/allow-cors?uid=${uid}&phoneNumber=${phoneNumber}`;
+  
+      const response = await fetch(cloudFunctionURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.ok) {
+        console.log('Phone number updated successfully');
+        setIsSubmitted(true);
+        setIsLoading(false);
+        login();
+        return;
+      }
+    } catch (error) {
+      //console.error('Error submitting phone number:', error);
+      isUserPresent().then(
+        (result) => {
+          console.log(result);
+          if (!result) {
+            setIsSubmitted(false);
+          }
+          else if (result) {
+            setIsSubmitted(true);
+          } 
+        }
+      );
+      setIsLoading(false);
+    } 
+    setPhoneNumber(''); 
+}
+
+const overlayStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1000, // Ensure it's above everything else
+};
+
+  function formatPhoneNumber(event) {
+    let input = event.target.value;
+    input = input.replace(/\D/g, '');
+  
+    if (input.length > 3 && input.length <= 6) {
+      input = `(${input.slice(0, 3)}) ${input.slice(3)}`;
+    } else if (input.length > 6) {
+      input = `(${input.slice(0, 3)}) ${input.slice(3, 6)}-${input.slice(6, 10)}`;
     }
-    console.log(querySnapshot.empty);
-    return !querySnapshot.empty;
+  
+    event.target.value = input; 
   }
 
   return (
@@ -163,30 +247,63 @@ const SignInPage = () => {
                 <p style={{ margin: '0' }}>Don't have an account?</p>
                 <NavLink to='/signIn' className="nav-link" style={{ marginLeft: '5px', fontWeight: '500', color: '#C6FBB9' }}>Register now!</NavLink>
               </div>
-
-           
             </form>
             </div>
-
-          </>
+            </>
           ) : (
-          <div className="signed-in-page">
-            <div className='desc' style={{ paddingTop: '20px' }}>
-              You're logged in. Plan your next trip today!
-              <br></br>
-              <br></br>
-              <button className = "book_a_ride">
-              <NavLink to="/bookride" className="nav-link">
-              book a ride
-              </NavLink>
-              </button>
-            </div>
+            <div className="signed-in-page">
+              {isLoading && (
+              <div style={overlayStyle}>
+              <div>Loading...</div>
+              </div>
+              )} 
+            <div id="signinout">
+            <div id="event-details-container">
+              <div className='buttons'>
+                {/* Phone number input form */}
+                {!isSubmitted && signedInWithGoogle ? (
+                  <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
+
+                    <div className="phone-input-container">
+                      <div className='desc'>
+                      Please enter your phone number below (no special characters or spaces) and proceed to book your next ride!
+                      </div>
+                      <div className="phone-form">
+                              <input
+                              type="tel"
+                              id="phoneNumber"
+                              name="phoneNumber"
+                              pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+                              required
+                              onInput={formatPhoneNumber}
+                              onChange={(e) => setPhoneNumber(e.target.value)}
+                              value={phoneNumber} 
+                            />
+                      </div>
+                    </div>
+                    <div className="button-container">
+                      <button type="submit" className="submit-button">Submit</button>
+                    </div>
+                    </form> 
+                    ) : (
+                    <div className='desc'>
+                        You're logged in! You can now book a ride.
+                        <br></br>
+                        <br></br>
+                        <button className = "book_a_ride">
+                        <NavLink to="/bookride" className="nav-link">
+                        Book a ride
+                        </NavLink>
+                        </button>
+                      </div>
+                    )}
+              </div>
           </div>
-      )}
-
-    </main>
+        </div>
+        </div>
+          )}
+  </main>
   </div>
-
   </>
 )};
 

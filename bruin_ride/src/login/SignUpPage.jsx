@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react';
 import {signInWithPopup} from 'firebase/auth';
 import './signin.css';
 import '../MainPage.css';
+import google from '../images/google.svg';
+
 
 import {
   getDocs,
@@ -67,15 +69,11 @@ useEffect(() => {
 
       if (!validPwd) {
         logout();
-        alert('Please enter a valid password');
+        
         return;
       }
 
-      if (!validName) {
-        logout();
-        alert('Please enter a valid name');
-        return;
-      }
+    
       
       createUserWithEmailAndPassword(auth, username, password).then((userCredential) => {
         // Signed in
@@ -241,15 +239,38 @@ useEffect(() => {
       <div className="background-circles"></div>
       <header> <TopBar /> </header>
       <main className='main'>
-        <div className="signin-title-div"><p className='signin-title'>Create an account</p></div>
-        <div className="sign-up-page">
+        
           {!isLoggedIn() ? (
             <>
-          <form onSubmit={(event) => signUp(event)}>
+            <div className="signin-title-div"><p className='signin-title'>Create an account</p></div>
+        <div className="sign-up-page">
+          <form className="formcontainer" onSubmit={(event) => signUp(event)}>
             <div className="sign-in-input">
-              <div className='desc'>
-              Please choose an email and password
-              </div>
+              
+            <div className="signinbox-google" onClick={handleLoginGoogle}>
+                  <div className="google-title">
+                    <img className="google" src={google}/>
+                    <p> Sign up with Google</p>
+                  </div>
+                </div>
+
+                <div class="line-with-or">
+                  <div class="line"></div>
+                  <span class="or">OR</span>
+                  <div class="line"></div>
+                </div>
+
+            <div className="signinbox">
+                      <input
+                      type="name"
+                      id="name"
+                      name="name"
+                      placeholder='Name'
+                      required
+                      onChange={(e) => setName(e.target.value)}
+                      value = {name}
+                    />
+            </div>
               <div className="signinbox">
                       <input
                       type="email"
@@ -261,12 +282,21 @@ useEffect(() => {
                       value = {mail}
                     />
               </div>
-              {!validMail && (
-                    <p id="mailnote" className='text-gray-400 mb-3'>
-                        Must include <span>@</span> and <span>.</span> with some letters or numbers in between.<br />
-                        Must specify a domain.
-                    </p>
-                )}
+          
+           
+                <div className="signinbox">
+                        <input
+                        type="tel"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        placeholder='Phone'
+                        pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+                        required
+                        onInput={formatPhoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                      />
+                </div>
+            
 
               <div className="signinbox">
                       <input
@@ -280,56 +310,19 @@ useEffect(() => {
                     />
             </div>
             {!validPwd && (
-                  <p id="pwdnote" className='text-gray-400 mb-3'>
-                      8 to 24 characters.<br />
-                      Must include uppercase and lowercase letters, a number and a special character.<br />
-                      Allowed special characters: <span>!</span> <span>@</span> <span>#</span> <span>$</span> <span>%</span>
+                  <p id="pwdnote" className='text-gray-400 mb-3' style={{ maxWidth: '350px', fontSize: '15px', textAlign: 'center', marginTop: '-14px' }}>
+                    must be 8 to 24 characters, include an uppercase, lowercase, number & special character (@, #, $, %).<br />
                   </p>
               )}
-            <div className="signinbox">
-                      <input
-                      type="name"
-                      id="name"
-                      name="name"
-                      placeholder='Name'
-                      required
-                      onChange={(e) => setName(e.target.value)}
-                      value = {name}
-                    />
             </div>
-            {!validName && (
-                <p id="mailnote" className='text-gray-400 mb-3'>
-                    First and Last Name
-                </p>
-            )}
-            <div className="phone-input-container">
-                <div className='desc'>
-                </div>
-                <div className="signinbox">
-                        <input
-                        type="tel"
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        placeholder='Phone Number'
-                        pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
-                        required
-                        onInput={formatPhoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                      />
-                </div>
-              </div>
-            </div>
-            <div className="button-container">
-              <button className="submit-button" disabled={!validName || !validMail || !validPwd ? true : false}> Submit</button>
-            </div>
+            <button type="submit" className="submit-button">SIGN UP</button>
+
           </form>
-          <div>
-          <button type="submit" className="submit-button" onClick={handleLoginGoogle}>Continue with Google</button>
           </div>
         </>
 
         ) : (
-    <div className="signed-in-page">
+          <div className="signed-in-page">
          {isLoading && (
           <div style={overlayStyle}>
             <div>Loading...</div>
@@ -374,16 +367,14 @@ useEffect(() => {
                         </NavLink>
                         </button>
                       </div>
-                    )
-                  }
+                    )}
+                  </div>
+                </div>
               </div>
-          </div>
-        </div>
-      </div>
-    )}
-  </div>
-  </main>
-  </div>
+            </div>
+          )}
+    </main>
+    </div>
   </>
 )};
 
