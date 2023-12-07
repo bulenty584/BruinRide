@@ -87,9 +87,11 @@ useEffect(() => {
         }).then(() => {
           handlePhoneNumberSubmit(event);
         }).catch((error) => {
+          logout();
           // An error occurred
           
           alert(error);
+          return;
           
         });
         setIsLoading(false);
@@ -118,6 +120,7 @@ useEffect(() => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePhoneNumberSubmit = async (event) => {
+
         setIsLoading(true);
         event.preventDefault();
         try {
@@ -255,6 +258,7 @@ useEffect(() => {
                       placeholder='Email'
                       required
                       onChange={(e)=>setMail(e.target.value)}
+                      value = {mail}
                     />
               </div>
               {!validMail && (
@@ -272,6 +276,7 @@ useEffect(() => {
                       placeholder='Password'
                       required
                       onChange={(e)=>setPwd(e.target.value)}
+                      value = {pwd}
                     />
             </div>
             {!validPwd && (
@@ -289,6 +294,7 @@ useEffect(() => {
                       placeholder='Name'
                       required
                       onChange={(e) => setName(e.target.value)}
+                      value = {name}
                     />
             </div>
             {!validName && (
@@ -308,6 +314,7 @@ useEffect(() => {
                         pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
                         required
                         onInput={formatPhoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
                       />
                 </div>
               </div>
