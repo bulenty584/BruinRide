@@ -124,17 +124,21 @@ const SignInPage = () => {
         <div className="sign-up-page">
           {!isLoggedIn() ? (
             <>
-            <form className="formcontainer" onSubmit={(event) => signUp(event)}>
+            <form className="formcontainer" onSubmit={(event) => signIn(event)}>
               <div className="sign-in-input">
-                <div className='desc'>
-                Please enter your email and password.
-                </div>
                 <div className="signinbox-google" onClick={handleLoginGoogle}>
                   <div className="google-title">
                     <img className="google" src={google}/>
                     <p> Log in with Google</p>
                   </div>
                 </div>
+
+                <div class="line-with-or">
+                  <div class="line"></div>
+                  <span class="or">OR</span>
+                  <div class="line"></div>
+                </div>
+               
                 <div className="signinbox">
                         <input
                         type="email"
@@ -158,6 +162,7 @@ const SignInPage = () => {
               </div>
                 <button type="submit" className="submit-button">SUBMIT</button>
             </form>
+
           <div>
           </div>
           </>

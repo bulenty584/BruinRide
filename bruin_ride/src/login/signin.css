@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: center;
     max-width: 100%; /* Set the maximum width of the form container */
-    margin: 0 auto; /* Center the form horizontally */
+    margin: 10px auto; /* Center the form horizontally */
     padding-top: 20px;
     padding-bottom: 10px;
   }
@@ -63,7 +63,6 @@
     border-radius: 8px;
     font-size: 18px;
     box-sizing: border-box;
-    border-radius: 16px;
     margin-bottom: 10px; /* Adjust margin as needed */
     margin: 0 auto;
     align-self: center;
@@ -107,5 +106,30 @@
     width: auto; 
     height: 20px;
     margin-right: 10px;
+  }
+
+  .line-with-or {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
+
+  
+  .line {
+    margin-left: 40px;
+    margin-right: 40px;
+    flex: 1;
+    height: 1.5px;
+    background-color: white; /* Change the color of the line as needed */
+  }
+  
+  .or {
+    margin-left: -20px;
+    margin-right: -20px;
+    font-size: 15px;
+    color: white; /* Change the color of the word "OR" as needed */
+    letter-spacing: 1.5px;
   }
   
