@@ -117,10 +117,11 @@ const SignInPage = () => {
       <div className="background-circles"></div>
       <header> <TopBar /> </header>
       <main className='main'>
-        <div className="signin-title-div"><p className='signin-title'>Log into your account</p></div>
-        <div className="sign-up-page">
+       
           {!isLoggedIn() ? (
             <>
+             <div className="signin-title-div"><p className='signin-title'>Log into your account</p></div>
+              <div className="sign-up-page">
             <form className="formcontainer" onSubmit={(event) => signIn(event)}>
               <div className="sign-in-input">
                 <div className="signinbox-google" onClick={handleLoginGoogle}>
@@ -157,16 +158,21 @@ const SignInPage = () => {
                       />
               </div>
               </div>
-                <button type="submit" className="submit-button">SUBMIT</button>
-            </form>
+                <button type="submit" className="submit-button">LOG IN</button>
+                <div style={{ display: 'flex', alignItems: 'center', paddingTop: '30px' }}>
+                <p style={{ margin: '0' }}>Don't have an account?</p>
+                <NavLink to='/signIn' className="nav-link" style={{ marginLeft: '5px', fontWeight: '500', color: '#C6FBB9' }}>Register now!</NavLink>
+              </div>
 
-          <div>
-          </div>
+           
+            </form>
+            </div>
+
           </>
           ) : (
           <div className="signed-in-page">
-            <div className='desc'>
-              You're logged in! You can now book a ride.
+            <div className='desc' style={{ paddingTop: '20px' }}>
+              You're logged in. Plan your next trip today!
               <br></br>
               <br></br>
               <button className = "book_a_ride">
@@ -177,7 +183,6 @@ const SignInPage = () => {
             </div>
           </div>
       )}
-      </div>
 
     </main>
   </div>

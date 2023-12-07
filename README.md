@@ -2,8 +2,8 @@
 
 1. Clone the repo using git clone. This might take a while since we have a large codebase with dependencies.
 
-2. Next we have to get into the actual folder to run our React App. To do so do the following,
-
+2. Next we have to get into the actual folder to run our React App. To do open a Terminal and type in the following commands:
+   
 ```bash
 # Change directory to BruinRide
 cd BruinRide
