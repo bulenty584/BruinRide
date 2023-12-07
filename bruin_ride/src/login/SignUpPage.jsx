@@ -336,11 +336,11 @@ useEffect(() => {
                   <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
 
                     <div className="phone-input-container">
-                      <div className='desc'>
-                      Please enter your phone number below (no special characters or spaces) and proceed to book your next ride!
+                      <div className='desc' style={{ paddingTop: '20px', borderRadius: '8px' }}>
+                      Please enter your phone number below:
                       </div>
                       <div className="phone-form">
-                              <input
+                              <input 
                               type="tel"
                               id="phoneNumber"
                               name="phoneNumber"
@@ -352,13 +352,11 @@ useEffect(() => {
                             />
                       </div>
                     </div>
-                    <div className="button-container">
-                      <button type="submit" className="submit-button">Submit</button>
-                    </div>
+                    <button type="submit" className="submit-button" style={{ marginTop: '20px',  marginBottom: '20px'}}>SUBMIT</button>
                     </form> 
                     ) : (
-                    <div className='desc'>
-                        You're logged in! You can now book a ride.
+                    <div className='desc' style={{ paddingTop: '20px' }}>
+                        You're logged in. Plan your next trip today!
                         <br></br>
                         <br></br>
                         <button className = "book_a_ride">
