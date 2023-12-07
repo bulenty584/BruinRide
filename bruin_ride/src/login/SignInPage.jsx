@@ -45,9 +45,25 @@ const SignInPage = () => {
     }
   };
 
+  const isUserPresent = async () => {
+    console.log(auth.currentUser.uid);
+    const q = query(collection(db, "phoneNumbers"), where("uid", "==", auth.currentUser.uid));
+
+    let querySnapshot = null;
+    try {
+      querySnapshot = await getDocs(q);
+    } catch (e) {
+      alert('Error getting documents: ', e);
+      return;
+    }
+    console.log(querySnapshot.empty);
+    return !querySnapshot.empty;
+  }
+
 
   const [signedInWithGoogle, setSignedInWithGoogle] = useState(false);
   const handleLoginGoogle = () => {
+    setSignedInWithGoogle(true);
     // [START auth_google_signin_popup]
       // No user is signed in; allows user to sign in
       signInWithPopup(auth, provider)
@@ -153,6 +169,19 @@ const SignInPage = () => {
     setPhoneNumber(''); 
 }
 
+const overlayStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1000, // Ensure it's above everything else
+};
+
   function formatPhoneNumber(event) {
     let input = event.target.value;
     input = input.replace(/\D/g, '');
@@ -164,21 +193,6 @@ const SignInPage = () => {
     }
   
     event.target.value = input; 
-  }
-
-  const isUserPresent = async () => {
-    console.log(auth.currentUser.uid);
-    const q = query(collection(db, "phoneNumbers"), where("uid", "==", auth.currentUser.uid));
-
-    let querySnapshot = null;
-    try {
-      querySnapshot = await getDocs(q);
-    } catch (e) {
-      alert('Error getting documents: ', e);
-      return;
-    }
-    console.log(querySnapshot.empty);
-    return !querySnapshot.empty;
   }
 
   return (
@@ -237,7 +251,12 @@ const SignInPage = () => {
             </div>
             </>
           ) : (
-
+            <div className="signed-in-page">
+              {isLoading && (
+              <div style={overlayStyle}>
+              <div>Loading...</div>
+              </div>
+              )} 
             <div id="signinout">
             <div id="event-details-container">
               <div className='buttons'>
@@ -277,10 +296,10 @@ const SignInPage = () => {
                         </NavLink>
                         </button>
                       </div>
-                    )
-                  }
+                    )}
               </div>
           </div>
+        </div>
         </div>
           )}
   </main>

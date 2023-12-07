@@ -323,20 +323,58 @@ useEffect(() => {
 
         ) : (
           <div className="signed-in-page">
-          <div className='desc' style={{ paddingTop: '20px' }}>
-            You're logged in. Plan your next trip today!
-            <br></br>
-            <br></br>
-            <button className = "book_a_ride">
-            <NavLink to="/bookride" className="nav-link">
-            book a ride
-            </NavLink>
-            </button>
+         {isLoading && (
+          <div style={overlayStyle}>
+            <div>Loading...</div>
           </div>
-        </div>
-    )}
-  </main>
-  </div>
+          )} 
+          <div id="signinout">
+            <div id="event-details-container">
+              <div className='buttons'>
+                {/* Phone number input form */}
+                {!isSubmitted && signedInWithGoogle ? (
+                  <form onSubmit={(event) => handlePhoneNumberSubmit(event)}>
+
+                    <div className="phone-input-container">
+                      <div className='desc'>
+                      Please enter your phone number below (no special characters or spaces) and proceed to book your next ride!
+                      </div>
+                      <div className="phone-form">
+                              <input
+                              type="tel"
+                              id="phoneNumber"
+                              name="phoneNumber"
+                              pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+                              required
+                              onInput={formatPhoneNumber}
+                              onChange={(e) => setPhoneNumber(e.target.value)}
+                              value={phoneNumber} 
+                            />
+                      </div>
+                    </div>
+                    <div className="button-container">
+                      <button type="submit" className="submit-button">Submit</button>
+                    </div>
+                    </form> 
+                    ) : (
+                    <div className='desc'>
+                        You're logged in! You can now book a ride.
+                        <br></br>
+                        <br></br>
+                        <button className = "book_a_ride">
+                        <NavLink to="/bookride" className="nav-link">
+                        Book a ride
+                        </NavLink>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+    </main>
+    </div>
   </>
 )};
 

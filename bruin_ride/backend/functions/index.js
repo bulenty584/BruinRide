@@ -182,6 +182,13 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   tripData.name.push(name)
   const groupIsSet = tripData.groupMembers.length <= 4 && tripData.groupMembers.length >= 3;
 
+  let emails = [];
+  for (var i in tripData.groupMembers){
+    let user = tripData.groupMembers[i];
+    emails.push(auth.currentUser.user.email);
+  }
+
+
 
   try {
     await updateDoc(tripDocRef, {
@@ -190,14 +197,6 @@ exports.algo = functions.https.onRequest(async (request, response) => {
       groupSize: tripData.groupMembers.length, 
       name : tripData.name,
     });
-
-    let emails = [];
-
-
-    for (var i in tripData.groupMembers){
-      emails.push(auth.currentUser.tripData.groupMembers[i].email);
-
-    }
 
     console.log(emails.join(','));
 

@@ -205,7 +205,6 @@ export default function SignInOut() {
         }  
     }
       
-
     
     function formatPhoneNumber(event) {
       let input = event.target.value;
