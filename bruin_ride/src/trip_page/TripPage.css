@@ -44,6 +44,8 @@
 .name-phone-list {
     display: flex;
     justify-content: space-between;
+    margin-left: -60px;
+    margin-right: -60px;
 }
 
 .names, .phones {

@@ -4,10 +4,12 @@ import {AuthContext} from '../context/context';
 import {db, auth, provider} from './SignInOut';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { NavLink } from 'react-router-dom';
-import './SignUpPage.css'
 import { GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState, useEffect } from 'react';
 import {signInWithPopup} from 'firebase/auth';
+import './signin.css';
+import '../MainPage.css';
+
 import {
   getDocs,
   collection,
@@ -32,6 +34,7 @@ const SignUpPage = () => {
 
   const [validName, setValidName] = useState(false);
   const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect(() => {
     setValidMail(EMAIL_REGEX.test(mail));
@@ -48,16 +51,13 @@ useEffect(() => {
 
 
   const signUp = (event) => {
-
+    setIsLoading(true);
     event.preventDefault();
 
     const username = event.target.email.value;
     const password = event.target.password.value;
     const name = event.target.name.value;
-
-    
-
-
+    const phoneNumber = event.target.phoneNumber.value;
     try{
       if (!validMail) {
         logout();
@@ -76,25 +76,25 @@ useEffect(() => {
         alert('Please enter a valid name');
         return;
       }
-
+      
       createUserWithEmailAndPassword(auth, username, password).then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         const email = user.email;
-
-
         login();
         updateProfile(user, {
           displayName: name,
         }).then(() => {
-          // Profile updated!
-          // ...
+          handlePhoneNumberSubmit(event);
         }).catch((error) => {
+          logout();
           // An error occurred
           
           alert(error);
+          return;
           
         });
+        setIsLoading(false);
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -110,25 +110,20 @@ useEffect(() => {
       logout();
       return;
     } 
-
+    setName('');
+    setPhoneNumber('');
     setPwd('');
     setMail('');
-
+    setIsLoading(false);
   }
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePhoneNumberSubmit = async (event) => {
+
         setIsLoading(true);
         event.preventDefault();
         try {
-          const phoneNumber = event.target.phoneNumber.value;
-      
-          if (!phoneNumber) {
-            alert('Please enter a valid phone number');
-            setIsLoading(false);
-            return;
-          }
           
           const uid = auth.currentUser.uid;
           const cloudFunctionURL = `https://us-central1-bruinride-41c8c.cloudfunctions.net/updatePhoneNumber/allow-cors?uid=${uid}&phoneNumber=${phoneNumber}`;
@@ -145,12 +140,24 @@ useEffect(() => {
             setIsSubmitted(true);
             setIsLoading(false);
             login();
+            return;
           }
         } catch (error) {
           //console.error('Error submitting phone number:', error);
-          setIsSubmitted(false);
+          isUserPresent().then(
+            (result) => {
+              console.log(result);
+              if (!result) {
+                setIsSubmitted(false);
+              }
+              else if (result) {
+                setIsSubmitted(true);
+              } 
+            }
+          );
           setIsLoading(false);
         } 
+        setPhoneNumber(''); 
     }
 
     const overlayStyle = {
@@ -199,7 +206,7 @@ useEffect(() => {
       signInWithPopup(auth, provider)
         .then((result) => {
           login();
-          const existingUser = isUserPresent().then(
+          isUserPresent().then(
             (result) => {
               console.log(result);
               if (!result) {
@@ -208,6 +215,7 @@ useEffect(() => {
               else if (result) {
                 setIsSubmitted(true);
               } 
+              setPhoneNumber(''); 
             }
           );
           // This gives you a Google Access Token. You can use it to access the Google API.
@@ -228,105 +236,105 @@ useEffect(() => {
         });
       } 
   return (
-    <div className="sign-up-page">
-      <TopBar />
-      {!isLoggedIn() ? (
-        <body>
-      <form onSubmit={(event) => signUp(event)} disabled={!validName || !validMail || !validPwd ? true : false}>
-        <div className="sign-in-input">
-          <div className='desc'>
-          Please choose an email and password
-          </div>
-          <div className="email">
-                  <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder='Email'
-                  required
-                  onChange={(e)=>setMail(e.target.value)}
-                  value = {mail}
-                />
-          </div>
+    <>
+    <div className="app">
+      <div className="background-circles"></div>
+      <header> <TopBar /> </header>
+      <main className='main'>
+        <div className="signin-title-div"><p className='signin-title'>Create an account</p></div>
+        <div className="sign-up-page">
+          {!isLoggedIn() ? (
+            <>
+          <form onSubmit={(event) => signUp(event)}>
+            <div className="sign-in-input">
+              <div className='desc'>
+              Please choose an email and password
+              </div>
+              <div className="signinbox">
+                      <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder='Email'
+                      required
+                      onChange={(e)=>setMail(e.target.value)}
+                      value = {mail}
+                    />
+              </div>
+              {!validMail && (
+                    <p id="mailnote" className='text-gray-400 mb-3'>
+                        Must include <span>@</span> and <span>.</span> with some letters or numbers in between.<br />
+                        Must specify a domain.
+                    </p>
+                )}
 
-          {!validMail && (
-              <p id="mailnote" className='text-gray-400 mb-3'>
-                  Must include <span>@</span> and <span>.</span> with some letters or numbers in between.<br />
-                  Must specify a domain.
-              </p>
-          )}
-          <div className="password">
-                  <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder='Password'
-                  required
-                  onChange={(e)=>setPwd(e.target.value)}
-                  value = {pwd}
-                />
-        </div>
-
-        {!validPwd && (
-              <p id="passwordnote" className='text-gray-400 mb-3'>
-                  8 to 24 characters.<br />
-                  Must include uppercase and lowercase letters, a number and a special character.<br />
-                  Allowed special characters: <span>!</span> <span>@</span> <span>#</span> <span>$</span> <span>%</span>
-              </p>
-          )}
-        <div className="name">
-                  <input
-                  type="name"
-                  id="name"
-                  name="name"
-                  placeholder='Name'
-                  required
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
-                />
-        </div>
-
-        {!validName && (
-              <p id="mailnote" className='text-gray-400 mb-3'>
-                  First and Last Name
-              </p>
-          )}
-        <div className="phone-input-container">
-            <div className='desc'>
+              <div className="signinbox">
+                      <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      placeholder='Password'
+                      required
+                      onChange={(e)=>setPwd(e.target.value)}
+                      value = {pwd}
+                    />
             </div>
-            <div className="phone-form">
-                    <input
-                    type="tel"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    placeholder='Phone Number'
-                    pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
-                    required
-                    onInput={formatPhoneNumber}
-                  />
+            {!validPwd && (
+                  <p id="pwdnote" className='text-gray-400 mb-3'>
+                      8 to 24 characters.<br />
+                      Must include uppercase and lowercase letters, a number and a special character.<br />
+                      Allowed special characters: <span>!</span> <span>@</span> <span>#</span> <span>$</span> <span>%</span>
+                  </p>
+              )}
+            <div className="signinbox">
+                      <input
+                      type="name"
+                      id="name"
+                      name="name"
+                      placeholder='Name'
+                      required
+                      onChange={(e) => setName(e.target.value)}
+                      value = {name}
+                    />
             </div>
+            {!validName && (
+                <p id="mailnote" className='text-gray-400 mb-3'>
+                    First and Last Name
+                </p>
+            )}
+            <div className="phone-input-container">
+                <div className='desc'>
+                </div>
+                <div className="signinbox">
+                        <input
+                        type="tel"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        placeholder='Phone Number'
+                        pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+                        required
+                        onInput={formatPhoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                      />
+                </div>
+              </div>
+            </div>
+            <div className="button-container">
+              <button className="submit-button" disabled={!validName || !validMail || !validPwd ? true : false}> Submit</button>
+            </div>
+          </form>
+          <div>
+          <button type="submit" className="submit-button" onClick={handleLoginGoogle}>Continue with Google</button>
           </div>
-        </div>
-        <div className="button-container">
-          <button type="submit" className="submit-button">Submit</button>
-        </div>
-      </form>
-      <div>
-      <button type="submit" className="submit-button" onClick={handleLoginGoogle}>Continue with Google</button>
-      </div>
-    </body>
+        </>
 
-  ) : (
+        ) : (
     <div className="signed-in-page">
-      <TopBar />
-        <body>
          {isLoading && (
           <div style={overlayStyle}>
             <div>Loading...</div>
           </div>
           )} 
-          <div className="background-circles"></div>
-          <TopBar />
           <div id="signinout">
             <div id="event-details-container">
               <div className='buttons'>
@@ -346,6 +354,8 @@ useEffect(() => {
                               pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
                               required
                               onInput={formatPhoneNumber}
+                              onChange={(e) => setPhoneNumber(e.target.value)}
+                              value={phoneNumber} 
                             />
                       </div>
                     </div>
@@ -369,10 +379,12 @@ useEffect(() => {
               </div>
           </div>
         </div>
-      </body>
       </div>
     )}
   </div>
+  </main>
+  </div>
+  </>
 )};
 
 export default SignUpPage;

@@ -19,6 +19,8 @@ admin.initializeApp({
   databaseURL: "https://bruinride-41c8c-default-rtdb.firebaseio.com"
 });
 
+const nodeMailer = require('nodemailer');
+
 
 const app = express();
 app.use(cors);
@@ -54,57 +56,37 @@ exports.updatePhoneNumber = functions.https.onRequest(async (request, response) 
     const phoneNumber = request.query.phoneNumber;
 
     if (!uid || !phoneNumber) {
-      response.status(400).json({ error: 'Invalid request data' });
+      response.status(400).send(JSON.stringify({ error: 'Invalid request data' }));
       return;
     }
-
     const q = query(
       collection(db, "phoneNumbers"),
       where("uid", "==", uid)
     );
-
     const phoneRef = collection(db, "phoneNumbers");
-
     let querySnapshot = null;
-
     try {
+      console.log('Querying for phone number');
       querySnapshot = await getDocs(q);
     } catch (e) {
       console.log('Error getting documents: ', e);
       response.status(500).send(JSON.stringify({ message: 'Error getting documents: ' + e }));
       return;
     }
-
-    if (querySnapshot === null) {
-      console.log('Error getting documents');
-      response.status(500).send(JSON.stringify({ message: 'Error getting documents' }));
-      return;
-    }
-    let phone;
-    let found = false;
-    querySnapshot.forEach((doc) => {
-      if (doc.data().uid === uid) {
-        found = true;
-        phone = doc.data().phoneNumber;
-      }
-    });
-
-    if (!found) {
+    console.log(querySnapshot.empty);
+    if (querySnapshot.empty) {
       await setDoc(doc(phoneRef, uid), { uid: uid, phoneNumber: phoneNumber });
-      response.status(200).json({ message: 'Phone number updated successfully' });
+      response.status(200).send(JSON.stringify({ message: 'Phone number updated successfully' }));
       return;
     }
-
-    if (found){
-      response.send(200).json({result: found});
+    else{
+      response.status(200).send(JSON.stringify({result: "found"}));
       return;
 
     }
-
-
   } catch (error) {
     console.error('Error updating phone number:', error);
-    response.status(500).json({ error: 'Internal Server Error' });
+    response.status(500).send(JSON.stringify({ error: 'Internal Server Error' }));
     return;
   }
 
@@ -121,6 +103,14 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   const pickupLocation = request.query.location;
   const uid = request.query.uid;
   const name = request.query.name;
+
+  var transporter = nodeMailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'bruinride2@gmail.com',
+      pass: 'bruinride2usc'
+    }
+  });
 
   // ...
 
@@ -192,6 +182,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   tripData.name.push(name)
   const groupIsSet = tripData.groupMembers.length <= 4 && tripData.groupMembers.length >= 3;
 
+
   try {
     await updateDoc(tripDocRef, {
       groupMembers: tripData.groupMembers,
@@ -199,6 +190,24 @@ exports.algo = functions.https.onRequest(async (request, response) => {
       groupSize: tripData.groupMembers.length, 
       name : tripData.name,
     });
+
+    if (groupIsSet){
+      const mailOptions = {
+        from: 'bruinride2@gmail.com',
+        to: 'bulentil1752@gmail.com',
+        subject: 'BruinRide Trip',
+        text: 'Your trip has been set! Your group members are: ' + tripData.name.join(', ') + '. Your pickup location is: ' + tripData.pickupLocation + '. Your pickup time is: ' + tripData.dateTime + '.'
+      };
+      transporter.sendMail(mailOptions, function(error, info){
+
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      }
+      );
+    }
     response.send(tripData);
     return;
   } catch (e) {
@@ -209,75 +218,6 @@ exports.algo = functions.https.onRequest(async (request, response) => {
 
   return;
 });
-
-
-
-exports.updatePhoneNumber = functions.https.onRequest(async (request, response) => {
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
-  response.setHeader('Access-Control-Allow-Credentials', true); // If needed
-
-  try {
-    const uid = request.query.uid;
-    const phoneNumber = request.query.phoneNumber;
-
-    if (!uid || !phoneNumber) {
-      response.status(400).json({ error: 'Invalid request data' });
-      return;
-    }
-
-    const q = query(
-      collection(db, "phoneNumbers"),
-      where("uid", "==", uid)
-    );
-
-    const phoneRef = collection(db, "phoneNumbers");
-
-    let querySnapshot = null;
-
-    try {
-      querySnapshot = await getDocs(q);
-    } catch (e) {
-      console.log('Error getting documents: ', e);
-      response.status(500).send(JSON.stringify({ message: 'Error getting documents: ' + e }));
-      return;
-    }
-
-    if (querySnapshot === null) {
-      console.log('Error getting documents');
-      response.status(500).send(JSON.stringify({ message: 'Error getting documents' }));
-      return;
-    }
-    let phone;
-    let found = false;
-    querySnapshot.forEach((doc) => {
-      if (doc.data().uid === uid) {
-        found = true;
-        phone = doc.data().phoneNumber;
-      }
-    });
-
-    if (!found) {
-      await setDoc(doc(phoneRef, uid), { uid: uid, phoneNumber: phoneNumber });
-      return;
-    }
-
-    if (found){
-      response.status(200).json({_found: found});
-      return;
-
-    }
-
-
-  } catch (error) {
-    console.error('Error updating phone number:', error);
-    response.status(500).json({ error: 'Internal Server Error' });
-    return;
-  }
-
-});
-
 
 
 exports.getUsers = functions.https.onRequest(async (request, response) => {

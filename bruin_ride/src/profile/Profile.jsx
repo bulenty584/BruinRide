@@ -90,7 +90,7 @@ function convertISOToTimeString(utcISOString) {
           </div>
           {currentTrips ? (
             currentTrips.length === 0 ? (
-              <p className="display-text">No current trips.</p>
+              <p className="display-message">No current trips.</p>
             ) : (
             currentTrips.map((trip) => (
               <div key={trip.id}>
@@ -127,7 +127,7 @@ function convertISOToTimeString(utcISOString) {
           </div>
           {pastTrips ? (
             pastTrips.length === 0 ? (
-              <p className="display-text">No past trips.</p>
+              <p className="display-message">No past trips.</p>
             ) : (
             pastTrips.map((trip) => (
               <div key={trip.id}>

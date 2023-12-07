@@ -54,7 +54,7 @@ function MainPage() {
           ) : (
             <div className="get-started">
               <p className="header2">Plan Your Next <br></br>Airport Ride Now</p>
-              <NavLink to='/signIn' className="nav-link">
+              <NavLink to='/login' className="nav-link">
               <button class="startbutton" onSubmit={(handleSubmit)}>
                 GET STARTED
               </button>

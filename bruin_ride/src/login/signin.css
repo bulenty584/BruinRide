@@ -1,0 +1,135 @@
+.sign-up-page {
+    justify-self: center;
+    align-self: center;
+    max-width: 600px;
+    margin: 20px auto 50px; /* Adjusted margin to provide space below the booking container */
+    background-color: rgba(255, 0, 0, 0);
+    box-shadow: 0 0 50px rgba(198, 251, 185, 0.4);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 50px;
+    flex: 1;
+}
+  
+  .formcontainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%; /* Set the maximum width of the form container */
+    margin: 10px auto; /* Center the form horizontally */
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+
+  .sign-in-input{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .signin-title-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 200px;
+    margin-bottom: 40px;
+    margin-top: 100px;
+
+  }
+
+  .signin-title {
+    font-size: 50px;
+    font-weight: 800;
+    line-height: 100%;
+    margin: 0;
+    text-align:center;
+}
+
+.signinbox, .signinbox-google {
+    width: 100%; /* Set labels to 100% width */
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-bottom: 20px;
+  }
+
+  .signinbox input,   .google-title{
+    color: #878787;
+    font-family: 'Rubik', sans-serif;
+    background-color: rgba(255, 255, 255, 0.8); /* White color with 80% opacity */
+    padding: 8px 16px;
+    border: 1px solid #ccc; 
+    border-radius: 8px;
+    font-size: 18px;
+    box-sizing: border-box;
+    margin-bottom: 10px; /* Adjust margin as needed */
+    margin: 0 auto;
+    align-self: center;
+    width: 340px;
+    margin: 0 auto;
+  }
+
+  .desc{
+    margin-bottom: 20px;
+    color:white;
+  }
+
+  .signinbox-google{
+    display: flex;
+    justify-content: center; /* Horizontal alignment */
+    align-items: center;
+    align-self: center;
+    cursor: pointer; /* Add cursor pointer for better UX */
+    margin-top: 50px;
+    width: 340px;
+    padding: 0;
+    margin-top: 0px;
+
+  }
+
+  .google-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:44.33px;
+    width: 340px;
+    background-color: white;
+}
+
+  .google-title p{
+    color: black;
+    margin: 0;
+  }
+
+  .google{
+    width: auto; 
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  .line-with-or {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
+
+  
+  .line {
+    margin-left: 40px;
+    margin-right: 40px;
+    flex: 1;
+    height: 1.5px;
+    background-color: white; /* Change the color of the line as needed */
+  }
+  
+  .or {
+    margin-left: -20px;
+    margin-right: -20px;
+    font-size: 15px;
+    color: white; /* Change the color of the word "OR" as needed */
+    letter-spacing: 1.5px;
+  }
+  
