@@ -115,7 +115,6 @@ const SignInPage = () => {
       .catch((error) => {
         const errorMessage = error.message;
         alert(errorMessage);
-        ;
       });
 
 

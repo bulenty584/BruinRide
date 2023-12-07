@@ -104,13 +104,13 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   const uid = request.query.uid;
   const name = request.query.name;
 
-  var transporter = nodeMailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'bruinride2@gmail.com',
-      pass: 'gzfq ahyx pfwd vzmm'
-    }
-  });
+  // var transporter = nodeMailer.createTransport({
+  //   service: 'gmail',
+  //   auth: {
+  //     user: 'bruinride2@gmail.com',
+  //     pass: 'gzfq ahyx pfwd vzmm'
+  //   }
+  // });
 
   // ...
 
@@ -179,6 +179,7 @@ exports.algo = functions.https.onRequest(async (request, response) => {
 
   // Modify the document data as needed
   tripData.groupMembers.push(uid);
+  console.log(tripData.groupMembers)
   tripData.name.push(name)
   const groupIsSet = tripData.groupMembers.length <= 4 && tripData.groupMembers.length >= 3;
 
@@ -198,27 +199,27 @@ exports.algo = functions.https.onRequest(async (request, response) => {
       name : tripData.name,
     });
 
-    console.log(emails.join(','));
+    //console.log(emails.join(','));
 
     
 
-    if (groupIsSet){
-      const mailOptions = {
-        from: 'bruinride2@gmail.com',
-        to: `${emails.join(',')}`, // list of receivers
-        subject: 'BruinRide Trip',
-        text: 'Your trip has been set! Your group members are: ' + tripData.name.join(', ') + '. Your pickup location is: ' + tripData.pickupLocation + '. Your pickup time is: ' + tripData.dateTime + '.'
-      };
-      transporter.sendMail(mailOptions, function(error, info){
+    // if (groupIsSet){
+    //   const mailOptions = {
+    //     from: 'bruinride2@gmail.com',
+    //     to: `${emails.join(',')}`, // list of receivers
+    //     subject: 'BruinRide Trip',
+    //     text: 'Your trip has been set! Your group members are: ' + tripData.name.join(', ') + '. Your pickup location is: ' + tripData.pickupLocation + '. Your pickup time is: ' + tripData.dateTime + '.'
+    //   };
+    //   transporter.sendMail(mailOptions, function(error, info){
 
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      }
-      );
-    }
+    //     if (error) {
+    //       console.log(error);
+    //     } else {
+    //       console.log('Email sent: ' + info.response);
+    //     }
+    //   }
+    //   );
+    // }
     response.send(tripData);
     return;
   } catch (e) {
