@@ -1,10 +1,20 @@
-# BruinRide
-CS35L Project
+# Installation Guidelines 
 
-We will document and track major waypoints and changes here.
+1. Clone the repo using git clone. This might take a while since we have a large codebase with dependencies.
 
-# Frontend
+2. Next we have to get into the actual folder to run our React App. To do so do the following,
 
-# Backend
+```bash
+# Change directory to BruinRide
+cd BruinRide
 
-# UI/UX
+# Change directory to bruin_ride
+cd bruin_ride
+
+# Install npm dependencies
+npm install
+
+# Start the React App
+npm start
+```
+
