@@ -5,7 +5,7 @@ import {db, auth, provider} from './SignInOut';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { NavLink } from 'react-router-dom';
-import './SignUpPage.css'
+import './style.css'
 import { GoogleAuthProvider } from "firebase/auth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import * as firebaseui from 'firebaseui';
