@@ -157,7 +157,13 @@ const SignInPage = () => {
                       />
               </div>
               </div>
-                <button type="submit" className="submit-button">SUBMIT</button>
+                <button type="submit" className="submit-button">LOG IN</button>
+                <div style={{ display: 'flex', alignItems: 'center', paddingTop: '30px' }}>
+                <p style={{ margin: '0' }}>Don't have an account?</p>
+                <NavLink to='/signIn' className="nav-link" style={{ marginLeft: '5px', fontWeight: '500', color: '#C6FBB9' }}>Register now!</NavLink>
+              </div>
+
+           
             </form>
 
           <div>
