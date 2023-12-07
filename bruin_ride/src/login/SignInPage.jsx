@@ -5,11 +5,15 @@ import {db, auth, provider} from './SignInOut';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { NavLink } from 'react-router-dom';
-import './SignUpPage.css'
+import './signin.css';
+import '../MainPage.css';
 import { GoogleAuthProvider } from "firebase/auth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import * as firebaseui from 'firebaseui';
 import {signInWithPopup} from 'firebase/auth';
+
+import google from '../images/google.svg';
+
 import {
   getDocs,
   collection,
@@ -111,60 +115,72 @@ const SignInPage = () => {
   }
 
   return (
-    <div className="sign-up-page">
-      <TopBar />
-      {!isLoggedIn() ? (
-        <body>
-      <form onSubmit={(event) => signIn(event)}>
-        <div className="sign-in-input">
-          <div className='desc'>
-          Please enter an email and a password
+    <>
+    <div className="app">
+      <div className="background-circles"></div>
+      <header> <TopBar /> </header>
+      <main className='main'>
+        <div className="signin-title-div"><p className='signin-title'>Log into your account</p></div>
+        <div className="sign-up-page">
+          {!isLoggedIn() ? (
+            <>
+            <form className="formcontainer" onSubmit={(event) => signUp(event)}>
+              <div className="sign-in-input">
+                <div className='desc'>
+                Please enter your email and password.
+                </div>
+                <div className="signinbox-google" onClick={handleLoginGoogle}>
+                  <div className="google-title">
+                    <img className="google" src={google}/>
+                    <p> Log in with Google</p>
+                  </div>
+                </div>
+                <div className="signinbox">
+                        <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder='Email'
+                        required
+                        onInput={null}
+                      />
+                </div>
+                <div className="signinbox">
+                        <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder='Password'
+                        required
+                        onInput={null}
+                      />
+              </div>
+              </div>
+                <button type="submit" className="submit-button">SUBMIT</button>
+            </form>
+          <div>
           </div>
-          <div className="email">
-                  <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder='Email'
-                  required
-                  onInput={null}
-                />
+          </>
+          ) : (
+          <div className="signed-in-page">
+            <div className='desc'>
+              You're logged in! You can now book a ride.
+              <br></br>
+              <br></br>
+              <button className = "book_a_ride">
+              <NavLink to="/bookride" className="nav-link">
+              book a ride
+              </NavLink>
+              </button>
+            </div>
           </div>
-          <div className="password">
-                  <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder='Password'
-                  required
-                  onInput={null}
-                />
-        </div>
-        </div>
-        <div className="button-container">
-          <button type="submit" className="submit-button">Submit</button>
-        </div>
-      </form>
-      <div>
-      <button type="submit" className="submit-button" onClick={handleLoginGoogle}> Continue with Google</button>
+      )}
       </div>
-      </body>
-  ) : (
-    <div className="signed-in-page">
-      <TopBar />
-      <div className='desc'>
-        You're logged in! You can now book a ride.
-        <br></br>
-        <br></br>
-        <button className = "book_a_ride">
-        <NavLink to="/bookride" className="nav-link">
-        Book a ride
-        </NavLink>
-        </button>
-      </div>
-    </div>
-  )}
+
+    </main>
   </div>
+
+  </>
 )};
 
 export default SignInPage;

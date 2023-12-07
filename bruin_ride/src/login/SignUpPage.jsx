@@ -4,10 +4,12 @@ import {AuthContext} from '../context/context';
 import {db, auth, provider} from './SignInOut';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { NavLink } from 'react-router-dom';
-import './SignUpPage.css'
 import { GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState, useEffect } from 'react';
 import {signInWithPopup} from 'firebase/auth';
+import './signin.css';
+import '../MainPage.css';
+
 import {
   getDocs,
   collection,
@@ -236,107 +238,82 @@ useEffect(() => {
         });
       } 
   return (
-    <div className="sign-up-page">
-      <TopBar />
-      {!isLoggedIn() ? (
-        <body>
-      <form onSubmit={(event) => signUp(event)} disabled={!validName || !validMail || !validPwd ? true : false}>
-        <div className="sign-in-input">
-          <div className='desc'>
-          Please choose an email and password
-          </div>
-          <div className="email">
-                  <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder='Email'
-                  required
-                  onChange={(e)=>setMail(e.target.value)}
-                  value = {mail}
-                />
-          </div>
-
-          {!validMail && (
-              <p id="mailnote" className='text-gray-400 mb-3'>
-                  Must include <span>@</span> and <span>.</span> with some letters or numbers in between.<br />
-                  Must specify a domain.
-              </p>
-          )}
-          <div className="password">
-                  <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder='Password'
-                  required
-                  onChange={(e)=>setPwd(e.target.value)}
-                  value = {pwd}
-                />
-        </div>
-
-        {!validPwd && (
-              <p id="passwordnote" className='text-gray-400 mb-3'>
-                  8 to 24 characters.<br />
-                  Must include uppercase and lowercase letters, a number and a special character.<br />
-                  Allowed special characters: <span>!</span> <span>@</span> <span>#</span> <span>$</span> <span>%</span>
-              </p>
-          )}
-        <div className="name">
-                  <input
-                  type="name"
-                  id="name"
-                  name="name"
-                  placeholder='Name'
-                  required
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
-                />
-        </div>
-
-        {!validName && (
-              <p id="mailnote" className='text-gray-400 mb-3'>
-                  First and Last Name
-              </p>
-          )}
-        <div className="phone-input-container">
-            <div className='desc'>
+    <>
+    <div className="app">
+      <div className="background-circles"></div>
+      <header> <TopBar /> </header>
+      <main className='main'>
+        <div className="signin-title-div"><p className='signin-title'>Create an account</p></div>
+        <div className="sign-up-page">
+          {!isLoggedIn() ? (
+            <>
+          <form onSubmit={(event) => signUp(event)}>
+            <div className="sign-in-input">
+              <div className='desc'>
+              Please choose an email and password
+              </div>
+              <div className="signinbox">
+                      <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder='Email'
+                      required
+                      onInput={null}
+                    />
+              </div>
+              <div className="signinbox">
+                      <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      placeholder='Password'
+                      required
+                      onInput={null}
+                    />
             </div>
-            <div className="phone-form">
-                    <input
-                    type="tel"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    placeholder='Phone Number'
-                    pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
-                    required
-                    onInput={formatPhoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    value={phoneNumber} 
-                  />
+            <div className="signinbox">
+                      <input
+                      type="name"
+                      id="name"
+                      name="name"
+                      placeholder='Name'
+                      required
+                      onInput={null}
+                    />
             </div>
+            <div className="phone-input-container">
+                <div className='desc'>
+                </div>
+                <div className="signinbox">
+                        <input
+                        type="tel"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        placeholder='Phone Number'
+                        pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+                        required
+                        onInput={formatPhoneNumber}
+                      />
+                </div>
+              </div>
+            </div>
+            <div className="button-container">
+              <button type="submit" className="submit-button">Submit</button>
+            </div>
+          </form>
+          <div>
+          <button type="submit" className="submit-button" onClick={handleLoginGoogle}>Continue with Google</button>
           </div>
-        </div>
-        <div className="button-container">
-          <button type="submit" className="submit-button">Submit</button>
-        </div>
-      </form>
-      <div>
-      <button type="submit" className="submit-button" onClick={handleLoginGoogle}>Continue with Google</button>
-      </div>
-    </body>
+        </>
 
-  ) : (
+        ) : (
     <div className="signed-in-page">
-      <TopBar />
-        <body>
          {isLoading && (
           <div style={overlayStyle}>
             <div>Loading...</div>
           </div>
           )} 
-          <div className="background-circles"></div>
-          <TopBar />
           <div id="signinout">
             <div id="event-details-container">
               <div className='buttons'>
@@ -381,10 +358,12 @@ useEffect(() => {
               </div>
           </div>
         </div>
-      </body>
       </div>
     )}
   </div>
+  </main>
+  </div>
+  </>
 )};
 
 export default SignUpPage;

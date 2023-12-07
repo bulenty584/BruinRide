@@ -8,6 +8,7 @@ import {addDoc, collection } from 'firebase/firestore';
 import map from '../images/map.svg'
 import { AuthContext } from "../context/context";
 import { useContext } from 'react';
+import '../MainPage.css';
 
 
 /* change photo of the map with actual map api */

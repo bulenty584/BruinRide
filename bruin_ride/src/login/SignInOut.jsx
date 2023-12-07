@@ -1,4 +1,3 @@
-import './style.css';
 import '../MainPage.css';
 // Import stylesheets
 // Firebase App (the core Firebase SDK) is always required and must be listed first
@@ -278,28 +277,26 @@ export default function SignInOut() {
         
     else {
   return (
-    <body>
     <>
   <meta charSet="utf-8" />
   <title>BruinRide Login</title>
   <link
     type="text/css"
     rel="stylesheet"
-    href="https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.css"
-  />
+    href="https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.css"/>
   <link
     href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Roboto:300,400,700&display=swap"
-    rel="stylesheet"
-  />
+    rel="stylesheet"/>
   <link
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"
-  />
+    rel="stylesheet"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</>
-<div className="background-circles"></div>
-<TopBar/>
-  <div id="signinout">
+
+ <div className="app">
+  <div className="background-circles"></div>
+  <header> <TopBar /> </header>
+  <main className='main'>
+    <div id="signinout">
       <div id="event-details-container">
         <div className='buttons'>
           <div className='description'>
@@ -324,7 +321,9 @@ export default function SignInOut() {
       <section id="firebaseui-auth-container"></section>
     </div>
   </div>
-  </body>
+  </main>
+  </div>
+</>
   );
 }
 }
