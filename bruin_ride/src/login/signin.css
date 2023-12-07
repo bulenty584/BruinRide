@@ -10,6 +10,19 @@
     margin-top: 50px;
     flex: 1;
 }
+
+.signed-in-page{
+    justify-self: center;
+    align-self: center;
+    max-width: 600px;
+    margin: 20px auto 50px; /* Adjusted margin to provide space below the booking container */
+    background-color: rgba(255, 0, 0, 0);
+    box-shadow: 0 0 50px rgba(198, 251, 185, 0.4);
+    padding: 10px;
+    margin-top: 200px;
+    border-radius: 10px;
+    flex: 1;
+}
   
   .formcontainer{
     display: flex;
