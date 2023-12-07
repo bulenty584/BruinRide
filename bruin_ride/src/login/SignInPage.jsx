@@ -69,7 +69,7 @@ const SignInPage = () => {
 
 
 
-  const signUp = (event) => {
+  const signIn = (event) => {
 
     event.preventDefault();
 
@@ -78,6 +78,7 @@ const SignInPage = () => {
     try{
         signInWithEmailAndPassword(auth, username, password).then((userCredential) => {
         // Signed in
+        login();
         const user = userCredential.user;
       })
       .catch((error) => {
@@ -114,7 +115,7 @@ const SignInPage = () => {
       <TopBar />
       {!isLoggedIn() ? (
         <body>
-      <form onSubmit={(event) => signUp(event)}>
+      <form onSubmit={(event) => signIn(event)}>
         <div className="sign-in-input">
           <div className='desc'>
           Please enter an email and a password

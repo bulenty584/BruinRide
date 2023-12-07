@@ -54,18 +54,25 @@ useEffect(() => {
     const username = event.target.email.value;
     const password = event.target.password.value;
     const name = event.target.name.value;
+
+    
+
+
     try{
       if (!validMail) {
+        logout();
         alert('Please enter a valid email address');
         return;
       }
 
       if (!validPwd) {
+        logout();
         alert('Please enter a valid password');
         return;
       }
 
       if (!validName) {
+        logout();
         alert('Please enter a valid name');
         return;
       }
@@ -73,6 +80,9 @@ useEffect(() => {
       createUserWithEmailAndPassword(auth, username, password).then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        const email = user.email;
+
+
         login();
         updateProfile(user, {
           displayName: name,
