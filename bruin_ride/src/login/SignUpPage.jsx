@@ -1,7 +1,6 @@
-import {SignInOut} from './SignInOut';
 import { useContext } from 'react';
 import {AuthContext} from '../context/context';
-import {db, auth, provider} from './SignInOut';
+import {db, auth, provider} from './FireBase-Main';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { NavLink } from 'react-router-dom';
 import { GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";

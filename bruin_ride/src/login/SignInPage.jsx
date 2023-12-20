@@ -1,14 +1,12 @@
-import {SignInOut} from './SignInOut';
 import { useContext, useState} from 'react';
 import {AuthContext} from '../context/context';
-import {db, auth, provider} from './SignInOut';
+import {db, auth, provider} from './FireBase-Main';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import { NavLink } from 'react-router-dom';
 import './signin.css';
 import '../MainPage.css';
 import { GoogleAuthProvider } from "firebase/auth";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import * as firebaseui from 'firebaseui';
 import {signInWithPopup} from 'firebase/auth';
 

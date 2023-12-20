@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopBar from '../main_page/components/Topbar/Topbar';
 import './bookride.css';
-import { db, auth } from '../login/SignInOut';
+import { db, auth } from '../login/FireBase-Main';
 import { addDoc, collection } from 'firebase/firestore';
 import map from '../images/map.svg';
 import { AuthContext } from '../context/context';

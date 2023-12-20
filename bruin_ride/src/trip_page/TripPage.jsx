@@ -3,21 +3,17 @@ import '../MainPage.css';
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { db } from '../login/SignInOut';
-import {collection, query, getDoc, doc } from 'firebase/firestore';
+import { db } from '../login/FireBase-Main';
+import { getDoc, doc } from 'firebase/firestore';
 import TopBar from '../main_page/components/Topbar/Topbar';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import phone from '../images/phone.svg'
 import plane from '../images/airplane.svg'
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format } from 'date-fns-tz';
 
 const TripPage = () => {
   const [selectedTrip, selectTrip] = useState(null)
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const { tripId } = useParams();
-  const [phoneNumber, setPhoneNumber] = useState(null);
-  const [groupMembers, setGroupMembers] = useState([]);
-
   // Function to convert ISO 8601 to date (MM/DD/YYYY)
 function convertISOToDateString(isoDateString) {
   const date = new Date(isoDateString);

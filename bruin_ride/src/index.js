@@ -2,7 +2,6 @@ import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import SignInOut from './login/SignInOut';
 import { BrowserRouter } from 'react-router-dom';
 import BookRide from './book_ride/BookRide';
 import reportWebVitals from './reportWebVitals';

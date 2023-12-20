@@ -104,15 +104,6 @@ exports.algo = functions.https.onRequest(async (request, response) => {
   const uid = request.query.uid;
   const name = request.query.name;
 
-  // var transporter = nodeMailer.createTransport({
-  //   service: 'gmail',
-  //   auth: {
-  //     user: 'bruinride2@gmail.com',
-  //     pass: 'gzfq ahyx pfwd vzmm'
-  //   }
-  // });
-
-  // ...
 
   const q = query(
     collection(db, "trips"),
@@ -267,16 +258,11 @@ exports.getPhoneNumbers = functions.https.onRequest(async (request, response) =>
     console.log(uidsArray);
 
     let phoneNumbers = [];
-
     
-
     const q = query(
       collection(db, "phoneNumbers"),
       where("uid", "in", uidsArray)
     );
-
-
-    const phoneRef = collection(db, "phoneNumbers");
 
     let querySnapshot = null;
 

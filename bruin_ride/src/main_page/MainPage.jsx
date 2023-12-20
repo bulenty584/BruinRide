@@ -3,8 +3,6 @@ import React from 'react';
 import image from '../images/homepage.svg'
 import TopBar from './components/Topbar/Topbar';
 import {NavLink } from 'react-router-dom';
-import {auth, db} from '../login/SignInOut';
-import { onAuthStateChanged } from 'firebase/auth';
 import { AuthContext } from '../context/context';
 import { useContext } from 'react';
 
@@ -15,7 +13,7 @@ import { useContext } from 'react';
 
 function MainPage() {
 
-  const {login, logout, isLoggedIn} = useContext(AuthContext);
+  const {isLoggedIn} = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();

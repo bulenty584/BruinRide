@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './Topbar.css';
 import { NavLink } from 'react-router-dom';
-import {db, auth} from '../../../login/SignInOut';
+import {auth} from '../../../login/FireBase-Main';
 import { signOut } from "firebase/auth";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { AuthContext } from '../../../context/context';
 import { useContext } from 'react';
 

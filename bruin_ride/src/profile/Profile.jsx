@@ -2,11 +2,10 @@ import '../MainPage.css';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TopBar from '../main_page/components/Topbar/Topbar';
-import { auth, db } from '../login/SignInOut';
+import { auth, db } from '../login/FireBase-Main';
 import plane from '../images/airplane.svg'
 import {collection, query, getDocs } from 'firebase/firestore';
 import './profile.css';
-import { format, utcToZonedTime } from 'date-fns-tz';
 
 
 /* fine tune gradient, implement status and link to trip page */
