@@ -17,14 +17,14 @@ import * as firebaseui from 'firebaseui';
 
 let db, auth;
 const firebaseConfig = {
-  apiKey: "AIzaSyDnYQ5G59of8KxraVKEPYQ0EXbAS4iP18s",
-  authDomain: "bruinride-41c8c.firebaseapp.com",
-  projectId: "bruinride-41c8c",
-  storageBucket: "bruinride-41c8c.appspot.com",
-  messagingSenderId: "667677751852",
-  appId: "1:667677751852:web:16a4993a6541a5edeb6f89",
-  measurementId: "G-FXNPFB06WZ",
-  databaseURL: "https://bruinride-41c8c-default-rtdb.firebaseio.com/"
+  apiKey: "your-api-key",
+  authDomain: "your-auth-domain",
+  projectId: "your-project-id",
+  storageBucket: "your-storage-bucket",
+  messagingSenderId: "your-messagingSenderId",
+  appId: "your-app-id",
+  measurementId: "your-measurementId",
+  databaseURL: "your-database-url",
 };
   // Make sure Firebase is initilized
   try {
