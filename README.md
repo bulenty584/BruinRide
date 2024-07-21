@@ -17,6 +17,6 @@ npm install
 # Start the React App
 npm start
 ```
-3. For the cloud functions to work properly you must register your own configuration file. This can be done by generating such a file from firebase cloud itself, and then moving the file into the backend directory where the <i>index.js</p> file is located with the cloud functions. Using the firebase cloud function CLI, you can deploy them yourself.
+3. For the cloud functions to work properly you must register your own configuration file. This can be done by generating such a file from firebase cloud itself, and then moving the file into the backend directory where the <i>index.js</i> file is located with the cloud functions. Using the firebase cloud function CLI, you can deploy them yourself.
 
 4. The App should work now. Happy travels :)
